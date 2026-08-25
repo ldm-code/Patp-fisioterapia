@@ -1,0 +1,54 @@
+*{
+            font-family: 'Montserrat', sans-serif;
+          font-weight: 400;
+          border-color:whitesmoke
+}
+body{
+          background-image: url("/assets/fundologinspring.png");
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+          
+}
+.card{
+          background-color: rgb(255,255,255,0.8);
+          backdrop-filter: blur(30%);
+          border-color: #007336;
+}
+#enviar{
+          background-color: #ed1c24;
+          color: white;
+          border-color: #007336;
+          
+}
+#enviar:hover{
+          background-color: white;
+          color: #ed1c24;
+          border-color: #007336;
+}
+.form-control{
+          border: 2px solid;
+          border-color: #007336 ;
+}
+.form-control :hover{
+          border: 2px solid;
+          border-color: #007336 ;
+}
+.btn btn-outline-secondary{
+          border: 2px solid;
+          border-color: #007336 ;
+}
+.bi{
+          color: #007336;
+}
+.bi :hover{
+        
+           border: 2px solid;
+          border-color: #007336 ;
+          color: #ed1c24;
+}
+
+
+a{
+          color: #007336;
+}
