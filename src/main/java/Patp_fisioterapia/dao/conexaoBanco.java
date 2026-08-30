@@ -20,9 +20,9 @@ public class conexaoBanco {
     public static Connection conectar() {
 
         try {
-            String url = Config.get("db.url");
-            String user = Config.get("db.user");
-            String password = Config.get("db.password");
+            String url = Config.get("spring.datasource.url");
+            String user = Config.get("spring.datasource.username");
+            String password = Config.get("spring.datasource.password");
 
            
             if (conexaoUnica != null && !conexaoUnica.isClosed()) {

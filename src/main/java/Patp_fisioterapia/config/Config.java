@@ -1,4 +1,4 @@
-package Patp_fisioterapia.config;
+package Patp_fisioterapia.config; // Nota: Recomenda-se pacotes em minúsculas (patp_fisioterapia.config)
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -9,13 +9,21 @@ public class Config {
 
     static {
         try {
-            InputStream file = Config.class.getResourceAsStream("/config.properties");
+            // CORREÇÃO: Remove o "/resources" e aponta para a pasta "config" que está dentro de resources
+            // Não use a barra "/" no início se estiver usando o ClassLoader diretamente
+            InputStream file = Config.class.getClassLoader().getResourceAsStream("config/seu_arquivo.properties");
 
             if (file == null) {
-                throw new RuntimeException("config.properties não encontrado no classpath");
+                // Tratamento caso queira ler o application.properties da raiz como plano de fundo
+                file = Config.class.getClassLoader().getResourceAsStream("application.properties");
+            }
+
+            if (file == null) {
+                throw new RuntimeException("Arquivo de configuração não encontrado no classpath");
             }
 
             props.load(file);
+            file.close(); // Boa prática: fechar o stream após o uso
 
         } catch (Exception e) {
             e.printStackTrace();
