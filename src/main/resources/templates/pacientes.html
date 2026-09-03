@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pacientes</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="/css/pacientes.css">
+
+</head>
+
+<body>
+    <div class="layout">
+        <div id="sidebar-container"></div>
+        
+        <main class="conteudo-pacientes py-5">
+            
+  <div class="cabecalho">
+
+    <div>
+        <h1>Pacientes</h1>
+        <p>Pacientes cadastrados</p>
+    </div>
+
+    <button class="btn-novo" id="btnPaciente">
+        <i class="bi bi-person-plus"></i>
+        Novo paciente
+    </button>
+
+</div>
+
+<div class="filtros-pacientes">
+
+    <div class="campo-filtro">
+        <label for="filtroNome">
+            <i class="bi bi-person"></i>
+            Nome
+        </label>
+
+        <div class="input-filtro">
+            <i class="bi bi-search"></i>
+            <input
+                type="text"
+                id="filtroNome"
+                placeholder="Buscar por nome..."
+            >
+        </div>
+    </div>
+
+    <div class="campo-filtro">
+        <label for="filtroCpf">
+            <i class="bi bi-card-text"></i>
+            CPF
+        </label>
+
+        <div class="input-filtro">
+            <i class="bi bi-search"></i>
+            <input
+                type="text"
+                id="filtroCpf"
+                placeholder="Buscar por CPF..."
+            >
+        </div>
+    </div>
+
+    <button class="btn-filtrar" id="btnFiltrar">
+    <i class="bi bi-funnel"></i>
+    Filtrar
+</button>
+
+</div>
+
+<section class="lista-pacientes" id="lista-pacientes">
+</section>
+
+
+
+</main>
+
+</div>
+ 
+    <script type="module" src="/js/pacientes.js"></script>
+    
+
+</body>
+
+</html>

@@ -21,15 +21,20 @@ public class professorCadastroService {
         if (senha.length() < 6) {
             return "A senha deve ter pelo menos 6 caracteres";
         }
+        String emailFormato="^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+        if (!email.matches(emailFormato)){
+            return "Email nao tem um formato valido";
+        }else{
 
-        professorDto professor = new professorDto();
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        String senhaHash = encoder.encode(senha);
-
-        professor.setNome(nome.trim());
-        professor.setEmail(email.trim());
+            
+            professorDto professor = new professorDto();
+            
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            
+            String senhaHash = encoder.encode(senha);
+            
+            professor.setNome(nome.trim());
+            professor.setEmail(email.trim());
         professor.setSenha(senhaHash);
 
         boolean inserido = professorDao.inserirProfessor(
@@ -40,8 +45,11 @@ public class professorCadastroService {
 
         if (inserido) {
             return "Professor cadastrado com sucesso";
-        }
+        }else{
 
-        return "Erro ao cadastrar professor";
+            return "Erro ao cadastrar professor";
+        }
+        
+    }
     }
 }

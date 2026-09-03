@@ -39,7 +39,7 @@ public class loginController {
         boolean autenticado = service.autenticar(email, senha);
 
         if (autenticado) {
-            return "inicial";
+            return "pacientes";
         }
 
         model.addAttribute("erro", "E-mail ou senha inválidos!");
