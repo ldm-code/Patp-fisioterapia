@@ -32,14 +32,17 @@ document.addEventListener("DOMContentLoaded", function () {
     // FORMATAR TELEFONE
     // ============================================================
 
+    
     function formatarTelefone(valor) {
+        let apenasDigitos = valor.replace(/\D/g, "");
 
-        const apenasDigitos = valor.replace(/\D/g, "");
+        // Limita a 11 dígitos
 
-
-        // Telefone com 11 dígitos
-
-        if (apenasDigitos.length === 11) {
+        if (apenasDigitos.length <= 10) {
+            return apenasDigitos
+                .replace(/(\d{2})(\d)/, "($1) $2")
+                .replace(/(\d{4})(\d)/, "$1-$2");
+        }else{
 
             return apenasDigitos.replace(
                 /(\d{2})(\d{5})(\d{4})/,
@@ -47,21 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
             );
         }
 
-
-        // Telefone com 10 dígitos
-
-        if (apenasDigitos.length === 10) {
-
-            return apenasDigitos.replace(
-                /(\d{2})(\d{4})(\d{4})/,
-                "($1) $2-$3"
-            );
-        }
-
-
-        return valor;
     }
-
 
     // ============================================================
     // MÁSCARA DO CPF
@@ -69,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     campoCpf.addEventListener("input", function () {
 
-        campoCpf.value = formatarCPF(campoCpf.value);
+        campoCpf.value = formatarCPF(campoCpf.value).slice(0, 14);
 
     });
 
@@ -81,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     campoTelefone.addEventListener("input", function () {
 
         campoTelefone.value =
-            formatarTelefone(campoTelefone.value);
+            formatarTelefone(campoTelefone.value).slice(0, 15);
 
     });
 

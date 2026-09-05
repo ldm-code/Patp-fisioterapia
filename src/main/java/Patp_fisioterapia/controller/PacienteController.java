@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import Patp_fisioterapia.dto.pacienteDto;
 import Patp_fisioterapia.service.PacienteService;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -92,12 +93,22 @@ public class PacienteController {
     // EDITAR PACIENTE
     // ============================================================
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> editarPaciente(
-            @PathVariable int id,
-            @RequestParam String nome,
-            @RequestParam String cpf,
-            @RequestParam String telefone) {
+        @PutMapping("/{id}")
+        public ResponseEntity<?> editarPaciente(
+                @PathVariable int id,
+                @RequestParam String nome,
+                @RequestParam String cpf,
+                @RequestParam String telefone,
+                HttpSession session) {
+
+        String tipoUsuario =
+                (String) session.getAttribute("tipoUsuario");
+
+        if (!"professor".equals(tipoUsuario)) {
+                return ResponseEntity
+                        .status(HttpStatus.FORBIDDEN)
+                        .body("Apenas professores podem editar pacientes.");
+        }
 
         boolean editado = PacienteService.editarPaciente(
                 id,
@@ -107,16 +118,15 @@ public class PacienteController {
         );
 
         if (!editado) {
-
-            return ResponseEntity
-                    .badRequest()
-                    .body("Dados do paciente inválidos.");
+                return ResponseEntity
+                        .badRequest()
+                        .body("Dados do paciente inválidos.");
         }
 
         return ResponseEntity.ok(
                 "Paciente atualizado com sucesso."
         );
-    }
+        }
   
 
 }

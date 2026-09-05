@@ -6,6 +6,44 @@ document.addEventListener("DOMContentLoaded", function () {
     const campoNome = document.getElementById("nome");
     const campoCpf = document.getElementById("cpf");
     const campoTelefone = document.getElementById("telefone");
+    function formatarCPF(valor) {
+
+    const apenasDigitos = valor.replace(/\D/g, "");
+
+    return apenasDigitos
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+        .replace(/(-\d{2})\d+$/, "$1");
+}
+
+
+function formatarTelefone(valor) {
+    let apenasDigitos = valor.replace(/\D/g, "");
+
+    // Limita a 11 dígitos
+
+    if (apenasDigitos.length <= 10) {
+        return apenasDigitos
+            .replace(/(\d{2})(\d)/, "($1) $2")
+            .replace(/(\d{4})(\d)/, "$1-$2");
+    }else{
+
+        return apenasDigitos.replace(
+            /(\d{2})(\d{5})(\d{4})/,
+            "($1) $2-$3"
+        );
+    }
+
+}
+campoCpf.addEventListener("input", function () {
+    campoCpf.value = formatarCPF(campoCpf.value).slice(0, 14);
+});
+
+campoTelefone.addEventListener("input", function () {
+    campoTelefone.value = formatarTelefone(campoTelefone.value).slice(0,15);
+});
+
 
 
     // ============================================================
@@ -18,10 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const id = parametros.get("id");
 
-
     // ============================================================
     // VALIDA O ID
     // ============================================================
+
 
     if (!id || Number(id) <= 0) {
 
@@ -72,8 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // ====================================================
 
             campoNome.value = paciente.nome;
-            campoCpf.value = paciente.cpf;
-            campoTelefone.value = paciente.telefone;
+            campoCpf.value = formatarCPF(paciente.cpf);
+            campoTelefone.value = formatarTelefone(paciente.telefone);
 
 
         } catch (erro) {
@@ -120,10 +158,12 @@ document.addEventListener("DOMContentLoaded", function () {
             // ====================================================
 
             const dados = new URLSearchParams();
+            const cpfSemMascara = cpf.replace(/\D/g, "");
+            const telefoneSemMascara = telefone.replace(/\D/g, "");
 
             dados.append("nome", nome);
-            dados.append("cpf", cpf);
-            dados.append("telefone", telefone);
+            dados.append("cpf", cpfSemMascara);
+            dados.append("telefone", telefoneSemMascara);
 
 
             try {

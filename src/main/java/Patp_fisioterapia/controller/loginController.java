@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import Patp_fisioterapia.dto.LoginRequest;
 import Patp_fisioterapia.service.loginService;
@@ -18,7 +19,7 @@ public class loginController {
         this.service = service;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String home(){
           return "login";
     }
@@ -28,23 +29,27 @@ public class loginController {
     }
     
           
-    @PostMapping("/login")
-    public String processarLogin(
-            @ModelAttribute LoginRequest loginData,
-            Model model) {
+   @PostMapping("/login")
+public String processarLogin(
+        @ModelAttribute LoginRequest loginData,
+        Model model,
+        HttpSession session) {
 
-        String email = loginData.getEmail();
-        String senha = loginData.getSenha();
+    String email = loginData.getEmail();
+    String senha = loginData.getSenha();
 
-        boolean autenticado = service.autenticar(email, senha);
+    boolean autenticado = service.autenticar(email, senha);
 
-        if (autenticado) {
-            return "pacientes";
-        }
+    if (autenticado) {
 
-        model.addAttribute("erro", "E-mail ou senha inválidos!");
+        session.setAttribute("usuarioLogado", email);
+        session.setAttribute("tipoUsuario", "professor");
 
-        return "login";
+        return "pacientes";
+    }
+
+    model.addAttribute("erro", "E-mail ou senha inválidos!");
+    return "login";
 }
 }
 
