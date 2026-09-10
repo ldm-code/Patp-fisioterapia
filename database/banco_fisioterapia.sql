@@ -18,6 +18,22 @@ USE `fisioterapia`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `agendamentos`
+--
+
+DROP TABLE IF EXISTS `agendamentos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `agendamentos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `consulta_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consulta_id` (`consulta_id`),
+  CONSTRAINT `agendamentos_ibfk_1` FOREIGN KEY (`consulta_id`) REFERENCES `consultas` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `aluno_horarios`
 --
 
@@ -70,7 +86,7 @@ CREATE TABLE `alunos` (
   `email` varchar(150) DEFAULT NULL,
   `tipo` enum('estagio','curso') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,10 +99,13 @@ DROP TABLE IF EXISTS `alunos_especialidades`;
 CREATE TABLE `alunos_especialidades` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idAluno` int NOT NULL,
+  `idEspecialidade` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idAluno` (`idAluno`),
-  CONSTRAINT `alunos_especialidades_ibfk_1` FOREIGN KEY (`idAluno`) REFERENCES `alunos` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_alunos_especialidade_especialidade` (`idEspecialidade`),
+  CONSTRAINT `alunos_especialidades_ibfk_1` FOREIGN KEY (`idAluno`) REFERENCES `alunos` (`id`),
+  CONSTRAINT `fk_alunos_especialidade_especialidade` FOREIGN KEY (`idEspecialidade`) REFERENCES `especialidades` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,6 +142,7 @@ CREATE TABLE `consultas` (
   `data_agendada` datetime DEFAULT CURRENT_TIMESTAMP,
   `data_consulta` datetime NOT NULL,
   `status` enum('cancelada','agendada','concluida','a validar','em aberto') DEFAULT 'agendada',
+  `diagnostico` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_agendamento_paciente` (`paciente`),
   KEY `consultas_ibfk_1` (`aluno_id`),
@@ -176,7 +196,7 @@ CREATE TABLE `pacientes` (
   `cpf` varchar(20) DEFAULT NULL,
   `telefone` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,4 +276,4 @@ CREATE TABLE `turnos` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-04 19:22:53
+-- Dump completed on 2026-09-09 22:27:14
