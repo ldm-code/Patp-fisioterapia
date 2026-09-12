@@ -316,17 +316,17 @@ async function carregarAlunos(email = "") {
                             <p>
                                 <strong>ID:</strong>
                                 ${aluno.id}
-                            </p>
+                            </p><br>
 
                             <p>
                                 <strong>CPF:</strong>
                                 ${formatarCPF(aluno.cpf)}
-                            </p>
+                            </p><br>
 
                             <p>
                                 <strong>E-mail:</strong>
                                 ${aluno.email}
-                            </p>
+                            </p><br>
 
                         </div>
 
