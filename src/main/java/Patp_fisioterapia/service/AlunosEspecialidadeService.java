@@ -13,6 +13,9 @@ public class AlunosEspecialidadeService {
           if (idAluno <= 0 || idEspecialidade <= 0) {
           return false;
           }
+           if (alunosEspecialidadeDAO.existe(idAluno, idEspecialidade)) {
+        return false;
+    }
 
           return alunosEspecialidadeDAO.cadastrar(
                     idAluno,

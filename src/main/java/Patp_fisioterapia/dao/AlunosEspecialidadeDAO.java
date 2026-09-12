@@ -60,6 +60,32 @@ public class AlunosEspecialidadeDAO {
         return false;
     }
 }
+public boolean existe(int idAluno, int idEspecialidade) {
+
+    String sql = """
+            SELECT 1
+            FROM alunos_especialidades
+            WHERE idAluno = ?
+            AND idEspecialidade = ?;
+            """;
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setInt(1, idAluno);
+        stmt.setInt(2, idEspecialidade);
+
+        return stmt.executeQuery().next();
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
+        return false;
+    }
+}
 
 
 }
