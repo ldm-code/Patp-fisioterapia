@@ -90,6 +90,54 @@ listaAlunos.addEventListener("click", async (evento) => {
 
     const botaoEspecialidade =
         evento.target.closest(".btn-especialidade");
+    const botaoRemover =
+    evento.target.closest(".btn-remover-especialidade");
+
+        if (botaoRemover) {
+
+            const idAluno = botaoRemover.dataset.aluno;
+            const idEspecialidade =
+                botaoRemover.dataset.especialidade;
+
+            const confirmar =
+                confirm("Deseja remover esta especialidade?");
+
+            if (!confirmar) {
+                return;
+            }
+
+            try {
+
+                const resposta = await fetch(
+                    `/alunos-especialidade/remover?idAluno=${idAluno}&idEspecialidade=${idEspecialidade}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+                const mensagem = await resposta.text();
+
+                if (!resposta.ok) {
+                    throw new Error(mensagem);
+                }
+
+                alert(mensagem);
+
+                window.location.reload();
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao remover especialidade:",
+                    erro
+                );
+
+                alert(
+                    erro.message ||
+                    "Não foi possível remover a especialidade."
+                );
+            }
+        }
 
     if (botaoEspecialidade) {
 
@@ -285,29 +333,40 @@ async function carregarAlunos(email = "") {
                     </div>
 
 
-                    <div class="tipo-aluno">
-
-                        <span class="tipo-badge ${aluno.tipo}">
-                            ${formatarTipo(aluno.tipo)}
-                        </span>
-
-                    </div>
                     <div class="especialidades-aluno">
+                    
+                    <strong>Especialidades:</strong><br><br>
 
-                    <strong>Especialidades:</strong>
+                   ${aluno.especialidades &&
+aluno.especialidades.length > 0 &&
+aluno.especialidades.some(especialidade => especialidade.nome)
+    ? aluno.especialidades
+        .filter(especialidade => especialidade.nome)
+        .map(especialidade => `
+            <span class="especialidade-item">
+                ${especialidade.nome}
+                <button
+                    type="button"
+                    class="btn-remover-especialidade"
+                    data-aluno="${aluno.id}"
+                    data-especialidade="${especialidade.id}"
+                >
+                <i class="bi bi-x-lg"></i>
+                </button>
+                </span>
+                `)
+        .join("<br>")
+    : "Nenhuma cadastrada"
+}
 
-                    ${
-                        aluno.especialidades &&
-                        aluno.especialidades.length > 0 &&
-                        aluno.especialidades.some(especialidade => especialidade.nome)
-                            ? aluno.especialidades
-                                .filter(especialidade => especialidade.nome)
-                                .map(especialidade => especialidade.nome)
-                                .join(", ")
-                            : "Nenhuma cadastrada"
-                    }
+</div>
+<div class="tipo-aluno">
 
-        </div>
+    <span class="tipo-badge ${aluno.tipo}">
+        ${formatarTipo(aluno.tipo)}
+    </span>
+
+</div>
 
 
                     <div class="acoes-aluno">

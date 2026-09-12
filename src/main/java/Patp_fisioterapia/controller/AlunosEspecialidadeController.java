@@ -31,6 +31,23 @@ public ResponseEntity<String> cadastrar(
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body("Não foi possível vincular a especialidade.");
 }
+@DeleteMapping("/remover")
+public ResponseEntity<String> remover(
+        @RequestParam int idAluno,
+        @RequestParam int idEspecialidade) {
 
+    boolean removido =
+            service.remover(idAluno, idEspecialidade);
+
+    if (removido) {
+        return ResponseEntity.ok(
+                "Especialidade removida com sucesso."
+        );
+    }
+
+    return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body("Não foi possível remover a especialidade.");
+}
 
 }

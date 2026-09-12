@@ -19,6 +19,17 @@ public class AlunosEspecialidadeService {
                     idEspecialidade
           );
           }
+          public boolean remover(int idAluno, int idEspecialidade) {
+
+    if (idAluno <= 0 || idEspecialidade <= 0) {
+        return false;
+    }
+
+    return alunosEspecialidadeDAO.remover(
+            idAluno,
+            idEspecialidade
+    );
+}
 
 
 }

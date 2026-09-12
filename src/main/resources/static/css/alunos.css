@@ -117,6 +117,18 @@
     display: flex;
     gap: 10px;
 }
+.especialidade-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+}
+
+.btn-remover-especialidade {
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-size: 11px;
+}
 /* ================================
    TÍTULO
    ================================ */
@@ -575,10 +587,9 @@ body {
 .aluno {
 
     display: flex;
-
-    align-items: center;
-
+    align-items: flex-start;
     gap: 20px;
+    flex-wrap: wrap;
 
     padding: 22px 25px;
 
