@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cadastro de Horários</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<main class="container d-flex justify-content-center align-items-center min-vh-100">
+
+    <div
+        class="card shadow p-4"
+        style="width: 100%; max-width: 500px;"
+    >
+
+        <div class="card-body">
+
+            <h1 class="text-center mb-4">
+                Cadastro de Horários
+            </h1>
+
+            <form id="formHorario">
+
+                <div class="mb-3">
+
+                    <label
+                        for="horario"
+                        class="form-label"
+                    >
+                        <i class="bi bi-clock"></i>
+                        Horário
+                    </label>
+
+                    <input
+                        type="time"
+                        id="horario"
+                        name="horario"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label
+                        for="turnoId"
+                        class="form-label"
+                    >
+                        <i class="bi bi-sun"></i>
+                        Turno
+                    </label>
+
+                    <select
+                        id="turnoId"
+                        name="turnoId"
+                        class="form-control"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            selected
+                            disabled
+                        >
+                            Selecione o turno
+                        </option>
+
+                        <option value="1">
+                            Manhã
+                        </option>
+
+                        <option value="2">
+                            Tarde
+                        </option>
+
+                        <option value="3">
+                            Noite
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary w-100"
+                >
+
+                    <i class="bi bi-clock-fill"></i>
+
+                    Cadastrar horário
+
+                </button>
+
+            </form>
+            <a href="/pagina/alunos" class="btn btn-secondary w-100 mt-2">
+    <i class="bi bi-arrow-left"></i>
+    Voltar
+</a>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="/js/horariosCadastro.js"></script>
+
+</body>
+
+</html>

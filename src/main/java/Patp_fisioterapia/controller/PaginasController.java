@@ -12,6 +12,11 @@ public class PaginasController {
     public String cadastroAlunos() {
         return "alunosCadastro";
     }
+    @GetMapping("/horarios/cadastrar")
+    public String telaCadastroHorarios() {
+        return "horariosCadastro";
+    }
+    
     
     @GetMapping("/pagina/alunos")
     public String alunos(){
