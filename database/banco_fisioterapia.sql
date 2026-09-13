@@ -44,30 +44,12 @@ CREATE TABLE `aluno_horarios` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_aluno` int NOT NULL,
   `id_horario` int NOT NULL,
+  `disponivel` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `id_aluno` (`id_aluno`),
+  UNIQUE KEY `uk_aluno_horario` (`id_aluno`,`id_horario`),
   KEY `id_horario` (`id_horario`),
   CONSTRAINT `aluno_horarios_ibfk_1` FOREIGN KEY (`id_aluno`) REFERENCES `alunos` (`id`),
   CONSTRAINT `aluno_horarios_ibfk_2` FOREIGN KEY (`id_horario`) REFERENCES `horarios` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `aluno_turno`
---
-
-DROP TABLE IF EXISTS `aluno_turno`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `aluno_turno` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `aluno_id` int NOT NULL,
-  `turno_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `aluno_id` (`aluno_id`),
-  KEY `turno_id` (`turno_id`),
-  CONSTRAINT `aluno_turno_ibfk_1` FOREIGN KEY (`aluno_id`) REFERENCES `alunos` (`id`),
-  CONSTRAINT `aluno_turno_ibfk_2` FOREIGN KEY (`turno_id`) REFERENCES `turnos` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -105,26 +87,7 @@ CREATE TABLE `alunos_especialidades` (
   KEY `fk_alunos_especialidade_especialidade` (`idEspecialidade`),
   CONSTRAINT `alunos_especialidades_ibfk_1` FOREIGN KEY (`idAluno`) REFERENCES `alunos` (`id`),
   CONSTRAINT `fk_alunos_especialidade_especialidade` FOREIGN KEY (`idEspecialidade`) REFERENCES `especialidades` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `alunos_professor`
---
-
-DROP TABLE IF EXISTS `alunos_professor`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `alunos_professor` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `id_aluno` int NOT NULL,
-  `id_professor` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_aluno` (`id_aluno`),
-  KEY `id_professor` (`id_professor`),
-  CONSTRAINT `alunos_professor_ibfk_1` FOREIGN KEY (`id_aluno`) REFERENCES `alunos` (`id`),
-  CONSTRAINT `alunos_professor_ibfk_2` FOREIGN KEY (`id_professor`) REFERENCES `professores` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +143,7 @@ CREATE TABLE `horarios` (
   PRIMARY KEY (`id`),
   KEY `turno_id` (`turno_id`),
   CONSTRAINT `horarios_ibfk_1` FOREIGN KEY (`turno_id`) REFERENCES `turnos` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,4 +239,4 @@ CREATE TABLE `turnos` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-09 22:27:14
+-- Dump completed on 2026-09-13 12:27:12
