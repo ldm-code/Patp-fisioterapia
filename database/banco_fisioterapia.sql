@@ -34,22 +34,21 @@ CREATE TABLE `agendamentos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `aluno_horarios`
+-- Table structure for table `aluno_turnos`
 --
 
-DROP TABLE IF EXISTS `aluno_horarios`;
+DROP TABLE IF EXISTS `aluno_turnos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `aluno_horarios` (
+CREATE TABLE `aluno_turnos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_aluno` int NOT NULL,
-  `id_horario` int NOT NULL,
-  `disponivel` tinyint(1) DEFAULT '1',
+  `id_turno` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_aluno_horario` (`id_aluno`,`id_horario`),
-  KEY `id_horario` (`id_horario`),
-  CONSTRAINT `aluno_horarios_ibfk_1` FOREIGN KEY (`id_aluno`) REFERENCES `alunos` (`id`),
-  CONSTRAINT `aluno_horarios_ibfk_2` FOREIGN KEY (`id_horario`) REFERENCES `horarios` (`id`)
+  UNIQUE KEY `id_aluno` (`id_aluno`,`id_turno`),
+  KEY `id_turno` (`id_turno`),
+  CONSTRAINT `aluno_turnos_ibfk_1` FOREIGN KEY (`id_aluno`) REFERENCES `alunos` (`id`),
+  CONSTRAINT `aluno_turnos_ibfk_2` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -239,4 +238,4 @@ CREATE TABLE `turnos` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-13 12:27:12
+-- Dump completed on 2026-09-15 19:53:58
