@@ -16,8 +16,27 @@ public class alunosController {
           @GetMapping
           public List<AlunoDTO> selecionarTodosAlunos(){
               return alunoService.listarAlunosService();
-          }
+          }@GetMapping("/professor")
+        public ResponseEntity<List<AlunoDTO>> listarAlunosPorProfessor(
+                @RequestParam int idProfessor) {
 
+            List<AlunoDTO> alunos =
+                    alunoService.listarAlunosPorProfessor(idProfessor);
+
+            return ResponseEntity.ok(alunos);
+}
+@GetMapping("/professor/email")
+public ResponseEntity<List<AlunoDTO>> selecionarPorEmailProfessor(
+        @RequestParam String email,
+        @RequestParam int idProfessor) {
+
+    List<AlunoDTO> alunos =
+            alunoService.selecionarPorEmailProfessor(
+                email, idProfessor
+            );
+
+    return ResponseEntity.ok(alunos);
+}
           @GetMapping("/email")
           public List<AlunoDTO> selecionarPorEmail(@RequestParam String email) {
 
