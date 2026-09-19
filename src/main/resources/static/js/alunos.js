@@ -531,6 +531,13 @@ async function carregarAlunos(email = "") {
 
                         <p><strong>E-mail:</strong> ${aluno.email ?? ""}</p>
                         <br>
+
+                        <p>
+                            <strong>Tipo:</strong>
+                            <span class="tipo-badge ${aluno.tipo}">
+                                ${formatarTipo(aluno.tipo)}
+                            </span>
+                        </p>
                     </div>
                 </div>
 
@@ -550,12 +557,7 @@ async function carregarAlunos(email = "") {
                     </div>
                 </div>
 
-                <!-- TIPO -->
-                <div class="tipo-aluno">
-                    <span class="tipo-badge ${aluno.tipo}">
-                        ${formatarTipo(aluno.tipo)}
-                    </span>
-                </div>
+
 
                 <!-- AÇÕES -->
                 <div class="acoes-aluno">

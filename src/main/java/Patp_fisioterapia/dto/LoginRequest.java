@@ -2,6 +2,7 @@ package Patp_fisioterapia.dto;
 public class LoginRequest {
     private String email;
     private String senha;
+    private int id;
 
     // Getters e Setters (Obrigatórios para o Spring mapear os dados)
     public String getEmail() { return email; }

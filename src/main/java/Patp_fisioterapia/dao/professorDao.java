@@ -33,6 +33,62 @@ public class professorDao {
             return false;
         }
     }
+    public static String buscarTipoPorEmail(String email) {
+
+    String sql = """
+            SELECT tipo
+            FROM professores
+            WHERE email = ?
+            """;
+
+    try (
+        Connection conn = conexaoBanco.conectar();
+        PreparedStatement pstmt = conn.prepareStatement(sql)
+    ) {
+
+        pstmt.setString(1, email);
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("tipo");
+            }
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return null;
+}
+
+public static int buscarIdPorEmail(String email) {
+
+    String sql = """
+            SELECT id
+            FROM professores
+            WHERE email = ?
+            """;
+
+    try (
+        Connection conn = conexaoBanco.conectar();
+        PreparedStatement pstmt = conn.prepareStatement(sql)
+    ) {
+
+        pstmt.setString(1, email);
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return 0;
+}
        public static String buscarSenhaPorEmail(String email) {
 
         String sql = "SELECT senha FROM professores WHERE email = ?";
