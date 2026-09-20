@@ -4,35 +4,43 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import Patp_fisioterapia.dao.conexaoBanco;
 
 public class professorDao {
 
-    public static boolean inserirProfessor(String nome, String email, String senha) {
+    public static int inserirProfessor(String nome, String email, String senha) {
 
-        String sql = "INSERT INTO professores (nome, email, senha) VALUES (?, ?, ?)";
+    String sql = "INSERT INTO professores (nome, email, senha) VALUES (?, ?, ?)";
 
-        try (
-            Connection conn = conexaoBanco.conectar();
-            PreparedStatement pstmt = conn.prepareStatement(sql)
-        ) {
+    try (
+        Connection conn = conexaoBanco.conectar();
+        PreparedStatement pstmt = conn.prepareStatement(
+            sql,
+            Statement.RETURN_GENERATED_KEYS
+        )
+    ) {
 
-            pstmt.setString(1, nome);
-            pstmt.setString(2, email);
-            pstmt.setString(3, senha);
+        pstmt.setString(1, nome);
+        pstmt.setString(2, email);
+        pstmt.setString(3, senha);
 
-            int linhasAfetadas = pstmt.executeUpdate();
+        int linhasAfetadas = pstmt.executeUpdate();
 
-            System.out.println("Linhas inseridas: " + linhasAfetadas);
-
-            return linhasAfetadas > 0;
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-            return false;
+        if (linhasAfetadas > 0) {
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
         }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return 0;
+}
     public static String buscarTipoPorEmail(String email) {
 
     String sql = """
