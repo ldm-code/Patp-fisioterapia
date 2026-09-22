@@ -1,0 +1,55 @@
+
+<div th:fragment="sidebar" class="sidebar-div">
+
+    <aside class="sidebar">
+
+        <h2>Menu</h2>
+
+        <ul>
+            <li>
+                <a href="#" class="sidebar-link" id="linkRelatorios">Relatorios</a>
+            </li>
+
+            <li>
+                <a href="#" class="sidebar-link" id="linkConsultas">Consultas</a>
+            </li>
+
+            <li>
+                <a th:href="@{/pagina/pacientes}" class="sidebar-link" >Pacientes</a>
+            </li>
+
+            <li>
+                <a th:href="@{/pagina/alunos}" class="sidebar-link" id="linkAlunos>Alunos">Alunos</a>
+            </li>
+
+            <!-- Botão de sair -->
+            <li class="sidebar-sair">
+                <a th:href="@{/}" class="sidebar-link">
+                    Sair
+                </a>
+            </li>
+        </ul>
+
+    </aside>
+
+</div>
+<div th:fragment="sidebarProfe" class="sidebar-div">
+    <aside class="sidebar">
+        <h2>Menu</h2>
+
+        <ul>
+            <li>
+                <a th:href="@{/alunosComum}"
+                   class="sidebar-link">
+                    Alunos
+                </a>
+            </li>
+
+            <li class="sidebar-sair">
+                <a th:href="@{/}" class="sidebar-link">
+                    Sair
+                </a>
+            </li>
+        </ul>
+    </aside>
+</div>

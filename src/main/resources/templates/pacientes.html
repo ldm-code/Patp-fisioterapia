@@ -21,12 +21,14 @@
     >
 
     <link rel="stylesheet" href="/css/pacientes.css">
+    <link rel="stylesheet"
+      th:href="@{/css/sidebar.css}">
 
 </head>
 
 <body>
     <div class="layout">
-        <div id="sidebar-container"></div>
+            <div th:replace="~{fragments/sidebar :: sidebar}"></div>
         
         <main class="conteudo-pacientes py-5">
             
@@ -96,7 +98,7 @@
  
     <script type="module" src="/js/pacientes.js"></script>
     
-
+    <script th:src="@{/js/sidebar.js}" defer></script>
 </body>
 
 </html>
