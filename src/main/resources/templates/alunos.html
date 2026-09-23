@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/assets/iconeFisio.svg" type="image/x-icon">
     <title>Alunos</title>
-
+    <link rel="stylesheet"
+      th:href="@{/css/sidebar.css}">
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -26,8 +27,7 @@
 
     <div class="layout">
 
-        <!-- SIDEBAR -->
-        <div id="sidebar-container"></div>
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
         <!-- CONTEÚDO -->
         <main class="conteudo-alunos py-5">
@@ -111,8 +111,8 @@
         </main>
 
     </div>
-
-
+        <script th:src="@{/js/sidebar.js}" defer></script>
+    
     <script type="module" src="/js/alunos.js"></script>
 
 </body>

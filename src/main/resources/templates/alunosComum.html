@@ -19,13 +19,15 @@
     >
 
     <link rel="stylesheet" href="/css/alunos.css">
+        <link rel="stylesheet"
+      th:href="@{/css/sidebar.css}">
 </head>
 
 <body th:data-id-professor="${session.idProfessor}">
 
     <div class="layout">
 
-        <div id="sidebar-container"></div>
+        <div th:replace="~{fragments/sidebar :: sidebarProfe}"></div>
 
         <main class="conteudo-alunos py-5">
 
@@ -70,6 +72,6 @@
     </div>
 
     <script src="/js/alunosComum.js"></script>
-
+     <script th:src="@{/js/sidebar.js}" defer></script>
 </body>
 </html>
