@@ -53,3 +53,23 @@
         </ul>
     </aside>
 </div>
+<div th:fragment="sidebarAluno" class="sidebar-div">
+    <aside class="sidebar">
+        <h2>Menu</h2>
+
+        <ul>
+            <li>
+                <a th:href="@{/consultasAluno}"
+                   class="sidebar-link">
+                    Consultas
+                </a>
+            </li>
+
+            <li class="sidebar-sair">
+                <a th:href="@{/}" class="sidebar-link">
+                    Sair
+                </a>
+            </li>
+        </ul>
+    </aside>
+</div>

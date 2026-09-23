@@ -5,8 +5,16 @@
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <link rel="icon" href="/assets/iconeFisio.svg" type="image/x-icon">
           <title>aluno</title>
+              <link rel="stylesheet" href="/css/alunos.css">
+        <link rel="stylesheet"
+        th:href="@{/css/sidebar.css}">
 </head>
 <body>
-          <h1> vai ter consultas aqui ainda</h1>
+          <div class="container">
+                    <div th:replace="~{fragments/sidebar :: sidebarAluno}"></div>
+
+                    <h1> vai ter consultas aqui ainda</h1>
+          </div>
+               <script th:src="@{/js/sidebar.js}" defer></script>
 </body>
 </html>
