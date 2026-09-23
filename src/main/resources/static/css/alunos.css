@@ -839,36 +839,39 @@ body {
 
 }
 
-
-/* RESPONSIVIDADE */
+/* ================================
+   RESPONSIVIDADE
+   ================================ */
 
 @media (max-width: 800px) {
 
-    .aluno {
-
-        flex-wrap: wrap;
-
+    .filtros-alunos {
+        flex-direction: column;
+        align-items: stretch;
     }
 
+    .campo-filtro {
+        width: 100%;
+    }
+
+    .btn-filtrar {
+        width: 100%;
+    }
+
+    .aluno {
+        flex-wrap: wrap;
+    }
 
     .dados-aluno {
-
         width: 100%;
-
     }
-
 
     .tipo-aluno {
-
         margin-left: 68px;
-
     }
 
-
     .acoes-aluno {
-
         margin-left: auto;
-
     }
 
 }
@@ -877,96 +880,61 @@ body {
 @media (max-width: 600px) {
 
     .conteudo-alunos {
-
         margin-left: 0;
-
         padding: 30px 15px;
-
     }
-
 
     .cabecalho {
-
         flex-direction: column;
-
         align-items: flex-start;
-
         gap: 15px;
-
     }
 
-
-    .btn-novo {
-
+    .btn-novo,
+    .btn-horario {
         width: 100%;
-
         justify-content: center;
-
     }
-
 
     .filtros-alunos {
-
         flex-direction: column;
-
         align-items: stretch;
-
     }
 
+    .campo-filtro {
+        width: 100%;
+    }
 
     .btn-filtrar {
-
         width: 100%;
-
     }
-
 
     .aluno {
-
         flex-direction: column;
-
         align-items: stretch;
-
+        gap: 20px;
     }
-
 
     .dados-aluno {
-
         width: 100%;
-
     }
-
 
     .tipo-aluno {
-
         margin-left: 0;
-
     }
-
 
     .acoes-aluno {
-
         width: 100%;
-
     }
-
 
     .btn-editar {
-
         width: 100%;
-
         justify-content: center;
-
     }
 
-
     .informacoes p {
-
         display: block;
-
-        margin-bottom: 5px;
-
+        margin-bottom: 4px;
     }
 
 }
-

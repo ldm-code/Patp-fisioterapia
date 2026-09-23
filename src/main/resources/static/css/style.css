@@ -52,3 +52,35 @@ body{
 a{
           color: #007336;
 }
+
+@media (max-width: 700px) {
+  
+    .card {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    #enviar {
+        width: 100%;
+    }
+}
+
+@media (max-width: 400px) {
+    .card {
+        width: 95%;
+    }
+
+    .form-control {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    #enviar {
+        padding: 10px;
+        font-size: 14px;
+    }
+}

@@ -3,29 +3,33 @@
 
     <aside class="sidebar">
 
-        <h2>Menu</h2>
+        <h2>Coordenador</h2>
 
         <ul>
             <li>
-                <a href="#" class="sidebar-link" id="linkRelatorios">Relatorios</a>
+                <a href="#" class="sidebar-link" id="linkRelatorios"><i class="bi bi-file-medical"></i>   
+                    Relatorios</a>
             </li>
 
             <li>
-                <a href="#" class="sidebar-link" id="linkConsultas">Consultas</a>
+                <a href="#" class="sidebar-link" id="linkConsultas"><i class="bi bi-clipboard-data"></i>  
+                    Consultas</a>
             </li>
 
             <li>
-                <a th:href="@{/pagina/pacientes}" class="sidebar-link" >Pacientes</a>
+                <a th:href="@{/pagina/pacientes}" class="sidebar-link" ><i class="bi bi-person-circle"></i>
+                       Pacientes</a>
             </li>
 
             <li>
-                <a th:href="@{/pagina/alunos}" class="sidebar-link" id="linkAlunos>Alunos">Alunos</a>
+                <a th:href="@{/pagina/alunos}" class="sidebar-link" id="linkAlunos"> <i class="bi bi-person-badge"></i>  
+                    Alunos</a>
             </li>
 
             <!-- Botão de sair -->
             <li class="sidebar-sair">
                 <a th:href="@{/}" class="sidebar-link">
-                    Sair
+                   <i class="bi bi-box-arrow-left"></i>  Sair
                 </a>
             </li>
         </ul>
@@ -35,19 +39,19 @@
 </div>
 <div th:fragment="sidebarProfe" class="sidebar-div">
     <aside class="sidebar">
-        <h2>Menu</h2>
+        <h2>Professor</h2>
 
         <ul>
             <li>
                 <a th:href="@{/alunosComum}"
                    class="sidebar-link">
-                    Alunos
+                <i class="bi bi-person-badge"></i>    Alunos
                 </a>
             </li>
 
             <li class="sidebar-sair">
                 <a th:href="@{/}" class="sidebar-link">
-                    Sair
+                     <i class="bi bi-box-arrow-left"></i>       Sair
                 </a>
             </li>
         </ul>
@@ -55,19 +59,23 @@
 </div>
 <div th:fragment="sidebarAluno" class="sidebar-div">
     <aside class="sidebar">
-        <h2>Menu</h2>
+        <h2>Alunos</h2>
 
         <ul>
             <li>
+                <a href="#" class="sidebar-link" id="linkRelatorios"><i class="bi bi-file-medical"></i>   
+                    Relatorios</a>
+            </li>
+            <li>
                 <a th:href="@{/consultasAluno}"
                    class="sidebar-link">
-                    Consultas
+                   <i class="bi bi-clipboard-data"></i>  Consultas
                 </a>
             </li>
 
             <li class="sidebar-sair">
                 <a th:href="@{/}" class="sidebar-link">
-                    Sair
+                  <i class="bi bi-box-arrow-left"></i>   Sair
                 </a>
             </li>
         </ul>
