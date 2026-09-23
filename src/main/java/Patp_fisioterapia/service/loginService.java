@@ -3,33 +3,63 @@ package Patp_fisioterapia.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import Patp_fisioterapia.dao.AlunoDAO;
 import Patp_fisioterapia.dao.professorDao;
+import Patp_fisioterapia.dto.AlunoDTO;
+import Patp_fisioterapia.dto.UsuarioAutenticadoDTO;
 
 @Service
 public class loginService {
 
-    private final BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder =
+            new BCryptPasswordEncoder();
 
-    public loginService() {
-        this.encoder = new BCryptPasswordEncoder();
-    }
+    private final AlunoDAO alunoDAO = new AlunoDAO();
 
-    public boolean autenticar(String email, String senha) {
+    public UsuarioAutenticadoDTO autenticar(
+            String email, String senha) {
 
         if (email == null || email.trim().isEmpty()
                 || senha == null || senha.trim().isEmpty()) {
-
-            return false;
+            return null;
         }
 
         email = email.trim();
 
-        String senhaHash = professorDao.buscarSenhaPorEmail(email);
+        // 1. Tenta autenticar como aluno
+        AlunoDTO aluno = alunoDAO.buscarAlunoLogin(email);
 
-        if (senhaHash == null) {
-            return false;
+        if (aluno != null
+                && encoder.matches(senha, aluno.getSenha())) {
+
+            return new UsuarioAutenticadoDTO(
+                    aluno.getEmail(),
+                    "aluno"
+            );
         }
 
-        return encoder.matches(senha, senhaHash);
+        // 2. Tenta autenticar como professor
+        String senhaHash =
+                professorDao.buscarSenhaPorEmail(email);
+
+        if (senhaHash != null
+                && encoder.matches(senha, senhaHash)) {
+
+            String tipo =
+                    professorDao.buscarTipoPorEmail(email);
+
+            if (tipo != null) {
+
+                int id = professorDao.buscarIdPorEmail(email);
+
+                return new UsuarioAutenticadoDTO(
+                        email,
+                        tipo.trim().toLowerCase(),
+                        id
+                );
+            }
+        }
+
+        return null;
     }
 }

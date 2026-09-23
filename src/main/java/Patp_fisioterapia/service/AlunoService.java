@@ -4,6 +4,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import Patp_fisioterapia.dao.AlunoDAO;
 import Patp_fisioterapia.dto.AlunoDTO;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlunoService {
@@ -15,6 +17,26 @@ public class AlunoService {
         return alunoDAO.listarAlunos();
 
     }
+    public List<AlunoDTO> listarAlunosPorProfessor(int idProfessor) {
+
+        if (idProfessor <= 0) {
+            return new ArrayList<>();
+        }
+
+        return alunoDAO.listarAlunosPorProfessor(idProfessor);
+    }
+    public List<AlunoDTO> selecionarPorEmailProfessor(
+        String email, int idProfessor) {
+
+    if (email == null || email.isBlank() || idProfessor <= 0) {
+        return new ArrayList<>();
+    }
+
+    return alunoDAO.selecionarPorEmailProfessor(
+        email.trim(),
+        idProfessor
+    );
+}
 
     public List<AlunoDTO> selecionarPorEmail(String email) {
 

@@ -78,6 +78,57 @@
     color: white;
 
 }
+.btn-turno {
+
+    background-color: white;
+
+    color: #007336;
+
+    border: 1px solid #007336;
+
+    border-radius: 6px;
+
+    padding: 8px 12px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    transition: 0.2s;
+
+}
+
+
+.btn-turno i {
+
+    color: #007336;
+
+}
+
+
+.btn-turno:hover {
+
+    background-color: #007336;
+
+    color: white;
+
+}
+
+
+.btn-turno:hover i {
+
+    color: white;
+
+}
+
 
 
 /* ================================
@@ -321,7 +372,7 @@
 
     min-height: 100vh;
 
-    margin-left: 25%;
+    margin-left: 7%;
 
     padding: 50px 20px;
 

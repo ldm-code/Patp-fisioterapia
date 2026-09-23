@@ -8,6 +8,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PaginasController {
+    @GetMapping("/consultasAluno")
+    public String abrirConsultasAluno() {
+        return "consultasAluno";
+    }
+
+    @GetMapping("/alunosComum")
+    public String abrirAlunosComum() {
+        return "alunosComum";
+}
     @GetMapping("/alunos/cadastrarAlunos")
     public String cadastroAlunos() {
         return "alunosCadastro";
