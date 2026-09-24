@@ -12,17 +12,13 @@
     min-height: 100vh;
    
 }
-#sidebar-container {
-    height: 100vh;
-    position: fixed;
-    overflow-y: auto;
-}
+
 .conteudo-pacientes {
     flex: 1;
     max-width: 1100px;
     min-height: 100vh;
 
-    margin-left: 7%;
+    margin-left: 80px;
     margin-right: auto;
 
     padding: 50px 30px;
@@ -401,45 +397,55 @@ body {
 
 
 /* CELULAR */
+@media (max-width: 800px) {
+    .filtros-pacientes {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .campo-filtro {
+        width: 100%;
+    }
+
+    .btn-filtrar {
+        width: 100%;
+    }
+}
 
 @media (max-width: 600px) {
+    .conteudo-pacientes {
+        margin-left: 0;
+        padding: 30px 15px;
+    }
 
     .cabecalho {
-
         flex-direction: column;
-
         align-items: flex-start;
-
         gap: 15px;
     }
 
     .btn-novo {
-
         width: 100%;
-
         justify-content: center;
     }
 
     .paciente {
-
         flex-direction: column;
-
         align-items: stretch;
-
         gap: 20px;
     }
 
     .btn-editar {
-
+        width: 100%;
         justify-content: center;
+    }
 
+    .dados-paciente {
         width: 100%;
     }
 
     .dados-paciente p {
-
         display: block;
-
         margin-bottom: 4px;
     }
 }

@@ -9,20 +9,34 @@
     font-family: 'Montserrat', sans-serif;
 
 }
+
 .nenhum-aluno {
+
     background: white;
+
     border-radius: 12px;
+
     padding: 40px 20px;
+
     text-align: center;
+
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
 }
 
+
 .nenhum-aluno i {
+
     font-size: 40px;
+
     color: #007336;
+
     display: block;
+
     margin-bottom: 15px;
+
 }
+
 
 /* ================================
    BOTÃO ADICIONAR ESPECIALIDADE
@@ -78,6 +92,8 @@
     color: white;
 
 }
+
+
 .btn-turno {
 
     background-color: white;
@@ -130,7 +146,6 @@
 }
 
 
-
 /* ================================
    ÁREA QUE ABRE EMBAIXO
    ================================ */
@@ -164,22 +179,40 @@
 
 }
 
+
 .acoes-aluno {
+
     display: flex;
+
     gap: 10px;
-}
-.especialidade-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 3px;
+
 }
 
-.btn-remover-especialidade {
-    padding: 2px 6px;
-    border-radius: 50%;
-    font-size: 11px;
+
+.especialidade-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 3px;
+
 }
+
+
+.btn-remover-especialidade {
+
+    padding: 2px 6px;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+
+}
+
+
 /* ================================
    TÍTULO
    ================================ */
@@ -333,10 +366,15 @@
 
 
 .nenhum-aluno p {
+
     margin: 0;
+
     color: #555;
+
     font-size: 17px;
+
 }
+
 
 /* LAYOUT */
 
@@ -350,16 +388,6 @@
 
 
 /* SIDEBAR */
-
-#sidebar-container {
-
-    height: 100vh;
-
-    position: fixed;
-
-    overflow-y: auto;
-
-}
 
 
 /* CONTEÚDO */
@@ -638,8 +666,11 @@ body {
 .aluno {
 
     display: flex;
+
     align-items: flex-start;
+
     gap: 20px;
+
     flex-wrap: wrap;
 
     padding: 22px 25px;
@@ -840,16 +871,63 @@ body {
 }
 
 
-/* RESPONSIVIDADE */
+/* ================================
+   RESPONSIVIDADE
+   ================================ */
+
+/* TABLET */
 
 @media (max-width: 800px) {
 
-    .aluno {
+    .cabecalho {
 
         flex-wrap: wrap;
 
+        gap: 15px;
+
     }
 
+    .cabecalho > div {
+
+        width: 100%;
+
+    }
+
+    .cabecalho .btn-novo {
+
+        flex: 1;
+
+    }
+
+    .filtros-alunos {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .campo-filtro {
+
+        width: 100%;
+
+    }
+
+    .btn-filtrar {
+
+        width: 100%;
+
+    }
+
+    .aluno {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 20px;
+
+    }
 
     .dados-aluno {
 
@@ -857,22 +935,32 @@ body {
 
     }
 
-
     .tipo-aluno {
 
-        margin-left: 68px;
+        margin-left: 0;
 
     }
 
-
     .acoes-aluno {
 
-        margin-left: auto;
+        width: 100%;
+
+        margin-left: 0;
+
+    }
+
+    .btn-editar {
+
+        width: 100%;
+
+        justify-content: center;
 
     }
 
 }
 
+
+/* CELULAR */
 
 @media (max-width: 600px) {
 
@@ -884,19 +972,25 @@ body {
 
     }
 
-
     .cabecalho {
 
         flex-direction: column;
 
-        align-items: flex-start;
+        align-items: stretch;
 
         gap: 15px;
 
     }
 
+    .cabecalho > div {
 
-    .btn-novo {
+        width: 100%;
+
+    }
+
+    .cabecalho .btn-novo,
+
+    .cabecalho .btn-horario {
 
         width: 100%;
 
@@ -904,15 +998,21 @@ body {
 
     }
 
-
     .filtros-alunos {
 
         flex-direction: column;
 
         align-items: stretch;
 
+        gap: 12px;
+
     }
 
+    .campo-filtro {
+
+        width: 100%;
+
+    }
 
     .btn-filtrar {
 
@@ -920,15 +1020,15 @@ body {
 
     }
 
-
     .aluno {
 
         flex-direction: column;
 
         align-items: stretch;
 
-    }
+        gap: 20px;
 
+    }
 
     .dados-aluno {
 
@@ -936,20 +1036,21 @@ body {
 
     }
 
-
     .tipo-aluno {
+
+        width: 100%;
 
         margin-left: 0;
 
     }
 
-
     .acoes-aluno {
 
         width: 100%;
 
-    }
+        margin-left: 0;
 
+    }
 
     .btn-editar {
 
@@ -959,14 +1060,38 @@ body {
 
     }
 
+    .informacoes {
+
+        min-width: 0;
+
+    }
+
+    .informacoes h2 {
+
+        overflow-wrap: anywhere;
+
+    }
 
     .informacoes p {
 
         display: block;
 
-        margin-bottom: 5px;
+        margin-right: 0;
+
+        margin-bottom: 4px;
+
+    }
+
+    .dados-aluno {
+
+        align-items: flex-start;
+
+    }
+
+    .icone {
+
+        flex-shrink: 0;
 
     }
 
 }
-

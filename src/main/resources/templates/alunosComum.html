@@ -8,7 +8,9 @@
     <link rel="icon" href="/assets/iconeFisio.svg" type="image/x-icon">
     <title>Alunos - Professor</title>
 
-    <link
+        <link rel="stylesheet"
+      th:href="@{/css/sidebar.css}">
+         <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
@@ -17,10 +19,7 @@
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     >
-
-    <link rel="stylesheet" href="/css/alunos.css">
-        <link rel="stylesheet"
-      th:href="@{/css/sidebar.css}">
+                  <link rel="stylesheet" href="/css/alunos.css">
 </head>
 
 <body th:data-id-professor="${session.idProfessor}">
