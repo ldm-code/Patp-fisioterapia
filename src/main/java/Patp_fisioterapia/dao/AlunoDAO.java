@@ -360,7 +360,98 @@ public List<AlunoDTO> selecionarPorEmailProfessor(
 
             return new ArrayList<>(alunos.values());
         }
+        public AlunoDTO buscarAlunoParaEdicao(int id) {
 
+    String sql = """
+            SELECT id, nome, cpf, email, tipo
+            FROM alunos
+            WHERE id = ?
+            """;
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setInt(1, id);
+
+        try (ResultSet resultado = stmt.executeQuery()) {
+
+            if (resultado.next()) {
+
+                AlunoDTO aluno = new AlunoDTO();
+
+                aluno.setId(resultado.getInt("id"));
+                aluno.setNome(resultado.getString("nome"));
+                aluno.setCpf(resultado.getString("cpf"));
+                aluno.setEmail(resultado.getString("email"));
+                aluno.setTipo(resultado.getString("tipo"));
+
+                return aluno;
+            }
+        }
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+    }
+
+    return null;
+}
+
+
+public boolean atualizarAluno(AlunoDTO aluno) {
+
+    String sql;
+
+    if (aluno.getSenha() != null
+            && !aluno.getSenha().trim().isEmpty()) {
+
+        sql = """
+                UPDATE alunos
+                SET nome = ?, cpf = ?, email = ?, tipo = ?, senha = ?
+                WHERE id = ?
+                """;
+
+    } else {
+
+        sql = """
+                UPDATE alunos
+                SET nome = ?, cpf = ?, email = ?, tipo = ?
+                WHERE id = ?
+                """;
+    }
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setString(1, aluno.getNome());
+        stmt.setString(2, aluno.getCpf());
+        stmt.setString(3, aluno.getEmail());
+        stmt.setString(4, aluno.getTipo());
+
+        if (aluno.getSenha() != null
+                && !aluno.getSenha().trim().isEmpty()) {
+
+            stmt.setString(5, aluno.getSenha());
+            stmt.setInt(6, aluno.getId());
+
+        } else {
+
+            stmt.setInt(5, aluno.getId());
+        }
+
+        return stmt.executeUpdate() > 0;
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
+        return false;
+    }
+}
 
 }
 
