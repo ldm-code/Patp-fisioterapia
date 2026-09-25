@@ -141,7 +141,13 @@ async function buscarTurnosAluno(idAluno) {
 // ========================================
 
 listaAlunos.addEventListener("click", async (evento) => {
-
+    
+    const btnEdicao=evento.target.closest(".btn-editar");
+    if (btnEdicao){
+        const idAluno=btnEdicao.dataset.id;
+        window.location.href=`/alunos/editar?id=${encodeURIComponent(idAluno)}`
+        return;
+    }
     const botaoVincularTurno =
         evento.target.closest(".btn-vincular-turno");
 
@@ -581,6 +587,7 @@ async function carregarAlunos(email = "") {
                     <button
                         type="button"
                         class="btn-editar"
+                        id="btn-editar"
                         title="Editar aluno"
                         data-id="${aluno.id}">
                         <i class="bi bi-pencil"></i>
@@ -683,7 +690,6 @@ async function carregarAlunos(email = "") {
 btnFiltrar.addEventListener("click", () => {
     carregarAlunos(filtroEmail.value);
 });
-
 
 // ========================================
 // CARREGAMENTO INICIAL
