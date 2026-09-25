@@ -70,14 +70,6 @@ public class PaginasController {
         }
         return "editarPacientes";
     }
-    @GetMapping("/cadastroPacientes")
-    public String cadastroPacientes(HttpSession session) {
-        String tipoUsuario=(String) session.getAttribute("tipoUsuario");
-        if (!"coordenador".equals(tipoUsuario)){
-            return "redirect:/";
-        }
-        return "cadastroPacientes";
-    }
     @GetMapping("/pagina/pacientes")
     public String pacientes(HttpSession session) {
         String tipoUsuario=(String) session.getAttribute("tipoUsuario");
