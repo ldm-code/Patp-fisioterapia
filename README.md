@@ -93,3 +93,14 @@ Funcionalidades implementadas:
 * Crud de pacientes.
 * Cadastro de turnos e especialidades para alunos.
 * Seperação de acesso para Professor, Coordenador e Aluno.
+
+## Autores do Projeto:
+
+
+| Perfil | Nome | E-mail |
+|---|---|---|
+| ![Leonardo](https://github.com/ldm-code.png) | [Leonardo De Moraes](https://github.com/ldm-code) | [demoraesleonardo327@gmail.com](mailto:demoraesleonardo327@gmail.com) |
+| ![Kevin](https://github.com/dilaozinhu.png) | [Kevin Sckariot](https://github.com/dilaozinhu) | [KevinScariot@Outlook.com](mailto:KevinScariot@Outlook.com) |
+| ![Eduardo](https://github.com/EDUARDOPEREIRA2644.png) | [Eduardo](https://github.com/EDUARDOPEREIRA2644) | [eduardoserginho26@gmail.com](mailto:eduardoserginho26@gmail.com) |
+| ![Nicolas](https://github.com/NicolasCCole.png) | [Nicolas Cole](https://github.com/NicolasCCole) | [nicolascole543@gmail.com](mailto:nicolascole543@gmail.com) |
+| ![João Victor](https://github.com/JoaoVictorSilvestri.png) | [João Victor Silvestri](https://github.com/JoaoVictorSilvestri) | [joaovictorsilvestri59@gmail.com](mailto:joaovictorsilvestri59@gmail.com) |
