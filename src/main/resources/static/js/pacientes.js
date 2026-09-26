@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function buscarPacientes() {
 
         const nome = filtroNome.value.trim();
-        const cpf = filtroCpf.value.trim();
+        const cpf = filtroCpf.value.replace(/\D/g, "").trim();
 
         let url = "http://localhost:8080/pacientes";
 
