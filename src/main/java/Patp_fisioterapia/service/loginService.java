@@ -34,7 +34,8 @@ public class loginService {
 
             return new UsuarioAutenticadoDTO(
                     aluno.getEmail(),
-                    "aluno"
+                    "aluno",
+                    aluno.getId()
             );
         }
 

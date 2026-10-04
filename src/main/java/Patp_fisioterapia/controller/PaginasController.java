@@ -70,6 +70,22 @@ public class PaginasController {
         }
         return "editarPacientes";
     }
+    @GetMapping("/consultas/cadastrar")
+    public String telaCadastrarConsulta(HttpSession session) {
+        String tipoUsuario=(String) session.getAttribute("tipoUsuario");
+            if (!"coordenador".equals(tipoUsuario)){
+                return "redirect:/";
+            }
+        return "consultasCadastro";
+    }
+    @GetMapping("/pagina/consultas")
+    public String telaConsultas(HttpSession session) {
+        String tipoUsuario=(String) session.getAttribute("tipoUsuario");
+            if (!"coordenador".equals(tipoUsuario)){
+                return "redirect:/";
+            }
+        return "consultas";
+    }
     @GetMapping("/pagina/pacientes")
     public String pacientes(HttpSession session) {
         String tipoUsuario=(String) session.getAttribute("tipoUsuario");
