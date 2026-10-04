@@ -404,13 +404,16 @@ listaAlunos.addEventListener("click", async (evento) => {
 // CARREGAR ALUNOS
 // ========================================
 
-async function carregarAlunos(email = "") {
+async function carregarAlunos(email = "",idEspecialidade = "") {
     try {
         let url = "/alunos";
 
         if (email.trim() !== "") {
             url = `/alunos/email?email=${encodeURIComponent(email)}`;
         }
+       if (idEspecialidade!==""){
+        url+=`&idEspecialidade=${encodeURIComponent(idEspecialidade)}`;
+       }
 
         const resposta = await fetch(url);
 

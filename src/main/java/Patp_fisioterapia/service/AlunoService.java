@@ -20,28 +20,40 @@ public class AlunoService {
     }
 
 
-    public List<AlunoDTO> listarAlunosPorProfessor(int idProfessor) {
+    public List<AlunoDTO> listarAlunosPorProfessor(
+        int idProfessor,
+        Integer idEspecialidade) {
 
-        if (idProfessor <= 0) {
-            return new ArrayList<>();
-        }
-
-        return alunoDAO.listarAlunosPorProfessor(idProfessor);
+    if (idProfessor <= 0) {
+        return new ArrayList<>();
     }
 
+    return alunoDAO.listarAlunosPorProfessor(
+            idProfessor,
+            idEspecialidade
+    );
+}
+public Integer buscarEspecialidadeProfessor(int idProfessor) {
 
-    public List<AlunoDTO> selecionarPorEmailProfessor(
-            String email, int idProfessor) {
-
-        if (email == null || email.isBlank() || idProfessor <= 0) {
-            return new ArrayList<>();
-        }
-
-        return alunoDAO.selecionarPorEmailProfessor(
-                email.trim(),
-                idProfessor
-        );
+    if (idProfessor <= 0) {
+        return null;
     }
+
+    return alunoDAO.buscarEspecialidadeProfessor(idProfessor);
+}
+
+
+public List<AlunoDTO> selecionarPorEmailProfessor(
+        String email,
+        int idProfessor,
+        Integer idEspecialidade) {
+
+    return alunoDAO.selecionarPorEmailProfessor(
+            email,
+            idProfessor,
+            idEspecialidade
+    );
+}
 
 
     public List<AlunoDTO> selecionarPorEmail(String email) {
