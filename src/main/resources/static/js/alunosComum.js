@@ -1,13 +1,71 @@
-
 const listaAlunos = document.getElementById("listaAlunos");
 const filtroEmail = document.getElementById("filtroEmail");
 const btnFiltrar = document.getElementById("btnFiltrar");
+const filtroEspecialidade =
+    document.getElementById("filtroEspecialidade");
+
+
+// ========================================
+// CARREGAR ESPECIALIDADES
+// ========================================
+
+async function carregarEspecialidades() {
+
+    const resposta = await fetch("/especialidades");
+
+    if (!resposta.ok) {
+        throw new Error("Erro ao carregar especialidades.");
+    }
+
+    const especialidades = await resposta.json();
+
+    filtroEspecialidade.innerHTML = `
+        <option value="">Todas</option>
+    `;
+
+    especialidades.forEach(especialidade => {
+
+        const option = document.createElement("option");
+
+        option.value = especialidade.id;
+        option.textContent = especialidade.nome;
+
+        filtroEspecialidade.appendChild(option);
+    });
+}
+
+
+// ========================================
+// SELECIONAR ESPECIALIDADE PADRÃO
+// ========================================
+
+async function selecionarEspecialidadePadrao() {
+
+    const idProfessor =
+        document.body.dataset.idProfessor;
+
+    const resposta = await fetch(
+        `/alunos/professor/especialidade?idProfessor=${encodeURIComponent(idProfessor)}`
+    );
+
+    if (!resposta.ok) {
+        return;
+    }
+
+    const idEspecialidade =
+        await resposta.json();
+
+    filtroEspecialidade.value =
+        idEspecialidade;
+}
+
 
 const turnos = {
     1: "Manhã",
     2: "Tarde",
     3: "Noite"
 };
+
 
 // ========================================
 // BUSCAR TURNOS DO ALUNO
@@ -26,6 +84,7 @@ async function buscarTurnosAluno(idAluno) {
     return await resposta.json();
 }
 
+
 // ========================================
 // FORMATAR TIPO DO ALUNO
 // ========================================
@@ -36,20 +95,34 @@ function formatarTipo(tipo) {
     return tipo ?? "";
 }
 
+
 // ========================================
 // CARREGAR ALUNOS
 // ========================================
 
-async function carregarAlunos(email = "") {
+async function carregarAlunos(
+    email = "",
+    idEspecialidade = ""
+) {
 
     try {
 
-       const idProfessor = document.body.dataset.idProfessor;
+        const idProfessor =
+            document.body.dataset.idProfessor;
 
-        let url = `/alunos/professor?idProfessor=${encodeURIComponent(idProfessor)}`;
+        let url =
+            `/alunos/professor?idProfessor=${encodeURIComponent(idProfessor)}`;
 
         if (email.trim() !== "") {
-            url = `/alunos/professor/email?email=${encodeURIComponent(email)}&idProfessor=${encodeURIComponent(idProfessor)}`;
+
+            url =
+                `/alunos/professor/email?email=${encodeURIComponent(email)}&idProfessor=${encodeURIComponent(idProfessor)}`;
+        }
+
+        if (idEspecialidade !== "") {
+
+            url +=
+                `&idEspecialidade=${encodeURIComponent(idEspecialidade)}`;
         }
 
         const resposta = await fetch(url);
@@ -63,12 +136,14 @@ async function carregarAlunos(email = "") {
         listaAlunos.innerHTML = "";
 
         if (!Array.isArray(alunos) || alunos.length === 0) {
+
             listaAlunos.innerHTML = `
                 <div class="nenhum-aluno">
                     <i class="bi bi-person-x"></i>
                     <p>Nenhum aluno encontrado.</p>
                 </div>
             `;
+
             return;
         }
 
@@ -76,6 +151,7 @@ async function carregarAlunos(email = "") {
             alunos.map(async aluno => {
 
                 try {
+
                     const turnosAluno =
                         await buscarTurnosAluno(aluno.id);
 
@@ -102,6 +178,7 @@ async function carregarAlunos(email = "") {
         alunosComTurnos.forEach(aluno => {
 
             const card = document.createElement("article");
+
             card.classList.add("aluno");
 
             const listaTurnos = aluno.turnos.length > 0
@@ -129,6 +206,7 @@ async function carregarAlunos(email = "") {
                     </div>
 
                     <div class="informacoes">
+
                         <h2>${aluno.nome ?? ""}</h2>
 
                         <p>
@@ -154,20 +232,24 @@ async function carregarAlunos(email = "") {
 
                         <p>
                             <strong>Tipo:</strong>
+
                             <span class="tipo-badge ${aluno.tipo}">
                                 ${formatarTipo(aluno.tipo)}
                             </span>
                         </p>
+
                     </div>
 
                 </div>
 
                 <div class="campo-aluno">
+
                     <strong>Turnos:</strong>
 
                     <div class="lista-especialidades">
                         ${listaTurnos}
                     </div>
+
                 </div>
 
                 <div class="acoes-aluno">
@@ -190,34 +272,48 @@ async function carregarAlunos(email = "") {
                     <div class="card-especialidade">
 
                         <div class="titulo-especialidade">
+
                             <i class="bi bi-clock"></i>
 
                             <div>
+
                                 <h3>Adicionar turno</h3>
+
                                 <p>
                                     Selecione um turno para este aluno.
                                 </p>
+
                             </div>
+
                         </div>
 
                         <div class="form-especialidade">
 
                             <select class="select-especialidade select-turno">
-                                <option value="" selected disabled>
+
+                                <option
+                                    value=""
+                                    selected
+                                    disabled>
                                     Selecione um turno
                                 </option>
+
                             </select>
 
                             <button
                                 type="button"
                                 class="btn-vincular btn-vincular-turno"
                                 data-aluno="${aluno.id}">
+
                                 <i class="bi bi-check-lg"></i>
                                 Vincular
+
                             </button>
 
                         </div>
+
                     </div>
+
                 </div>
             `;
 
@@ -226,7 +322,10 @@ async function carregarAlunos(email = "") {
 
     } catch (erro) {
 
-        console.error("Erro ao carregar alunos:", erro);
+        console.error(
+            "Erro ao carregar alunos:",
+            erro
+        );
 
         listaAlunos.innerHTML = `
             <p>Não foi possível carregar os alunos.</p>
@@ -234,13 +333,15 @@ async function carregarAlunos(email = "") {
     }
 }
 
+
 // ========================================
 // FORMATAR CPF
 // ========================================
 
 function formatarCPF(valor = "") {
 
-    const apenasDigitos = String(valor).replace(/\D/g, "");
+    const apenasDigitos =
+        String(valor).replace(/\D/g, "");
 
     return apenasDigitos
         .replace(/(\d{3})(\d)/, "$1.$2")
@@ -248,6 +349,7 @@ function formatarCPF(valor = "") {
         .replace(/(\d{3})(\d{1,2})/, "$1-$2")
         .replace(/(-\d{2})\d+$/, "$1");
 }
+
 
 // ========================================
 // ABRIR / FECHAR PAINEL DE TURNOS
@@ -264,63 +366,89 @@ listaAlunos.addEventListener("click", async evento => {
     const botaoRemover =
         evento.target.closest(".btn-remover-turno");
 
+
+    // ========================================
     // ABRIR PAINEL
+    // ========================================
+
     if (botaoTurno) {
 
-        const idAluno = botaoTurno.dataset.aluno;
+        const idAluno =
+            botaoTurno.dataset.aluno;
 
-        const area = document.getElementById(
-            `turno-${idAluno}`
-        );
+        const area =
+            document.getElementById(
+                `turno-${idAluno}`
+            );
 
         if (!area) return;
 
-        const estavaAberto = area.style.display === "block";
+        const estavaAberto =
+            area.style.display === "block";
 
         document.querySelectorAll(".area-turno").forEach(
-            painel => painel.style.display = "none"
+            painel =>
+                painel.style.display = "none"
         );
 
         if (!estavaAberto) {
 
             area.style.display = "block";
 
-            const select = area.querySelector(".select-turno");
+            const select =
+                area.querySelector(".select-turno");
 
             select.innerHTML = `
-                <option value="" selected disabled>
+                <option
+                    value=""
+                    selected
+                    disabled>
                     Selecione um turno
                 </option>
             `;
 
-            Object.entries(turnos).forEach(([id, nome]) => {
+            Object.entries(turnos).forEach(
+                ([id, nome]) => {
 
-                const option = document.createElement("option");
+                    const option =
+                        document.createElement("option");
 
-                option.value = id;
-                option.textContent = nome;
+                    option.value = id;
+                    option.textContent = nome;
 
-                select.appendChild(option);
-            });
+                    select.appendChild(option);
+                }
+            );
         }
 
         return;
     }
 
+
+    // ========================================
     // VINCULAR TURNO
+    // ========================================
+
     if (botaoVincular) {
 
-        const idAluno = botaoVincular.dataset.aluno;
+        const idAluno =
+            botaoVincular.dataset.aluno;
 
-        const area = document.getElementById(
-            `turno-${idAluno}`
-        );
+        const area =
+            document.getElementById(
+                `turno-${idAluno}`
+            );
 
-        const select = area.querySelector(".select-turno");
-        const idTurno = select.value;
+        const select =
+            area.querySelector(".select-turno");
+
+        const idTurno =
+            select.value;
 
         if (!idTurno) {
+
             alert("Selecione um turno.");
+
             return;
         }
 
@@ -333,7 +461,8 @@ listaAlunos.addEventListener("click", async evento => {
                 }
             );
 
-            const mensagem = await resposta.text();
+            const mensagem =
+                await resposta.text();
 
             if (!resposta.ok) {
                 throw new Error(mensagem);
@@ -341,11 +470,17 @@ listaAlunos.addEventListener("click", async evento => {
 
             alert(mensagem);
 
-            await carregarAlunos(filtroEmail.value);
+            await carregarAlunos(
+                filtroEmail.value,
+                filtroEspecialidade.value
+            );
 
         } catch (erro) {
 
-            console.error("Erro ao vincular turno:", erro);
+            console.error(
+                "Erro ao vincular turno:",
+                erro
+            );
 
             alert(
                 erro.message ||
@@ -356,13 +491,22 @@ listaAlunos.addEventListener("click", async evento => {
         return;
     }
 
+
+    // ========================================
     // REMOVER TURNO
+    // ========================================
+
     if (botaoRemover) {
 
-        const idAluno = botaoRemover.dataset.aluno;
-        const idTurno = botaoRemover.dataset.turno;
+        const idAluno =
+            botaoRemover.dataset.aluno;
 
-        if (!confirm("Deseja remover este turno do aluno?")) {
+        const idTurno =
+            botaoRemover.dataset.turno;
+
+        if (!confirm(
+            "Deseja remover este turno do aluno?"
+        )) {
             return;
         }
 
@@ -375,7 +519,8 @@ listaAlunos.addEventListener("click", async evento => {
                 }
             );
 
-            const mensagem = await resposta.text();
+            const mensagem =
+                await resposta.text();
 
             if (!resposta.ok) {
                 throw new Error(mensagem);
@@ -383,11 +528,17 @@ listaAlunos.addEventListener("click", async evento => {
 
             alert(mensagem);
 
-            await carregarAlunos(filtroEmail.value);
+            await carregarAlunos(
+                filtroEmail.value,
+                filtroEspecialidade.value
+            );
 
         } catch (erro) {
 
-            console.error("Erro ao remover turno:", erro);
+            console.error(
+                "Erro ao remover turno:",
+                erro
+            );
 
             alert(
                 erro.message ||
@@ -397,22 +548,46 @@ listaAlunos.addEventListener("click", async evento => {
     }
 });
 
+
 // ========================================
 // FILTRAR
 // ========================================
 
 btnFiltrar.addEventListener("click", () => {
-    carregarAlunos(filtroEmail.value);
+
+    carregarAlunos(
+        filtroEmail.value,
+        filtroEspecialidade.value
+    );
 });
 
+
 filtroEmail.addEventListener("keydown", evento => {
+
     if (evento.key === "Enter") {
-        carregarAlunos(filtroEmail.value);
+
+        carregarAlunos(
+            filtroEmail.value,
+            filtroEspecialidade.value
+        );
     }
 });
+
 
 // ========================================
 // INICIALIZAÇÃO
 // ========================================
 
-carregarAlunos();
+async function inicializar() {
+
+    await carregarEspecialidades();
+
+    await selecionarEspecialidadePadrao();
+
+    await carregarAlunos(
+        "",
+        filtroEspecialidade.value
+    );
+}
+
+inicializar();

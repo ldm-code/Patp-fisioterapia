@@ -24,33 +24,45 @@ public class alunosController {
         return alunoService.listarAlunosService();
     }
 
+@GetMapping("/professor/especialidade")
+public ResponseEntity<Integer> buscarEspecialidadeProfessor(
+        @RequestParam int idProfessor) {
 
-    @GetMapping("/professor")
-    public ResponseEntity<List<AlunoDTO>> listarAlunosPorProfessor(
-            @RequestParam int idProfessor) {
+    Integer idEspecialidade =
+            alunoService.buscarEspecialidadeProfessor(idProfessor);
 
-        List<AlunoDTO> alunos =
-                alunoService.listarAlunosPorProfessor(idProfessor);
+    return ResponseEntity.ok(idEspecialidade);
+}
+  @GetMapping("/professor")
+public ResponseEntity<List<AlunoDTO>> listarAlunosPorProfessor(
+        @RequestParam int idProfessor,
+        @RequestParam(required = false) Integer idEspecialidade) {
 
-        return ResponseEntity.ok(alunos);
-    }
+    List<AlunoDTO> alunos =
+            alunoService.listarAlunosPorProfessor(
+                    idProfessor,
+                    idEspecialidade
+            );
+
+    return ResponseEntity.ok(alunos);
+}
 
 
     @GetMapping("/professor/email")
-    public ResponseEntity<List<AlunoDTO>> selecionarPorEmailProfessor(
-            @RequestParam String email,
-            @RequestParam int idProfessor) {
+public ResponseEntity<List<AlunoDTO>> listarAlunosPorProfessorEmail(
+        @RequestParam String email,
+        @RequestParam int idProfessor,
+        @RequestParam(required = false) Integer idEspecialidade) {
 
-        List<AlunoDTO> alunos =
-                alunoService.selecionarPorEmailProfessor(
-                        email,
-                        idProfessor
-                );
+    List<AlunoDTO> alunos =
+            alunoService.selecionarPorEmailProfessor(
+                    email,
+                    idProfessor,
+                    idEspecialidade
+            );
 
-        return ResponseEntity.ok(alunos);
-    }
-
-
+    return ResponseEntity.ok(alunos);
+}
     @GetMapping("/email")
     public List<AlunoDTO> selecionarPorEmail(
             @RequestParam String email) {
