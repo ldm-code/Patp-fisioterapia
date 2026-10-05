@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="/assets/iconeFisio.svg" type="image/x-icon">
+
+    <title>Agendar Consulta</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+
+
+    <link rel="stylesheet"
+          href="/css/consultasCadastro.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <main class="conteudo-consultas">
+
+        <div class="cabecalho">
+
+            <div>
+                <h1>Nova consulta</h1>
+
+                <p>
+                    Agendamento de consulta fisioterapêutica
+                </p>
+            </div>
+
+            <a href="/pagina/consultas"
+               class="btn-voltar">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Consultas
+            </a>
+
+        </div>
+
+
+        <form id="formConsulta"
+              class="form-consulta"
+              autocomplete="off">
+
+
+            <!-- ALUNO -->
+
+            <div class="linha-form">
+
+                <div class="campo-form campo-autocomplete">
+
+                    <label for="alunoNome">
+
+                        <i class="bi bi-person-badge"></i>
+
+                        Aluno
+
+                    </label>
+
+                    <input
+                        id="alunoNome"
+                        type="text"
+                        placeholder="Digite o nome do aluno..."
+                        required
+                    >
+
+                    <input
+                        id="alunoId"
+                        type="hidden"
+                    >
+
+                    <div
+                        id="alunoOpcoes"
+                        class="opcoes-autocomplete">
+                    </div>
+
+                </div>
+
+
+                <!-- PACIENTE -->
+
+                <div class="campo-form campo-autocomplete">
+
+                    <label for="pacienteNome">
+
+                        <i class="bi bi-person-heart"></i>
+
+                        Paciente
+
+                    </label>
+
+                    <input
+                        id="pacienteNome"
+                        type="text"
+                        placeholder="Digite o nome do paciente..."
+                        required
+                    >
+
+                    <input
+                        id="pacienteId"
+                        type="hidden"
+                    >
+
+                    <div
+                        id="pacienteOpcoes"
+                        class="opcoes-autocomplete">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DATA E HORÁRIO -->
+
+            <div class="linha-form">
+
+                <div class="campo-form">
+
+                    <label for="dataConsulta">
+
+                        <i class="bi bi-calendar-event"></i>
+
+                        Data
+
+                    </label>
+
+                    <input
+                        id="dataConsulta"
+                        type="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="campo-form">
+
+                    <label for="horario">
+
+                        <i class="bi bi-clock"></i>
+
+                        Horário
+
+                    </label>
+
+                    <select
+                        id="horario"
+                        required
+                        disabled
+                    >
+
+                        <option value="">
+                            Selecione primeiro o aluno
+                        </option>
+
+                    </select>
+
+                    <small id="ajudaHorario">
+                        Os horários serão filtrados pelos horários
+                        disponíveis do aluno.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOTIVO -->
+
+            <div class="campo-form">
+
+                <label for="motivo">
+
+                    <i class="bi bi-chat-left-text"></i>
+
+                    Motivo da consulta
+
+                </label>
+
+                <textarea
+                    id="motivo"
+                    maxlength="500"
+                    rows="4"
+                    placeholder="Informe o motivo da consulta..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- DIAGNÓSTICO -->
+
+            <div class="campo-form">
+
+                <label for="diagnostico">
+
+                    <i class="bi bi-clipboard2-pulse"></i>
+
+                    Diagnóstico
+
+                    <span>(opcional)</span>
+
+                </label>
+
+                <input
+                    id="diagnostico"
+                    maxlength="150"
+                    type="text"
+                    placeholder="Informe o diagnóstico, se houver..."
+                >
+
+            </div>
+
+
+            <div
+                id="mensagem"
+                class="mensagem">
+            </div>
+
+
+            <!-- BOTÕES -->
+
+            <div class="acoes-form">
+
+                <a
+                    href="/pagina/consultas"
+                    class="btn-cancelar">
+
+                    Cancelar
+
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn-salvar">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                    Agendar consulta
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+
+
+
+<script
+    type="module"
+    src="/js/consultasCadastro.js">
+</script>
+
+</body>
+</html>

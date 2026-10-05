@@ -62,6 +62,10 @@ public String processarLogin(
     );
     
     if ("aluno".equals(usuario.getTipo())) {
+         session.setAttribute(
+        "idAluno",
+        usuario.getId()
+    );
         return "consultasAluno";
     }
     

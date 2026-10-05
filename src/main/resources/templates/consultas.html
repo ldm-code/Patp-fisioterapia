@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        rel="icon"
+        href="/assets/iconeFisio.svg"
+        type="image/x-icon"
+    >
+
+    <title>Consultas</title>
+
+    <link
+        rel="stylesheet"
+        th:href="@{/css/sidebar.css}"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/consultas.css"
+    >
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR ORIGINAL DO PROJETO -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+
+    <!-- CONTEÚDO -->
+    <main class="conteudo-consultas">
+
+        <!-- CABEÇALHO -->
+
+        <div class="cabecalho-consultas">
+
+            <div>
+
+                <h1>Consultas</h1>
+
+                <p>
+                    Visualização e gerenciamento das consultas agendadas
+                </p>
+
+            </div>
+
+
+            <a
+                href="/consultas/cadastrar"
+                class="btn-nova-consulta"
+            >
+
+                <i class="bi bi-calendar-plus"></i>
+
+                Nova consulta
+
+            </a>
+
+        </div>
+
+
+        <!-- FILTROS -->
+
+        <div class="filtros-consultas">
+
+            <div class="campo-filtro">
+
+                <label for="filtroAluno">
+
+                    <i class="bi bi-person-badge"></i>
+
+                    Aluno
+
+                </label>
+
+                <input
+                    type="text"
+                    id="filtroAluno"
+                    class="input-filtro"
+                    placeholder="Digite o nome do aluno"
+                >
+
+            </div>
+
+
+            <div class="campo-filtro">
+
+                <label for="filtroPaciente">
+
+                    <i class="bi bi-person-heart"></i>
+
+                    Paciente
+
+                </label>
+
+                <input
+                    type="text"
+                    id="filtroPaciente"
+                    class="input-filtro"
+                    placeholder="Digite o nome do paciente"
+                >
+
+            </div>
+
+
+            <div class="campo-filtro campo-status">
+
+                <label for="filtroStatus">
+
+                    <i class="bi bi-filter"></i>
+
+                    Status
+
+                </label>
+
+                <select
+                    id="filtroStatus"
+                    class="select-filtro"
+                >
+
+                    <option value="">
+                        Todos
+                    </option>
+
+                    <option value="agendada">
+                        Agendada
+                    </option>
+
+                    <option value="a validar">
+                        A validar
+                    </option>
+
+                    <option value="em aberto">
+                        Em aberto
+                    </option>
+
+                    <option value="concluida">
+                        Concluída
+                    </option>
+
+                    <option value="cancelada">
+                        Cancelada
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="campo-filtro campo-data">
+
+                <label for="filtroData">
+
+                    <i class="bi bi-calendar-event"></i>
+
+                    Data
+
+                </label>
+
+                <input
+                    type="date"
+                    id="filtroData"
+                    class="input-filtro"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- LISTAGEM -->
+
+        <div class="tabela-consultas">
+
+            <div class="cabecalho-tabela">
+
+                <div>
+
+                    <h5>
+
+                        <i class="bi bi-calendar2-week"></i>
+
+                        Consultas cadastradas
+
+                    </h5>
+
+                    <span id="contadorConsultas">
+                        0 consultas
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Aluno
+                        </th>
+
+                        <th>
+                            Paciente
+                        </th>
+
+                        <th>
+                            Data
+                        </th>
+
+                        <th>
+                            Horário
+                        </th>
+
+                        <th>
+                            Motivo
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th class="coluna-acoes">
+                            Ações
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody id="listaConsultas">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- NENHUMA CONSULTA -->
+
+            <div
+                id="mensagemVazia"
+                class="mensagem-vazia d-none"
+            >
+
+                <i class="bi bi-calendar-x"></i>
+
+                <h5>
+                    Nenhuma consulta encontrada
+                </h5>
+
+                <p>
+                    Não existem consultas que correspondam
+                    aos filtros selecionados.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="/js/consultas.js"></script>
+    <script th:src="@{/js/sidebar.js}" defer></script>
+</body>
+
+</html>
