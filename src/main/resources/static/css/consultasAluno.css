@@ -26,7 +26,10 @@
 body {
     min-height: 100vh;
 
-    background-color: #007336;
+         background-image: url("/assets/back.jpeg");
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
 }
 
 
