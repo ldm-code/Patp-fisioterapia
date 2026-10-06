@@ -12,6 +12,191 @@ import java.util.List;
 import java.util.Map;
 
 public class AlunoDAO {
+    public AlunoDTO buscarAlunoLogin(String email) {
+
+    String sql = """
+            SELECT id, nome, email, senha, tipo
+            FROM alunos
+            WHERE email = ?
+            """;
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setString(1, email);
+
+        try (ResultSet resultado = stmt.executeQuery()) {
+
+            if (resultado.next()) {
+
+                AlunoDTO aluno = new AlunoDTO();
+
+                aluno.setId(resultado.getInt("id"));
+                aluno.setNome(resultado.getString("nome"));
+                aluno.setEmail(resultado.getString("email"));
+                aluno.setSenha(resultado.getString("senha"));
+                aluno.setTipo(resultado.getString("tipo"));
+
+                return aluno;
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return null;
+}
+public List<AlunoDTO> listarAlunosPorProfessor(
+        int idProfessor,
+        Integer idEspecialidade) {
+
+    Map<Integer, AlunoDTO> alunos = new LinkedHashMap<>();
+
+    String sql = """
+            SELECT DISTINCT
+                a.id,
+                a.nome,
+                a.cpf,
+                a.email,
+                a.tipo
+            FROM alunos a
+            INNER JOIN alunos_especialidades ae
+                ON a.id = ae.idAluno
+            INNER JOIN especialidades e
+                ON ae.idEspecialidade = e.id
+            """;
+
+    if (idEspecialidade != null) {
+        sql += " WHERE e.id = ?";
+    }
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        if (idEspecialidade != null) {
+            stmt.setInt(1, idEspecialidade);
+        }
+
+        try (ResultSet resultado = stmt.executeQuery()) {
+
+            while (resultado.next()) {
+
+                AlunoDTO aluno = new AlunoDTO();
+
+                aluno.setId(resultado.getInt("id"));
+                aluno.setNome(resultado.getString("nome"));
+                aluno.setCpf(resultado.getString("cpf"));
+                aluno.setEmail(resultado.getString("email"));
+                aluno.setTipo(resultado.getString("tipo"));
+
+                alunos.put(
+                    aluno.getId(),
+                    aluno
+                );
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return new ArrayList<>(alunos.values());
+}
+public Integer buscarEspecialidadeProfessor(int idProfessor) {
+
+    String sql = """
+            SELECT especialidade_id
+            FROM professores_especializacao
+            WHERE professor_id = ?
+            LIMIT 1
+            """;
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setInt(1, idProfessor);
+
+        try (ResultSet resultado = stmt.executeQuery()) {
+
+            if (resultado.next()) {
+                return resultado.getInt("especialidade_id");
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return null;
+}
+public List<AlunoDTO> selecionarPorEmailProfessor(
+        String email,
+        int idProfessor,
+        Integer idEspecialidade) {
+
+    List<AlunoDTO> alunos = new ArrayList<>();
+
+    String sql = """
+            SELECT DISTINCT
+                a.id,
+                a.nome,
+                a.cpf,
+                a.email,
+                a.tipo,
+                e.id AS idEspecialidade,
+                e.nome AS nomeEspecialidade
+            FROM alunos a
+            INNER JOIN alunos_especialidades ae
+                ON a.id = ae.idAluno
+            INNER JOIN especialidades e
+                ON ae.idEspecialidade = e.id
+            WHERE a.email LIKE ?
+            """;
+
+    if (idEspecialidade != null) {
+        sql += " AND e.id = ?";
+    }
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setString(1, "%" + email + "%");
+
+        if (idEspecialidade != null) {
+            stmt.setInt(2, idEspecialidade);
+        }
+
+        try (ResultSet resultado = stmt.executeQuery()) {
+
+            while (resultado.next()) {
+
+                AlunoDTO aluno = new AlunoDTO();
+
+                aluno.setId(resultado.getInt("id"));
+                aluno.setNome(resultado.getString("nome"));
+                aluno.setCpf(resultado.getString("cpf"));
+                aluno.setEmail(resultado.getString("email"));
+                aluno.setTipo(resultado.getString("tipo"));
+
+                alunos.add(aluno);
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return alunos;
+}
 
     public boolean cadastrarAluno(AlunoDTO aluno) {
 
@@ -192,7 +377,98 @@ public class AlunoDAO {
 
             return new ArrayList<>(alunos.values());
         }
+        public AlunoDTO buscarAlunoParaEdicao(int id) {
 
+    String sql = """
+            SELECT id, nome, cpf, email, tipo
+            FROM alunos
+            WHERE id = ?
+            """;
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setInt(1, id);
+
+        try (ResultSet resultado = stmt.executeQuery()) {
+
+            if (resultado.next()) {
+
+                AlunoDTO aluno = new AlunoDTO();
+
+                aluno.setId(resultado.getInt("id"));
+                aluno.setNome(resultado.getString("nome"));
+                aluno.setCpf(resultado.getString("cpf"));
+                aluno.setEmail(resultado.getString("email"));
+                aluno.setTipo(resultado.getString("tipo"));
+
+                return aluno;
+            }
+        }
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+    }
+
+    return null;
+}
+
+
+public boolean atualizarAluno(AlunoDTO aluno) {
+
+    String sql;
+
+    if (aluno.getSenha() != null
+            && !aluno.getSenha().trim().isEmpty()) {
+
+        sql = """
+                UPDATE alunos
+                SET nome = ?, cpf = ?, email = ?, tipo = ?, senha = ?
+                WHERE id = ?
+                """;
+
+    } else {
+
+        sql = """
+                UPDATE alunos
+                SET nome = ?, cpf = ?, email = ?, tipo = ?
+                WHERE id = ?
+                """;
+    }
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setString(1, aluno.getNome());
+        stmt.setString(2, aluno.getCpf());
+        stmt.setString(3, aluno.getEmail());
+        stmt.setString(4, aluno.getTipo());
+
+        if (aluno.getSenha() != null
+                && !aluno.getSenha().trim().isEmpty()) {
+
+            stmt.setString(5, aluno.getSenha());
+            stmt.setInt(6, aluno.getId());
+
+        } else {
+
+            stmt.setInt(5, aluno.getId());
+        }
+
+        return stmt.executeUpdate() > 0;
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
+        return false;
+    }
+}
 
 }
 

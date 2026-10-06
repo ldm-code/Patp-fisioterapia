@@ -1,0 +1,83 @@
+
+<div th:fragment="sidebar" class="sidebar-div">
+
+    <aside class="sidebar">
+
+        <h2>Coordenador</h2>
+
+        <ul>
+            <li>
+                <a href="#" class="sidebar-link" id="linkRelatorios"><i class="bi bi-file-medical"></i>   
+                    Relatorios</a>
+            </li>
+
+            <li>
+                <a th:href="@{/pagina/consultas}" class="sidebar-link" id="linkConsultas"><i class="bi bi-clipboard-data"></i>  
+                    Consultas</a>
+            </li>
+
+            <li>
+                <a th:href="@{/pagina/pacientes}" class="sidebar-link" ><i class="bi bi-person-circle"></i>
+                       Pacientes</a>
+            </li>
+
+            <li>
+                <a th:href="@{/pagina/alunos}" class="sidebar-link" id="linkAlunos"> <i class="bi bi-person-badge"></i>  
+                    Alunos</a>
+            </li>
+
+            <!-- Botão de sair -->
+            <li class="sidebar-sair">
+                <a th:href="@{/}" class="sidebar-link">
+                   <i class="bi bi-box-arrow-left"></i>  Sair
+                </a>
+            </li>
+        </ul>
+
+    </aside>
+
+</div>
+<div th:fragment="sidebarProfe" class="sidebar-div">
+    <aside class="sidebar">
+        <h2>Professor</h2>
+
+        <ul>
+            <li>
+                <a th:href="@{/alunosComum}"
+                   class="sidebar-link">
+                <i class="bi bi-person-badge"></i>    Alunos
+                </a>
+            </li>
+
+            <li class="sidebar-sair">
+                <a th:href="@{/}" class="sidebar-link">
+                     <i class="bi bi-box-arrow-left"></i>       Sair
+                </a>
+            </li>
+        </ul>
+    </aside>
+</div>
+<div th:fragment="sidebarAluno" class="sidebar-div">
+    <aside class="sidebar">
+        <h2>Alunos</h2>
+
+        <ul>
+            <li>
+                <a href="#" class="sidebar-link" id="linkRelatorios"><i class="bi bi-file-medical"></i>   
+                    Relatorios</a>
+            </li>
+            <li>
+                <a th:href="@{/consultasAluno}"
+                   class="sidebar-link">
+                   <i class="bi bi-clipboard-data"></i>  Consultas
+                </a>
+            </li>
+
+            <li class="sidebar-sair">
+                <a th:href="@{/}" class="sidebar-link">
+                  <i class="bi bi-box-arrow-left"></i>   Sair
+                </a>
+            </li>
+        </ul>
+    </aside>
+</div>

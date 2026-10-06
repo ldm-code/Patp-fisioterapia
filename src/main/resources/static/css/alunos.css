@@ -9,20 +9,35 @@
     font-family: 'Montserrat', sans-serif;
 
 }
+
+
 .nenhum-aluno {
+
     background: white;
+
     border-radius: 12px;
+
     padding: 40px 20px;
+
     text-align: center;
+
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
 }
 
+
 .nenhum-aluno i {
+
     font-size: 40px;
+
     color: #007336;
+
     display: block;
+
     margin-bottom: 15px;
+
 }
+
 
 /* ================================
    BOTÃO ADICIONAR ESPECIALIDADE
@@ -80,6 +95,58 @@
 }
 
 
+.btn-turno {
+
+    background-color: white;
+
+    color: #007336;
+
+    border: 1px solid #007336;
+
+    border-radius: 6px;
+
+    padding: 8px 12px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    transition: 0.2s;
+
+}
+
+
+.btn-turno i {
+
+    color: #007336;
+
+}
+
+
+.btn-turno:hover {
+
+    background-color: #007336;
+
+    color: white;
+
+}
+
+
+.btn-turno:hover i {
+
+    color: white;
+
+}
+
+
 /* ================================
    ÁREA QUE ABRE EMBAIXO
    ================================ */
@@ -113,22 +180,40 @@
 
 }
 
+
 .acoes-aluno {
+
     display: flex;
+
     gap: 10px;
-}
-.especialidade-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 3px;
+
 }
 
-.btn-remover-especialidade {
-    padding: 2px 6px;
-    border-radius: 50%;
-    font-size: 11px;
+
+.especialidade-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 3px;
+
 }
+
+
+.btn-remover-especialidade {
+
+    padding: 2px 6px;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+
+}
+
+
 /* ================================
    TÍTULO
    ================================ */
@@ -282,10 +367,15 @@
 
 
 .nenhum-aluno p {
+
     margin: 0;
+
     color: #555;
+
     font-size: 17px;
+
 }
+
 
 /* LAYOUT */
 
@@ -300,16 +390,6 @@
 
 /* SIDEBAR */
 
-#sidebar-container {
-
-    height: 100vh;
-
-    position: fixed;
-
-    overflow-y: auto;
-
-}
-
 
 /* CONTEÚDO */
 
@@ -321,7 +401,7 @@
 
     min-height: 100vh;
 
-    margin-left: 25%;
+    margin-left: 7%;
 
     padding: 50px 20px;
 
@@ -334,7 +414,10 @@ body {
 
     min-height: 100vh;
 
-    background-color: #007336;
+         background-image: url("/assets/back.jpeg");
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
 
 }
 
@@ -499,7 +582,32 @@ body {
 
 }
 
+.select-filtro {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
 
+    border: 1px solid #ddd;
+    border-radius: 6px;
+
+    background-color: white;
+    color: #333;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+
+    outline: none;
+    overflow-y: auto;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.select-filtro:focus {
+    border-color: #007336;
+    box-shadow:
+        0 0 0 2px rgba(0, 115, 54, 0.12);
+}
 .input-filtro input {
 
     width: 100%;
@@ -587,8 +695,11 @@ body {
 .aluno {
 
     display: flex;
+
     align-items: flex-start;
+
     gap: 20px;
+
     flex-wrap: wrap;
 
     padding: 22px 25px;
@@ -789,16 +900,63 @@ body {
 }
 
 
-/* RESPONSIVIDADE */
+/* ================================
+   RESPONSIVIDADE
+   ================================ */
+
+/* TABLET */
 
 @media (max-width: 800px) {
 
-    .aluno {
+    .cabecalho {
 
         flex-wrap: wrap;
 
+        gap: 15px;
+
     }
 
+    .cabecalho > div {
+
+        width: 100%;
+
+    }
+
+    .cabecalho .btn-novo {
+
+        flex: 1;
+
+    }
+
+    .filtros-alunos {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .campo-filtro {
+
+        width: 100%;
+
+    }
+
+    .btn-filtrar {
+
+        width: 100%;
+
+    }
+
+    .aluno {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 20px;
+
+    }
 
     .dados-aluno {
 
@@ -806,22 +964,32 @@ body {
 
     }
 
-
     .tipo-aluno {
 
-        margin-left: 68px;
+        margin-left: 0;
 
     }
 
-
     .acoes-aluno {
 
-        margin-left: auto;
+        width: 100%;
+
+        margin-left: 0;
+
+    }
+
+    .btn-editar {
+
+        width: 100%;
+
+        justify-content: center;
 
     }
 
 }
 
+
+/* CELULAR */
 
 @media (max-width: 600px) {
 
@@ -833,19 +1001,25 @@ body {
 
     }
 
-
     .cabecalho {
 
         flex-direction: column;
 
-        align-items: flex-start;
+        align-items: stretch;
 
         gap: 15px;
 
     }
 
+    .cabecalho > div {
 
-    .btn-novo {
+        width: 100%;
+
+    }
+
+    .cabecalho .btn-novo,
+
+    .cabecalho .btn-horario {
 
         width: 100%;
 
@@ -853,15 +1027,21 @@ body {
 
     }
 
-
     .filtros-alunos {
 
         flex-direction: column;
 
         align-items: stretch;
 
+        gap: 12px;
+
     }
 
+    .campo-filtro {
+
+        width: 100%;
+
+    }
 
     .btn-filtrar {
 
@@ -869,15 +1049,15 @@ body {
 
     }
 
-
     .aluno {
 
         flex-direction: column;
 
         align-items: stretch;
 
-    }
+        gap: 20px;
 
+    }
 
     .dados-aluno {
 
@@ -885,20 +1065,21 @@ body {
 
     }
 
-
     .tipo-aluno {
+
+        width: 100%;
 
         margin-left: 0;
 
     }
 
-
     .acoes-aluno {
 
         width: 100%;
 
-    }
+        margin-left: 0;
 
+    }
 
     .btn-editar {
 
@@ -908,14 +1089,38 @@ body {
 
     }
 
+    .informacoes {
+
+        min-width: 0;
+
+    }
+
+    .informacoes h2 {
+
+        overflow-wrap: anywhere;
+
+    }
 
     .informacoes p {
 
         display: block;
 
-        margin-bottom: 5px;
+        margin-right: 0;
+
+        margin-bottom: 4px;
+
+    }
+
+    .dados-aluno {
+
+        align-items: flex-start;
+
+    }
+
+    .icone {
+
+        flex-shrink: 0;
 
     }
 
 }
-
