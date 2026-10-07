@@ -1,8 +1,10 @@
 package Patp_fisioterapia.service;
 
 import Patp_fisioterapia.dao.ConsultaDAO;
+import Patp_fisioterapia.dao.RelatorioDAO;
 import Patp_fisioterapia.dto.AlunoDTO;
 import Patp_fisioterapia.dto.ConsultaDTO;
+import Patp_fisioterapia.dto.RelatorioDTO;
 import Patp_fisioterapia.dto.pacienteDto;
 import  java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +13,8 @@ import java.util.List;
 public class ConsultaService {
 
     private final ConsultaDAO consultaDAO = new ConsultaDAO();
+    private final RelatorioDAO relatorioDAO =
+        new RelatorioDAO();
 
     public String cadastrar(ConsultaDTO consulta) {
 
@@ -105,7 +109,7 @@ public class ConsultaService {
     public String concluir(int id) {
 
         ConsultaDTO consulta = buscarPorId(id);
-
+        RelatorioDTO relatorio = relatorioDAO.buscarPorConsulta(id);
         if (consulta == null) {
             return "Consulta não encontrada.";
         }
@@ -120,6 +124,11 @@ public class ConsultaService {
 
         if (!consulta.isTemRelatorio()) {
             return "A consulta não pode ser concluída porque ainda não possui relatório.";
+        }
+        if (!"aprovado".equals(
+                relatorio.getStatus())) {
+
+            return "A consulta não pode ser concluída porque o relatório ainda não foi aprovado.";
         }
 
         if (consultaDAO.atualizarStatus(id, "concluida")) {
