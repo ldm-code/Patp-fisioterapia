@@ -1,0 +1,857 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+/* ==================================================
+   LAYOUT
+   ================================================== */
+
+.layout {
+    display: flex;
+
+    min-height: 100vh;
+}
+
+
+/* ==================================================
+   BODY
+   ================================================== */
+
+body {
+    min-height: 100vh;
+
+    background-image: url("/assets/back.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+/* ==================================================
+   CONTEÚDO
+   ================================================== */
+
+.conteudo-relatorios-aluno {
+
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 45px 50px 50px;
+}
+
+
+/* ==================================================
+   CABEÇALHO
+   ================================================== */
+
+.cabecalho-relatorios-aluno {
+
+    margin-bottom: 28px;
+
+    color: white;
+}
+
+.cabecalho-relatorios-aluno h1 {
+
+    margin-bottom: 6px;
+
+    font-size: 32px;
+
+    font-weight: 700;
+}
+
+.cabecalho-relatorios-aluno p {
+
+    margin: 0;
+
+    font-size: 14px;
+
+    opacity: 0.85;
+}
+
+
+/* ==================================================
+   CARD PRINCIPAL
+   ================================================== */
+
+.card-relatorios-aluno {
+
+    width: 100%;
+
+    padding: 28px;
+
+    background-color: #ffffff;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ==================================================
+   CABEÇALHO DO CARD
+   ================================================== */
+
+.card-relatorios-aluno > .cabecalho-card {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-bottom: 20px;
+
+    margin-bottom: 22px;
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.card-relatorios-aluno .cabecalho-card > div {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.card-relatorios-aluno .cabecalho-card h2 {
+
+    margin: 0;
+
+    color: #222;
+
+    font-size: 20px;
+
+    font-weight: 600;
+}
+
+.card-relatorios-aluno .cabecalho-card h2 i {
+
+    margin-right: 7px;
+
+    color: #007336;
+}
+
+
+/* ==================================================
+   CONTADOR
+   ================================================== */
+
+#contadorRelatorios {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    background-color: #e8f5ee;
+
+    color: #007336;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* ==================================================
+   LISTA
+   ================================================== */
+
+.lista-relatorios-aluno {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+
+/* ==================================================
+   CARD DO RELATÓRIO
+   ================================================== */
+
+.card-relatorio-aluno {
+
+    padding: 20px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #e3e3e3;
+
+    border-left: 5px solid #007336;
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 2px 7px rgba(0, 0, 0, 0.07);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        border-color 0.2s;
+}
+
+.card-relatorio-aluno:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #007336;
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ==================================================
+   CABEÇALHO DO RELATÓRIO
+   ================================================== */
+
+.cabecalho-relatorio {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 18px;
+}
+
+.identificacao-relatorio {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    min-width: 0;
+}
+
+.icone-relatorio {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 8px;
+
+    background-color: #e8f5ee;
+
+    color: #007336;
+
+    font-size: 21px;
+}
+
+.informacoes-relatorio {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    min-width: 0;
+}
+
+.informacoes-relatorio h3 {
+
+    margin: 0;
+
+    color: #222;
+
+    font-size: 18px;
+
+    font-weight: 600;
+}
+
+.informacoes-relatorio p {
+
+    margin: 0;
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+.informacoes-relatorio strong {
+
+    color: #333;
+
+    font-weight: 600;
+}
+
+
+/* ==================================================
+   STATUS
+   ================================================== */
+
+.status-relatorio {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.status-pendente {
+
+    background-color: #fff8e1;
+
+    color: #946200;
+}
+
+.status-aprovado {
+
+    background-color: #e8f5ee;
+
+    color: #007336;
+}
+
+.status-reprovado {
+
+    background-color: #fff1f2;
+
+    color: #b4232b;
+}
+
+
+/* ==================================================
+   DESCRIÇÃO
+   ================================================== */
+
+.conteudo-relatorio {
+
+    padding-top: 16px;
+
+    border-top: 1px solid #eeeeee;
+}
+
+.titulo-descricao {
+
+    margin-bottom: 7px;
+
+    color: #333;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.descricao-relatorio-aluno {
+
+    padding: 13px 15px;
+
+    border: 1px solid #e3e3e3;
+
+    border-radius: 7px;
+
+    background-color: #fafafa;
+
+    color: #555;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+}
+
+
+/* ==================================================
+   AÇÕES
+   ================================================== */
+
+.acoes-relatorio-aluno {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 16px;
+}
+
+.btn-editar-relatorio {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 40px;
+
+    padding: 9px 15px;
+
+    border: 1px solid #007336;
+
+    border-radius: 6px;
+
+    background-color: #ffffff;
+
+    color: #007336;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s,
+        color 0.2s;
+}
+
+.btn-editar-relatorio:hover {
+
+    background-color: #007336;
+
+    color: #ffffff;
+}
+
+
+/* ==================================================
+   FORMULÁRIO DE EDIÇÃO
+   ================================================== */
+
+.formulario-edicao-relatorio {
+
+    margin-top: 16px;
+
+    padding: 18px;
+
+    border: 1px solid #d8e8df;
+
+    border-left: 4px solid #007336;
+
+    border-radius: 8px;
+
+    background-color: #f8fbf9;
+}
+
+.cabecalho-edicao-relatorio {
+
+    margin-bottom: 14px;
+}
+
+.cabecalho-edicao-relatorio h4 {
+
+    margin: 0 0 4px;
+
+    color: #007336;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+.cabecalho-edicao-relatorio p {
+
+    margin: 0;
+
+    color: #666;
+
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   CAMPO
+   ================================================== */
+
+.campo-edicao-relatorio {
+
+    margin-top: 14px;
+}
+
+.campo-edicao-relatorio label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #333;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.descricao-edicao-relatorio {
+
+    width: 100%;
+
+    min-height: 130px;
+
+    padding: 12px;
+
+    border: 1px solid #d5d5d5;
+
+    border-radius: 6px;
+
+    background-color: #ffffff;
+
+    color: #333;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    resize: vertical;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.descricao-edicao-relatorio:focus {
+
+    border-color: #007336;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 115, 54, 0.08);
+}
+
+
+/* ==================================================
+   CONTADOR
+   ================================================== */
+
+.rodape-edicao-relatorio {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 4px;
+}
+
+.contador-edicao-relatorio {
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+
+/* ==================================================
+   MENSAGEM
+   ================================================== */
+
+.mensagem-edicao-relatorio {
+
+    margin-top: 10px;
+
+    padding: 9px 12px;
+
+    border-radius: 5px;
+
+    font-size: 13px;
+}
+
+.mensagem-edicao-relatorio.mensagem-erro {
+
+    background-color: #fff4f4;
+
+    color: #c62828;
+
+    border: 1px solid #f0cccc;
+}
+
+.mensagem-edicao-relatorio.mensagem-sucesso {
+
+    background-color: #f1f8f4;
+
+    color: #007336;
+
+    border: 1px solid #cfe5d8;
+}
+
+
+/* ==================================================
+   BOTÕES DA EDIÇÃO
+   ================================================== */
+
+.acoes-edicao-relatorio {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    margin-top: 14px;
+}
+
+.btn-cancelar-edicao,
+.btn-salvar-edicao {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 38px;
+
+    padding: 8px 14px;
+
+    border-radius: 5px;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.btn-cancelar-edicao {
+
+    border: 1px solid #ccc;
+
+    background-color: #ffffff;
+
+    color: #555;
+}
+
+.btn-cancelar-edicao:hover {
+
+    background-color: #f3f3f3;
+}
+
+.btn-salvar-edicao {
+
+    border: 1px solid #007336;
+
+    background-color: #007336;
+
+    color: #ffffff;
+}
+
+.btn-salvar-edicao:hover {
+
+    background-color: #005c2b;
+}
+
+.btn-cancelar-edicao:disabled,
+.btn-salvar-edicao:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* ==================================================
+   MENSAGEM VAZIA
+   ================================================== */
+
+.mensagem-vazia-aluno {
+
+    padding: 45px 20px;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 9px;
+
+    background-color: #fafafa;
+
+    text-align: center;
+}
+
+.mensagem-vazia-aluno i {
+
+    display: block;
+
+    margin-bottom: 14px;
+
+    color: #007336;
+
+    font-size: 40px;
+}
+
+.mensagem-vazia-aluno h5 {
+
+    margin-bottom: 7px;
+
+    color: #333;
+
+    font-size: 17px;
+
+    font-weight: 600;
+}
+
+.mensagem-vazia-aluno p {
+
+    margin: 0;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   MENSAGEM DE ERRO
+   ================================================== */
+
+.mensagem-erro-aluno {
+
+    padding: 15px 18px;
+
+    border: 1px solid #f1b7ba;
+
+    border-radius: 7px;
+
+    background-color: #fff1f2;
+
+    color: #b4232b;
+
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE
+   ================================================== */
+
+@media (max-width: 900px) {
+
+    .conteudo-relatorios-aluno {
+
+        padding: 35px 30px 40px;
+    }
+
+    .cabecalho-relatorio {
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+    .status-relatorio {
+
+        align-self: flex-start;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .conteudo-relatorios-aluno {
+
+        padding: 25px 18px 30px;
+    }
+
+    .cabecalho-relatorios-aluno h1 {
+
+        font-size: 26px;
+    }
+
+    .card-relatorios-aluno {
+
+        padding: 18px;
+    }
+
+    .card-relatorios-aluno .cabecalho-card > div {
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+    }
+
+    .card-relatorio-aluno {
+
+        padding: 16px;
+    }
+
+    .identificacao-relatorio {
+
+        gap: 12px;
+    }
+
+    .icone-relatorio {
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 18px;
+    }
+
+    .informacoes-relatorio h3 {
+
+        font-size: 16px;
+    }
+
+    .formulario-edicao-relatorio {
+
+        padding: 14px;
+    }
+
+    .acoes-edicao-relatorio {
+
+        flex-direction: column;
+    }
+
+    .btn-cancelar-edicao,
+    .btn-salvar-edicao {
+
+        width: 100%;
+    }
+}

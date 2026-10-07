@@ -34,23 +34,22 @@ CREATE TABLE `agendamentos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `aluno_horarios`
+-- Table structure for table `aluno_turnos`
 --
 
-DROP TABLE IF EXISTS `aluno_horarios`;
+DROP TABLE IF EXISTS `aluno_turnos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `aluno_horarios` (
+CREATE TABLE `aluno_turnos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_aluno` int NOT NULL,
-  `id_horario` int NOT NULL,
-  `disponivel` tinyint(1) DEFAULT '1',
+  `id_turno` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_aluno_horario` (`id_aluno`,`id_horario`),
-  KEY `id_horario` (`id_horario`),
-  CONSTRAINT `aluno_horarios_ibfk_1` FOREIGN KEY (`id_aluno`) REFERENCES `alunos` (`id`),
-  CONSTRAINT `aluno_horarios_ibfk_2` FOREIGN KEY (`id_horario`) REFERENCES `horarios` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `id_aluno` (`id_aluno`,`id_turno`),
+  KEY `id_turno` (`id_turno`),
+  CONSTRAINT `aluno_turnos_ibfk_1` FOREIGN KEY (`id_aluno`) REFERENCES `alunos` (`id`),
+  CONSTRAINT `aluno_turnos_ibfk_2` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +67,7 @@ CREATE TABLE `alunos` (
   `email` varchar(150) DEFAULT NULL,
   `tipo` enum('estagio','curso') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +86,7 @@ CREATE TABLE `alunos_especialidades` (
   KEY `fk_alunos_especialidade_especialidade` (`idEspecialidade`),
   CONSTRAINT `alunos_especialidades_ibfk_1` FOREIGN KEY (`idAluno`) REFERENCES `alunos` (`id`),
   CONSTRAINT `fk_alunos_especialidade_especialidade` FOREIGN KEY (`idEspecialidade`) REFERENCES `especialidades` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +110,7 @@ CREATE TABLE `consultas` (
   KEY `consultas_ibfk_1` (`aluno_id`),
   CONSTRAINT `consultas_ibfk_1` FOREIGN KEY (`aluno_id`) REFERENCES `alunos` (`id`),
   CONSTRAINT `fk_agendamento_paciente` FOREIGN KEY (`paciente`) REFERENCES `pacientes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +177,7 @@ CREATE TABLE `professores` (
   `ativo` tinyint(1) DEFAULT '1',
   `data_cadastro` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,11 +208,12 @@ CREATE TABLE `relatorios` (
   `id` int NOT NULL AUTO_INCREMENT,
   `consulta_id` int NOT NULL,
   `descricao` text NOT NULL,
+  `status` enum('aprovado','reprovado') DEFAULT NULL,
   `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `consulta_id` (`consulta_id`),
+  UNIQUE KEY `uq_relatorio_consulta` (`consulta_id`),
   CONSTRAINT `relatorios_ibfk_1` FOREIGN KEY (`consulta_id`) REFERENCES `consultas` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,4 +239,4 @@ CREATE TABLE `turnos` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-13 12:27:12
+-- Dump completed on 2026-10-07 19:01:40

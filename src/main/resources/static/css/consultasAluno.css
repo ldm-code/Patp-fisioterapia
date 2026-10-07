@@ -461,127 +461,163 @@ body {
    RESPONSIVIDADE
    ================================================== */
 
-@media (max-width: 900px) {
+/* ================================
+   FORMULÁRIO DE RELATÓRIO
+   ================================ */
 
-    .conteudo-consultas-aluno {
+.formulario-relatorio {
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid #d8e8df;
+    border-left: 4px solid #007336;
+    border-radius: 8px;
+    background-color: #f8fbf9;
+}
 
-        padding: 35px 25px 40px;
-    }
+.cabecalho-formulario-relatorio {
+    margin-bottom: 14px;
+}
 
-    .card-consultas-aluno {
+.cabecalho-formulario-relatorio h4 {
+    margin: 0 0 4px;
+    color: #007336;
+    font-size: 16px;
+    font-weight: 600;
+}
 
-        padding: 22px;
-    }
+.cabecalho-formulario-relatorio p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+}
 
-    .card-consulta-aluno {
+.campo-relatorio {
+    margin-top: 14px;
+}
 
-        gap: 18px;
-    }
+.campo-relatorio label {
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
 
+.descricao-relatorio {
+    width: 100%;
+    min-height: 130px;
+    padding: 12px;
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.descricao-relatorio:focus {
+    border-color: #007336;
+    box-shadow: 0 0 0 2px rgba(0, 115, 54, 0.08);
+}
+
+.rodape-campo-relatorio {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+.contador-caracteres {
+    color: #777;
+    font-size: 11px;
+}
+
+.mensagem-formulario-relatorio {
+    margin-top: 10px;
+    padding: 9px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.mensagem-formulario-relatorio.mensagem-erro {
+    background-color: #fff4f4;
+    color: #c62828;
+    border: 1px solid #f0cccc;
+}
+
+.mensagem-formulario-relatorio.mensagem-sucesso {
+    background-color: #f1f8f4;
+    color: #007336;
+    border: 1px solid #cfe5d8;
+}
+
+.acoes-formulario-relatorio {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.btn-cancelar-relatorio,
+.btn-enviar-relatorio {
+    padding: 8px 14px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-cancelar-relatorio {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #555;
+}
+
+.btn-cancelar-relatorio:hover {
+    background-color: #f3f3f3;
+}
+
+.btn-enviar-relatorio {
+    border: 1px solid #007336;
+    background-color: #007336;
+    color: #fff;
+}
+
+.btn-enviar-relatorio:hover {
+    background-color: #005c2b;
+}
+
+.btn-enviar-relatorio:disabled,
+.btn-cancelar-relatorio:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 
-@media (max-width: 700px) {
+/* ================================
+   MOBILE
+   ================================ */
 
-    .conteudo-consultas-aluno {
+@media (max-width: 600px) {
 
-        padding: 30px 20px;
+    .formulario-relatorio {
+        margin-top: 14px;
+        padding: 14px;
     }
 
-    .cabecalho-consultas-aluno h1 {
-
-        font-size: 28px;
-    }
-
-    .card-consultas-aluno {
-
-        padding: 18px;
-    }
-
-    .card-consultas-aluno > .cabecalho-card {
-
-        align-items: flex-start;
-    }
-
-    .card-consultas-aluno .cabecalho-card > div {
-
-        flex-wrap: wrap;
-
-        gap: 8px;
-    }
-
-    .card-consulta-aluno {
-
+    .acoes-formulario-relatorio {
         flex-direction: column;
-
-        gap: 18px;
     }
 
-    .acoes-consulta-aluno {
-
-        justify-content: flex-start;
-
+    .btn-cancelar-relatorio,
+    .btn-enviar-relatorio {
         width: 100%;
     }
-
-    .acoes-consulta-aluno .btn-relatorio {
-
-        width: 100%;
-    }
-
-}
-
-
-@media (max-width: 500px) {
-
-    .conteudo-consultas-aluno {
-
-        padding: 25px 15px;
-    }
-
-    .cabecalho-consultas-aluno {
-
-        margin-bottom: 20px;
-    }
-
-    .cabecalho-consultas-aluno h1 {
-
-        font-size: 25px;
-    }
-
-    .card-consultas-aluno {
-
-        padding: 15px;
-    }
-
-    .card-consultas-aluno .cabecalho-card h2 {
-
-        font-size: 17px;
-    }
-
-    .card-consulta-aluno {
-
-        padding: 16px;
-    }
-
-    .dados-consulta {
-
-        gap: 12px;
-    }
-
-    .icone-consulta {
-
-        width: 42px;
-
-        height: 42px;
-
-        font-size: 18px;
-    }
-
-    .card-consulta-aluno .informacoes-consulta h3 {
-
-        font-size: 16px;
-    }
-
 }
 

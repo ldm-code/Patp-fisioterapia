@@ -86,6 +86,30 @@ public class PaginasController {
             }
         return "consultas";
     }
+    @GetMapping("/relatoriosAluno")
+public String telaRelatorios(HttpSession session) {
+
+    String tipoUsuario =
+            (String) session.getAttribute("tipoUsuario");
+
+    if (!"aluno".equals(tipoUsuario)) {
+        return "redirect:/";
+    }
+
+    return "relatoriosAluno";
+}
+    @GetMapping("/relatorios")
+    public String telaRelatoriosCoordenador(HttpSession session) {
+
+        String tipoUsuario =
+                (String) session.getAttribute("tipoUsuario");
+
+        if (!"coordenador".equals(tipoUsuario)) {
+            return "redirect:/";
+        }
+
+        return "relatorios";
+    }
     @GetMapping("/pagina/pacientes")
     public String pacientes(HttpSession session) {
         String tipoUsuario=(String) session.getAttribute("tipoUsuario");

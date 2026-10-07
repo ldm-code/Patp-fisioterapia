@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <link
+        rel="icon"
+        href="/assets/iconeFisio.svg"
+        type="image/x-icon">
+
+    <title>Relatórios</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <link
+        rel="stylesheet"
+        th:href="@{/css/sidebar.css}">
+
+    <link
+        rel="stylesheet"
+        href="/css/relatorios.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <div
+        th:replace="~{fragments/sidebar :: sidebar}">
+    </div>
+
+    <main class="conteudo-relatorios-aluno">
+
+        <div class="cabecalho-relatorios-aluno">
+
+            <div>
+
+                <h1>Relatórios</h1>
+
+                <p>
+                    Consulte e acompanhe os relatórios enviados pelos alunos
+                </p>
+
+            </div>
+
+        </div>
+
+        <section class="card-relatorios-aluno">
+
+            <div class="cabecalho-card">
+
+                <div>
+
+                    <h2>
+                        <i class="bi bi-file-medical"></i>
+                        Relatórios dos alunos
+                    </h2>
+
+                    <span id="contadorRelatorios">
+                        0 relatórios
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="filtros-relatorios">
+
+                <div class="campo-filtro-relatorios">
+
+                    <label for="filtroEmail">
+                        <i class="bi bi-envelope"></i>
+                        E-mail do aluno
+                    </label>
+
+                    <div class="input-filtro-relatorios">
+
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            id="filtroEmail"
+                            placeholder="Buscar por e-mail do aluno...">
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-filtrar-relatorios"
+                    id="btnFiltrar">
+
+                    <i class="bi bi-funnel"></i>
+                    Filtrar
+
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-limpar-relatorios"
+                    id="btnLimpar">
+
+                    <i class="bi bi-x-circle"></i>
+                    Limpar
+
+                </button>
+
+            </div>
+
+            <div
+                id="listaRelatorios"
+                class="lista-relatorios-aluno">
+            </div>
+
+            <div
+                id="mensagemVazia"
+                class="mensagem-vazia-aluno"
+                style="display: none;">
+
+                <i class="bi bi-file-earmark-text"></i>
+
+                <h5>
+                    Nenhum relatório encontrado
+                </h5>
+
+                <p>
+                    Não existem relatórios para os filtros informados.
+                </p>
+
+            </div>
+
+            <div
+                id="mensagemErro"
+                class="mensagem-erro-aluno"
+                style="display: none;">
+
+                Não foi possível carregar os relatórios.
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="/js/relatorios.js"></script>
+
+<script
+    th:src="@{/js/sidebar.js}"
+    defer>
+</script>
+
+</body>
+
+</html>
