@@ -84,6 +84,7 @@ Conceitos Aprendidos:
 * Desenvolvimento de interfaces web;
 * Operações CRUD;
 * Autenticação e controle de acesso.
+* Cadastro de Consultas
 
 Funcionalidades implementadas:
 
