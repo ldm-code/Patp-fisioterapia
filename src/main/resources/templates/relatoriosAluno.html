@@ -58,7 +58,7 @@
             </div>
 
         </div>
-
+        
 
         <section class="card-relatorios-aluno">
 
@@ -79,6 +79,64 @@
 
             </div>
 
+            <div class="filtros-relatorios">
+
+    <div class="campo-filtro-relatorios">
+
+        <label for="filtroStatus">
+
+            <i class="bi bi-funnel"></i>
+
+            Status do relatório
+
+        </label>
+
+        <select
+            id="filtroStatus"
+            class="select-filtro-relatorios">
+
+            <option value="">
+                Todos os status
+            </option>
+
+            <option value="pendente">
+                Aguardando avaliação
+            </option>
+
+            <option value="aprovado">
+                Aprovado
+            </option>
+
+            <option value="reprovado">
+                Reprovado
+            </option>
+
+        </select>
+        <button
+            type="button"
+            class="btn-filtrar-relatorios"
+            id="btnFiltrarStatus">
+    
+            <i class="bi bi-funnel"></i>
+    
+            Filtrar
+    
+        </button>
+    
+        <button
+            type="button"
+            class="btn-limpar-relatorios"
+            id="btnLimparStatus">
+    
+            <i class="bi bi-x-circle"></i>
+    
+            Limpar
+    
+        </button>
+    
+    </div>
+
+    </div>
 
             <div
                 id="listaRelatorios"

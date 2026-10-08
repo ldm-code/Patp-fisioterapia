@@ -13,6 +13,9 @@ const contadorRelatorios =
 const filtroEmail =
     document.getElementById("filtroEmail");
 
+const filtroStatus =
+    document.getElementById("filtroStatus");
+
 const btnFiltrar =
     document.getElementById("btnFiltrar");
 
@@ -31,17 +34,51 @@ async function carregarRelatorios() {
     try {
 
         const email =
-            filtroEmail.value.trim();
-
-        const parametros =
-            email
-                ? `?email=${encodeURIComponent(email)}`
+            filtroEmail
+                ? filtroEmail.value.trim()
                 : "";
 
-        const resposta =
-            await fetch(
-                `/relatorios/coordenador${parametros}`
+        const status =
+            filtroStatus
+                ? filtroStatus.value
+                : "";
+
+
+        const parametros =
+            new URLSearchParams();
+
+
+        if (email) {
+
+            parametros.append(
+                "email",
+                email
             );
+        }
+
+
+        if (status) {
+
+            parametros.append(
+                "status",
+                status
+            );
+        }
+
+
+        const queryString =
+            parametros.toString();
+
+
+        const url =
+            queryString
+                ? `/relatorios/coordenador?${queryString}`
+                : "/relatorios/coordenador";
+
+
+        const resposta =
+            await fetch(url);
+
 
         if (!resposta.ok) {
 
@@ -50,26 +87,33 @@ async function carregarRelatorios() {
             );
         }
 
+
         const relatorios =
             await resposta.json();
 
+
         renderizarRelatorios(relatorios);
+
 
     } catch (erro) {
 
         console.error(erro);
+
 
         listaRelatorios.innerHTML = "";
 
         contadorRelatorios.textContent =
             "0 relatórios";
 
-        mensagemVazia.style.display = "none";
+        mensagemVazia.style.display =
+            "none";
+
 
         mensagemErro.textContent =
             "Não foi possível carregar os relatórios.";
 
-        mensagemErro.style.display = "block";
+        mensagemErro.style.display =
+            "block";
     }
 }
 
@@ -82,6 +126,19 @@ function renderizarRelatorios(relatorios) {
 
     listaRelatorios.innerHTML = "";
 
+
+    if (!relatorios || relatorios.length === 0) {
+
+        contadorRelatorios.textContent =
+            "0 relatórios";
+
+        mensagemVazia.style.display =
+            "block";
+
+        return;
+    }
+
+
     contadorRelatorios.textContent =
         `${relatorios.length} ${
             relatorios.length === 1
@@ -89,40 +146,43 @@ function renderizarRelatorios(relatorios) {
                 : "relatórios"
         }`;
 
-    if (!relatorios || relatorios.length === 0) {
 
-        mensagemVazia.style.display = "block";
+    mensagemVazia.style.display =
+        "none";
 
-        return;
-    }
-
-    mensagemVazia.style.display = "none";
 
     relatorios.forEach(relatorio => {
 
         const card =
             document.createElement("article");
 
+
         card.classList.add(
             "card-relatorio-aluno"
         );
+
 
         const status =
             obterStatusRelatorio(
                 relatorio.status
             );
 
+
         const nomeAluno =
             relatorio.nomeAluno ||
             "Aluno não identificado";
+
 
         const emailAluno =
             relatorio.emailAluno ||
             "-";
 
+
         const dataCriacao =
             relatorio.dataCriacao
-                ? formatarData(relatorio.dataCriacao)
+                ? formatarData(
+                    relatorio.dataCriacao
+                )
                 : "-";
 
 
@@ -130,8 +190,7 @@ function renderizarRelatorios(relatorios) {
          * Os botões só aparecem enquanto o relatório
          * ainda estiver aguardando avaliação.
          *
-         * Como NULL representa pendente,
-         * também funciona quando status vier null.
+         * NULL representa relatório pendente.
          */
 
         const aguardandoAvaliacao =
@@ -141,6 +200,7 @@ function renderizarRelatorios(relatorios) {
 
 
         let botoesAvaliacao = "";
+
 
         if (aguardandoAvaliacao) {
 
@@ -188,21 +248,25 @@ function renderizarRelatorios(relatorios) {
 
                     </div>
 
+
                     <div class="informacoes-relatorio">
 
                         <h3>
                             ${escaparHtml(nomeAluno)}
                         </h3>
 
+
                         <p>
                             <strong>E-mail:</strong>
                             ${escaparHtml(emailAluno)}
                         </p>
 
+
                         <p>
                             <strong>Consulta:</strong>
                             #${relatorio.consultaId}
                         </p>
+
 
                         <p>
                             <strong>Data de criação:</strong>
@@ -213,17 +277,20 @@ function renderizarRelatorios(relatorios) {
 
                 </div>
 
+
                 <span class="status-relatorio ${status.classe}">
                     ${status.texto}
                 </span>
 
             </div>
 
+
             <div class="conteudo-relatorio">
 
                 <div class="titulo-descricao">
                     Descrição do relatório
                 </div>
+
 
                 <div class="descricao-relatorio-aluno">
 
@@ -235,12 +302,14 @@ function renderizarRelatorios(relatorios) {
 
             </div>
 
+
             ${botoesAvaliacao}
 
         `;
 
 
         listaRelatorios.appendChild(card);
+
     });
 
 
@@ -264,6 +333,7 @@ function adicionarEventosAvaliacao() {
             ".btn-aprovar-relatorio"
         );
 
+
     const botoesReprovar =
         document.querySelectorAll(
             ".btn-reprovar-relatorio"
@@ -278,6 +348,7 @@ function adicionarEventosAvaliacao() {
 
                 const id =
                     botao.dataset.id;
+
 
                 await atualizarStatusRelatorio(
                     id,
@@ -299,6 +370,7 @@ function adicionarEventosAvaliacao() {
 
                 const id =
                     botao.dataset.id;
+
 
                 await atualizarStatusRelatorio(
                     id,
@@ -324,6 +396,7 @@ async function atualizarStatusRelatorio(
 ) {
 
     if (!id) {
+
         return;
     }
 
@@ -338,12 +411,14 @@ async function atualizarStatusRelatorio(
             ".card-relatorio-aluno"
         );
 
+
     if (card) {
 
         const botoes =
             card.querySelectorAll(
                 "button"
             );
+
 
         botoes.forEach(botaoCard => {
 
@@ -369,6 +444,7 @@ async function atualizarStatusRelatorio(
             const mensagem =
                 await resposta.text();
 
+
             throw new Error(
                 mensagem ||
                 "Não foi possível atualizar o relatório."
@@ -389,9 +465,11 @@ async function atualizarStatusRelatorio(
 
         console.error(erro);
 
+
         mensagemErro.textContent =
             erro.message ||
             "Não foi possível atualizar o relatório.";
+
 
         mensagemErro.style.display =
             "block";
@@ -409,6 +487,7 @@ async function atualizarStatusRelatorio(
                     "button"
                 );
 
+
             botoes.forEach(botaoCard => {
 
                 botaoCard.disabled = false;
@@ -416,6 +495,64 @@ async function atualizarStatusRelatorio(
             });
         }
     }
+}
+
+
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+if (btnFiltrar) {
+
+    btnFiltrar.addEventListener(
+        "click",
+        carregarRelatorios
+    );
+}
+
+
+if (btnLimpar) {
+
+    btnLimpar.addEventListener(
+        "click",
+        () => {
+
+            if (filtroEmail) {
+
+                filtroEmail.value = "";
+            }
+
+
+            if (filtroStatus) {
+
+                filtroStatus.value = "";
+            }
+
+
+            carregarRelatorios();
+
+        }
+    );
+}
+
+
+/*
+ * Permite usar o filtro de e-mail pressionando Enter.
+ */
+
+if (filtroEmail) {
+
+    filtroEmail.addEventListener(
+        "keydown",
+        evento => {
+
+            if (evento.key === "Enter") {
+
+                carregarRelatorios();
+            }
+
+        }
+    );
 }
 
 
@@ -486,12 +623,14 @@ function obterStatusRelatorio(status) {
 function formatarData(data) {
 
     if (!data) {
+
         return "-";
     }
 
 
     const somenteData =
         data.substring(0, 10);
+
 
     const partes =
         somenteData.split("-");
@@ -516,47 +655,13 @@ function escaparHtml(texto) {
     const div =
         document.createElement("div");
 
+
     div.textContent =
         texto;
 
+
     return div.innerHTML;
 }
-
-
-/* =========================================================
-   FILTRO
-   ========================================================= */
-
-btnFiltrar.addEventListener(
-    "click",
-    carregarRelatorios
-);
-
-
-btnLimpar.addEventListener(
-    "click",
-    () => {
-
-        filtroEmail.value = "";
-
-        carregarRelatorios();
-
-    }
-);
-
-
-filtroEmail.addEventListener(
-    "keydown",
-    evento => {
-
-        if (evento.key === "Enter") {
-
-            carregarRelatorios();
-
-        }
-
-    }
-);
 
 
 /* =========================================================
