@@ -175,13 +175,13 @@ public class RelatorioService {
     return "Relatório atualizado com sucesso.";
 }
 public java.util.List<RelatorioDTO> listarPorAluno(
-        int idAluno) {
+        int idAluno,String status) {
 
-    return relatorioDAO.listarPorAluno(idAluno);
+    return relatorioDAO.listarPorAluno(idAluno,status);
 }
 public List<RelatorioDTO> listarPorCoordenador(
-        String emailAluno) {
+        String emailAluno,String status) {
 
-    return relatorioDAO.listarPorCoordenador(emailAluno);
+    return relatorioDAO.listarPorCoordenador(emailAluno,status);
 }
 }

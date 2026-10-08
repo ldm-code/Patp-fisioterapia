@@ -10,15 +10,60 @@ const mensagemErro =
 const contadorRelatorios =
     document.getElementById("contadorRelatorios");
 
+const filtroStatus =
+    document.getElementById("filtroStatus");
+
+const btnFiltrarStatus =
+    document.getElementById("btnFiltrarStatus");
+
+const btnLimparStatus =
+    document.getElementById("btnLimparStatus");
+
+
+/* =========================================================
+   CARREGAR RELATÓRIOS
+   ========================================================= */
 
 async function carregarRelatorios() {
 
-    mensagemErro.style.display = "none";
+    mensagemErro.style.display =
+        "none";
+
 
     try {
 
+        const status =
+            filtroStatus
+                ? filtroStatus.value
+                : "";
+
+
+        const parametros =
+            new URLSearchParams();
+
+
+        if (status) {
+
+            parametros.append(
+                "status",
+                status
+            );
+        }
+
+
+        const queryString =
+            parametros.toString();
+
+
+        const url =
+            queryString
+                ? `/relatorios/aluno?${queryString}`
+                : "/relatorios/aluno";
+
+
         const resposta =
-            await fetch("/relatorios/aluno");
+            await fetch(url);
+
 
         if (!resposta.ok) {
 
@@ -27,26 +72,60 @@ async function carregarRelatorios() {
             );
         }
 
+
         const relatorios =
             await resposta.json();
 
+
         renderizarRelatorios(relatorios);
+
 
     } catch (erro) {
 
         console.error(erro);
 
+
+        listaRelatorios.innerHTML = "";
+
+        contadorRelatorios.textContent =
+            "0 relatórios";
+
+        mensagemVazia.style.display =
+            "none";
+
+
         mensagemErro.textContent =
             "Não foi possível carregar seus relatórios.";
 
-        mensagemErro.style.display = "block";
+
+        mensagemErro.style.display =
+            "block";
     }
 }
 
 
+/* =========================================================
+   RENDERIZAR RELATÓRIOS
+   ========================================================= */
+
 function renderizarRelatorios(relatorios) {
 
     listaRelatorios.innerHTML = "";
+
+
+    if (!relatorios || relatorios.length === 0) {
+
+        contadorRelatorios.textContent =
+            "0 relatórios";
+
+
+        mensagemVazia.style.display =
+            "block";
+
+
+        return;
+    }
+
 
     contadorRelatorios.textContent =
         `${relatorios.length} ${
@@ -54,16 +133,6 @@ function renderizarRelatorios(relatorios) {
                 ? "relatório"
                 : "relatórios"
         }`;
-
-
-    if (!relatorios ||
-        relatorios.length === 0) {
-
-        mensagemVazia.style.display =
-            "block";
-
-        return;
-    }
 
 
     mensagemVazia.style.display =
@@ -74,6 +143,7 @@ function renderizarRelatorios(relatorios) {
 
         const card =
             document.createElement("article");
+
 
         card.classList.add(
             "card-relatorio-aluno"
@@ -92,10 +162,12 @@ function renderizarRelatorios(relatorios) {
             `Consulta #${relatorio.consultaId}`;
 
 
-       const dataCriacao =
+        const dataCriacao =
+            relatorio.dataCriacao
+                ? formatarData(
                     relatorio.dataCriacao
-                    ? formatarData(relatorio.dataCriacao)
-                    : "-";
+                )
+                : "-";
 
 
         card.innerHTML = `
@@ -119,10 +191,12 @@ function renderizarRelatorios(relatorios) {
                             )}
                         </h3>
 
+
                         <p>
                             <strong>Consulta:</strong>
                             #${relatorio.consultaId}
                         </p>
+
 
                         <p>
                             <strong>Data:</strong>
@@ -193,13 +267,52 @@ function renderizarRelatorios(relatorios) {
 }
 
 
+/* =========================================================
+   FILTRO DE STATUS
+   ========================================================= */
+
+if (btnFiltrarStatus) {
+
+    btnFiltrarStatus.addEventListener(
+        "click",
+        carregarRelatorios
+    );
+}
+
+
+if (btnLimparStatus) {
+
+    btnLimparStatus.addEventListener(
+        "click",
+        () => {
+
+            if (filtroStatus) {
+
+                filtroStatus.value = "";
+            }
+
+
+            carregarRelatorios();
+
+        }
+    );
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
 function obterStatusRelatorio(status) {
 
     if (status === "aprovado") {
 
         return {
+
             texto: "Aprovado",
+
             classe: "status-aprovado"
+
         };
     }
 
@@ -207,18 +320,28 @@ function obterStatusRelatorio(status) {
     if (status === "reprovado") {
 
         return {
+
             texto: "Reprovado",
+
             classe: "status-reprovado"
+
         };
     }
 
 
     return {
+
         texto: "Aguardando avaliação",
+
         classe: "status-pendente"
+
     };
 }
 
+
+/* =========================================================
+   EDITAR RELATÓRIO
+   ========================================================= */
 
 function abrirEdicaoRelatorio(
     idRelatorio,
@@ -236,6 +359,7 @@ function abrirEdicaoRelatorio(
             ".formulario-edicao-relatorio"
         )
     ) {
+
         return;
     }
 
@@ -249,6 +373,7 @@ function abrirEdicaoRelatorio(
     const formulario =
         document.createElement("div");
 
+
     formulario.classList.add(
         "formulario-edicao-relatorio"
     );
@@ -259,13 +384,19 @@ function abrirEdicaoRelatorio(
         <div class="cabecalho-edicao-relatorio">
 
             <h4>
+
                 <i class="bi bi-pencil-square"></i>
+
                 Editar relatório
+
             </h4>
 
+
             <p>
+
                 Ajuste a descrição do relatório
                 conforme necessário.
+
             </p>
 
         </div>
@@ -381,8 +512,11 @@ function abrirEdicaoRelatorio(
 
 
     formulario.scrollIntoView({
+
         behavior: "smooth",
+
         block: "nearest"
+
     });
 }
 
@@ -403,6 +537,10 @@ function fecharEdicaoRelatorio(
     }
 }
 
+
+/* =========================================================
+   SALVAR EDIÇÃO
+   ========================================================= */
 
 async function salvarEdicaoRelatorio(
     idRelatorio,
@@ -439,13 +577,15 @@ async function salvarEdicaoRelatorio(
             "erro"
         );
 
+
         textarea.focus();
 
         return;
     }
 
 
-    botao.disabled = true;
+    botao.disabled =
+        true;
 
 
     botao.innerHTML = `
@@ -470,8 +610,10 @@ async function salvarEdicaoRelatorio(
                     method: "PUT",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body: JSON.stringify({
@@ -479,6 +621,7 @@ async function salvarEdicaoRelatorio(
                         descricao: descricao
 
                     })
+
                 }
             );
 
@@ -497,7 +640,8 @@ async function salvarEdicaoRelatorio(
             );
 
 
-            botao.disabled = false;
+            botao.disabled =
+                false;
 
 
             botao.innerHTML = `
@@ -507,6 +651,7 @@ async function salvarEdicaoRelatorio(
                 Salvar alterações
 
             `;
+
 
             return;
         }
@@ -520,7 +665,8 @@ async function salvarEdicaoRelatorio(
         );
 
 
-        textarea.disabled = true;
+        textarea.disabled =
+            true;
 
 
         const botaoCancelar =
@@ -529,9 +675,12 @@ async function salvarEdicaoRelatorio(
             );
 
 
-        botaoCancelar.disabled = true;
+        botaoCancelar.disabled =
+            true;
 
-        botao.disabled = true;
+
+        botao.disabled =
+            true;
 
 
         botao.innerHTML = `
@@ -571,7 +720,8 @@ async function salvarEdicaoRelatorio(
         );
 
 
-        botao.disabled = false;
+        botao.disabled =
+            false;
 
 
         botao.innerHTML = `
@@ -585,13 +735,18 @@ async function salvarEdicaoRelatorio(
 }
 
 
+/* =========================================================
+   MENSAGEM DE EDIÇÃO
+   ========================================================= */
+
 function mostrarMensagemEdicao(
     elemento,
     texto,
     tipo
 ) {
 
-    elemento.textContent = texto;
+    elemento.textContent =
+        texto;
 
 
     elemento.className =
@@ -599,9 +754,11 @@ function mostrarMensagemEdicao(
 
 
     elemento.classList.add(
+
         tipo === "sucesso"
             ? "mensagem-sucesso"
             : "mensagem-erro"
+
     );
 
 
@@ -610,9 +767,14 @@ function mostrarMensagemEdicao(
 }
 
 
+/* =========================================================
+   FORMATAR DATA
+   ========================================================= */
+
 function formatarData(data) {
 
     if (!data) {
+
         return "-";
     }
 
@@ -635,6 +797,10 @@ function formatarData(data) {
 }
 
 
+/* =========================================================
+   ESCAPAR HTML
+   ========================================================= */
+
 function escaparHtml(texto) {
 
     const div =
@@ -648,5 +814,9 @@ function escaparHtml(texto) {
     return div.innerHTML;
 }
 
+
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
 
 carregarRelatorios();

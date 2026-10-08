@@ -207,6 +207,7 @@ public ResponseEntity<String> atualizar(
 }
 @GetMapping("/aluno")
 public ResponseEntity<?> listarRelatoriosAluno(
+        @RequestParam(required = false) String status,
         HttpSession session) {
 
     Object tipoUsuario =
@@ -246,12 +247,16 @@ public ResponseEntity<?> listarRelatoriosAluno(
     }
 
     return ResponseEntity.ok(
-            relatorioService.listarPorAluno(idAluno)
+            relatorioService.listarPorAluno(
+                    idAluno,
+                    status
+            )
     );
 }
 @GetMapping("/coordenador")
 public ResponseEntity<?> listarRelatoriosCoordenador(
         @RequestParam(required = false) String email,
+        @RequestParam(required = false) String status,
         HttpSession session) {
 
     Object tipoUsuario =
@@ -266,8 +271,12 @@ public ResponseEntity<?> listarRelatoriosCoordenador(
     }
 
     List<RelatorioDTO> relatorios =
-            relatorioService.listarPorCoordenador(email);
+            relatorioService.listarPorCoordenador(
+                    email,
+                    status
+            );
 
     return ResponseEntity.ok(relatorios);
 }
+
 }

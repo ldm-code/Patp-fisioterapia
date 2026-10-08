@@ -40,8 +40,6 @@ body {
     flex: 1;
     min-width: 0;
 
-    /* margin-left: 250px; */
-
     padding: 45px 50px 50px;
 }
 
@@ -160,9 +158,9 @@ body {
 
     align-items: flex-end;
 
-    gap: 10px;
+    gap: 18px;
 
-    padding: 16px;
+    padding: 18px 16px 22px;
 
     margin-bottom: 22px;
 
@@ -201,7 +199,7 @@ body {
 
 .input-filtro-relatorios {
     position: relative;
-
+    
     width: 100%;
 }
 
@@ -210,7 +208,7 @@ body {
 
     left: 13px;
     top: 50%;
-
+    padding: 10px;
     transform: translateY(-50%);
 
     color: #777;
@@ -223,7 +221,7 @@ body {
     height: 40px;
 
     padding: 0 12px 0 38px;
-
+     margin-bottom: 10px;
     border: 1px solid #d5d5d5;
     border-radius: 6px;
 
@@ -253,6 +251,46 @@ body {
 
 
 /* ==================================================
+   SELECT DO FILTRO
+   ================================================== */
+
+.select-filtro-relatorios {
+    width: 100%;
+    height: 40px;
+
+    padding: 12px;
+   
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
+
+    background-color: #ffffff;
+    color: #333;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.select-filtro-relatorios:hover {
+    border-color: #007336;
+}
+
+.select-filtro-relatorios:focus {
+    border-color: #007336;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 115, 54, 0.08);
+}
+
+
+/* ==================================================
    BOTÕES DO FILTRO
    ================================================== */
 
@@ -267,17 +305,23 @@ body {
 
     min-height: 40px;
 
-    padding: 8px 15px;
+    padding: 8px 16px;
+
+    margin-bottom: 0;
 
     border-radius: 5px;
 
     font-family: 'Montserrat', sans-serif;
+
     font-size: 12px;
     font-weight: 500;
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition:
+        background-color 0.2s,
+        color 0.2s,
+        border-color 0.2s;
 
     white-space: nowrap;
 }
@@ -291,6 +335,7 @@ body {
 
 .btn-filtrar-relatorios:hover {
     background-color: #005c2b;
+    border-color: #005c2b;
 }
 
 .btn-limpar-relatorios {
@@ -302,6 +347,13 @@ body {
 
 .btn-limpar-relatorios:hover {
     background-color: #f3f3f3;
+
+    border-color: #bbb;
+}
+
+.btn-filtrar-relatorios i,
+.btn-limpar-relatorios i {
+    font-size: 14px;
 }
 
 
@@ -526,8 +578,7 @@ body {
 
 
 /* ==================================================
-   BOTÃO APROVAR
-   Mesmo padrão visual dos botões do projeto
+   BOTÕES DE AVALIAÇÃO
    ================================================== */
 
 .btn-aprovar-relatorio,
@@ -559,11 +610,6 @@ body {
         opacity 0.2s;
 }
 
-
-/* ==================================================
-   APROVAR
-   ================================================== */
-
 .btn-aprovar-relatorio {
     border: 1px solid #007336;
 
@@ -578,11 +624,6 @@ body {
     border-color: #005c2b;
 }
 
-
-/* ==================================================
-   REPROVAR
-   ================================================== */
-
 .btn-reprovar-relatorio {
     border: 1px solid #b4232b;
 
@@ -596,11 +637,6 @@ body {
 
     border-color: #b4232b;
 }
-
-
-/* ==================================================
-   BOTÕES DESABILITADOS
-   ================================================== */
 
 .btn-aprovar-relatorio:disabled,
 .btn-reprovar-relatorio:disabled {
@@ -700,7 +736,6 @@ body {
     .campo-filtro-relatorios {
         flex: 1 1 100%;
     }
-
 }
 
 
@@ -730,6 +765,10 @@ body {
         flex-direction: column;
 
         align-items: stretch;
+
+        gap: 12px;
+
+        padding: 16px;
     }
 
     .campo-filtro-relatorios {
@@ -741,6 +780,8 @@ body {
     .btn-filtrar-relatorios,
     .btn-limpar-relatorios {
         width: 100%;
+
+        min-height: 40px;
     }
 
     .card-relatorio-aluno {
@@ -772,5 +813,4 @@ body {
     .btn-reprovar-relatorio {
         width: 100%;
     }
-
 }

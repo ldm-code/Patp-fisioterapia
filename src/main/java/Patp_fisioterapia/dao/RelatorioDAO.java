@@ -224,170 +224,218 @@ public class RelatorioDAO {
             return false;
         }
     }
+    public List<RelatorioDTO> listarPorAluno(
+        int idAluno,
+        String status) {
 
-    public List<RelatorioDTO> listarPorAluno(int idAluno) {
+    StringBuilder sql = new StringBuilder("""
+            SELECT
+                r.id,
+                r.consulta_id,
+                r.descricao,
+                r.status,
+                r.data_criacao
+            FROM relatorios r
+            INNER JOIN consultas c
+                ON c.id = r.consulta_id
+            WHERE c.aluno_id = ?
+            """);
 
-        String sql = """
-                SELECT
-                    r.id,
-                    r.consulta_id,
-                    r.descricao,
-                    r.status,
-                    r.data_criacao
-                FROM relatorios r
-                INNER JOIN consultas c
-                    ON c.id = r.consulta_id
-                WHERE c.aluno_id = ?
-                ORDER BY r.data_criacao DESC
-                """;
+    if ("pendente".equals(status)) {
 
-        List<RelatorioDTO> relatorios =
-                new ArrayList<>();
+        sql.append(" AND r.status IS NULL ");
 
-        try (
-                Connection conexao =
-                        conexaoBanco.conectar();
+    } else if ("aprovado".equals(status) ||
+            "reprovado".equals(status)) {
 
-                PreparedStatement stmt =
-                        conexao.prepareStatement(sql)
-        ) {
-
-            stmt.setInt(1, idAluno);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-
-                while (rs.next()) {
-
-                    RelatorioDTO relatorio =
-                            new RelatorioDTO();
-
-                    relatorio.setId(
-                            rs.getInt("id")
-                    );
-
-                    relatorio.setConsultaId(
-                            rs.getInt("consulta_id")
-                    );
-
-                    relatorio.setDescricao(
-                            rs.getString("descricao")
-                    );
-
-                    relatorio.setStatus(
-                            rs.getString("status")
-                    );
-
-                    if (rs.getTimestamp("data_criacao") != null) {
-
-                        relatorio.setDataCriacao(
-                                rs.getTimestamp(
-                                        "data_criacao"
-                                ).toLocalDateTime()
-                        );
-                    }
-
-                    relatorios.add(relatorio);
-                }
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return relatorios;
+        sql.append(" AND r.status = ? ");
     }
 
-    public List<RelatorioDTO> listarPorCoordenador(
-            String emailAluno) {
+    sql.append("""
+            ORDER BY r.data_criacao DESC
+            """);
 
-        String sql = """
-                SELECT
-                    r.id,
-                    r.consulta_id,
-                    r.descricao,
-                    r.status,
-                    r.data_criacao,
-                    a.nome AS nome_aluno,
-                    a.email AS email_aluno
-                FROM relatorios r
-                INNER JOIN consultas c
-                    ON c.id = r.consulta_id
-                INNER JOIN alunos a
-                    ON a.id = c.aluno_id
-                WHERE a.email LIKE ?
-                ORDER BY r.data_criacao DESC
-                """;
+    List<RelatorioDTO> relatorios =
+            new ArrayList<>();
 
-        List<RelatorioDTO> relatorios =
-                new ArrayList<>();
+    try (
+            Connection conexao =
+                    conexaoBanco.conectar();
 
-        try (
-                Connection conexao =
-                        conexaoBanco.conectar();
+            PreparedStatement stmt =
+                    conexao.prepareStatement(
+                            sql.toString()
+                    )
+    ) {
 
-                PreparedStatement stmt =
-                        conexao.prepareStatement(sql)
-        ) {
+        stmt.setInt(1, idAluno);
 
-            stmt.setString(
-                    1,
-                    "%" +
-                    (emailAluno == null
-                            ? ""
-                            : emailAluno.trim()) +
-                    "%"
-            );
+        if ("aprovado".equals(status) ||
+                "reprovado".equals(status)) {
 
-            try (ResultSet rs = stmt.executeQuery()) {
-
-                while (rs.next()) {
-
-                    RelatorioDTO relatorio =
-                            new RelatorioDTO();
-
-                    relatorio.setId(
-                            rs.getInt("id")
-                    );
-
-                    relatorio.setConsultaId(
-                            rs.getInt("consulta_id")
-                    );
-
-                    relatorio.setDescricao(
-                            rs.getString("descricao")
-                    );
-
-                    relatorio.setStatus(
-                            rs.getString("status")
-                    );
-
-                    relatorio.setNomeAluno(
-                            rs.getString("nome_aluno")
-                    );
-
-                    relatorio.setEmailAluno(
-                            rs.getString("email_aluno")
-                    );
-
-                    if (rs.getTimestamp("data_criacao") != null) {
-
-                        relatorio.setDataCriacao(
-                                rs.getTimestamp(
-                                        "data_criacao"
-                                ).toLocalDateTime()
-                        );
-                    }
-
-                    relatorios.add(relatorio);
-                }
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
+            stmt.setString(2, status);
         }
 
-        return relatorios;
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                RelatorioDTO relatorio =
+                        new RelatorioDTO();
+
+                relatorio.setId(
+                        rs.getInt("id")
+                );
+
+                relatorio.setConsultaId(
+                        rs.getInt("consulta_id")
+                );
+
+                relatorio.setDescricao(
+                        rs.getString("descricao")
+                );
+
+                relatorio.setStatus(
+                        rs.getString("status")
+                );
+
+                if (rs.getTimestamp(
+                        "data_criacao") != null) {
+
+                    relatorio.setDataCriacao(
+                            rs.getTimestamp(
+                                    "data_criacao"
+                            ).toLocalDateTime()
+                    );
+                }
+
+                relatorios.add(relatorio);
+            }
+        }
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
     }
+
+    return relatorios;
+}
+
+
+public List<RelatorioDTO> listarPorCoordenador(
+        String emailAluno,
+        String status) {
+
+    StringBuilder sql = new StringBuilder("""
+            SELECT
+                r.id,
+                r.consulta_id,
+                r.descricao,
+                r.status,
+                r.data_criacao,
+                a.nome AS nome_aluno,
+                a.email AS email_aluno
+            FROM relatorios r
+            INNER JOIN consultas c
+                ON c.id = r.consulta_id
+            INNER JOIN alunos a
+                ON a.id = c.aluno_id
+            WHERE a.email LIKE ?
+            """);
+
+    if ("pendente".equals(status)) {
+
+        sql.append(" AND r.status IS NULL ");
+
+    } else if ("aprovado".equals(status) ||
+            "reprovado".equals(status)) {
+
+        sql.append(" AND r.status = ? ");
+    }
+
+    sql.append("""
+            ORDER BY r.data_criacao DESC
+            """);
+
+    List<RelatorioDTO> relatorios =
+            new ArrayList<>();
+
+    try (
+            Connection conexao =
+                    conexaoBanco.conectar();
+
+            PreparedStatement stmt =
+                    conexao.prepareStatement(
+                            sql.toString()
+                    )
+    ) {
+
+        stmt.setString(
+                1,
+                "%" +
+                (emailAluno == null
+                        ? ""
+                        : emailAluno.trim()) +
+                "%"
+        );
+
+        if ("aprovado".equals(status) ||
+                "reprovado".equals(status)) {
+
+            stmt.setString(2, status);
+        }
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                RelatorioDTO relatorio =
+                        new RelatorioDTO();
+
+                relatorio.setId(
+                        rs.getInt("id")
+                );
+
+                relatorio.setConsultaId(
+                        rs.getInt("consulta_id")
+                );
+
+                relatorio.setDescricao(
+                        rs.getString("descricao")
+                );
+
+                relatorio.setStatus(
+                        rs.getString("status")
+                );
+
+                relatorio.setNomeAluno(
+                        rs.getString("nome_aluno")
+                );
+
+                relatorio.setEmailAluno(
+                        rs.getString("email_aluno")
+                );
+
+                if (rs.getTimestamp(
+                        "data_criacao") != null) {
+
+                    relatorio.setDataCriacao(
+                            rs.getTimestamp(
+                                    "data_criacao"
+                            ).toLocalDateTime()
+                    );
+                }
+
+                relatorios.add(relatorio);
+            }
+        }
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+    }
+
+    return relatorios;
+}
+   
 }
