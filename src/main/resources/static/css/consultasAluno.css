@@ -601,6 +601,87 @@ body {
 
 
 /* ================================
+   FILTRO DE DATA — CONSULTAS ALUNO
+================================ */
+
+.filtro-data-consultas-aluno {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 220px;
+}
+
+.filtro-data-consultas-aluno label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    color: #343a40;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.filtro-data-consultas-aluno label i {
+    color: #007336;
+    font-size: 16px;
+}
+
+.filtro-data-consultas-aluno input[type="date"] {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid #ced8d1;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #343a40;
+    font-family: inherit;
+    font-size: 14px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.filtro-data-consultas-aluno input[type="date"]:hover {
+    border-color: #007336;
+}
+
+.filtro-data-consultas-aluno input[type="date"]:focus {
+    border-color: #007336;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 115, 54, 0.13);
+}
+
+/* Alinhamento do cabeçalho e filtro */
+
+.cabecalho-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Adaptação para celular */
+
+@media (max-width: 576px) {
+    .cabecalho-card {
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .filtro-data-consultas-aluno {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .filtro-data-consultas-aluno input[type="date"] {
+        min-height: 44px;
+    }
+}
+
+
+
+/* ================================
    MOBILE
    ================================ */
 

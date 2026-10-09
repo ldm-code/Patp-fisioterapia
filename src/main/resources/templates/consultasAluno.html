@@ -24,8 +24,6 @@
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-
-
     <link
         rel="stylesheet"
         th:href="@{/css/sidebar.css}">
@@ -60,7 +58,6 @@
 
         </div>
 
-
         <section class="card-consultas-aluno">
 
             <div class="cabecalho-card">
@@ -78,15 +75,27 @@
 
                 </div>
 
-            </div>
+                <div class="filtro-data-consultas-aluno">
 
+                    <label for="filtroDataConsultas">
+                        <i class="bi bi-calendar-event"></i>
+                        Filtrar por data
+                    </label>
+
+                    <input
+                        type="date"
+                        id="filtroDataConsultas"
+                        class="form-control"
+                        aria-label="Filtrar consultas por data">
+
+                </div>
+
+            </div>
 
             <div
                 id="listaConsultas"
                 class="lista-consultas-aluno">
-
             </div>
-
 
             <div
                 id="mensagemVazia"
@@ -100,11 +109,10 @@
                 </h5>
 
                 <p>
-                    Você não possui consultas agendadas no momento.
+                    Você não possui consultas agendadas nesta data.
                 </p>
 
             </div>
-
 
             <div
                 id="mensagemErro"
@@ -120,7 +128,6 @@
     </main>
 
 </div>
-
 
 <script src="/js/consultasAluno.js"></script>
 

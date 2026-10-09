@@ -327,51 +327,38 @@ function criarStatus(status) {
 function criarAcoes(consulta) {
 
     /*
-     * CONSULTA CANCELADA OU CONCLUÍDA
-     *
-     * Não existe ação disponível.
-     *
-     * Também não existe endpoint no projeto
-     * para voltar o status dessas consultas.
+     * Consultas canceladas ou concluídas
+     * não possuem ações disponíveis.
      */
-
     if (
         consulta.status === "cancelada" ||
         consulta.status === "concluida"
     ) {
-
         return "";
     }
 
-
     /*
-     * CONSULTA ATIVA
-     *
-     * Editar:
-     * visualmente desabilitado por enquanto.
-     *
-     * Cancelar:
-     * endpoint já existente.
-     *
-     * Concluir:
-     * endpoint já existente.
+     * O botão Editar aparece somente
+     * quando a consulta está agendada.
      */
+    const botaoEditar =
+        consulta.status === "agendada"
+            ? `
+                <button
+                    type="button"
+                    class="btn-acao btn-editar"
+                    title="Editar Consulta"
+                    onclick="editarConsulta(${consulta.id})"
+                >
+                    <i class="bi bi-pencil"></i>
+                </button>
+            `
+            : "";
 
     return `
         <div class="acoes-consulta">
 
-
-            <button
-                type="button"
-                class="btn-acao btn-editar"
-                title="Editar Consulta"
-                onclick="editarConsulta(${consulta.id})"
-            >
-
-                <i class="bi bi-pencil"></i>
-
-            </button>
-
+            ${botaoEditar}
 
             <button
                 type="button"
@@ -379,11 +366,8 @@ function criarAcoes(consulta) {
                 title="Cancelar consulta"
                 onclick="cancelarConsulta(${consulta.id})"
             >
-
                 <i class="bi bi-x-lg"></i>
-
             </button>
-
 
             <button
                 type="button"
@@ -391,15 +375,13 @@ function criarAcoes(consulta) {
                 title="Concluir consulta"
                 onclick="concluirConsulta(${consulta.id})"
             >
-
                 <i class="bi bi-check-lg"></i>
-
             </button>
-
 
         </div>
     `;
 }
+
 
 
 /* ==================================================
