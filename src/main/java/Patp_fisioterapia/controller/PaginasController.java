@@ -110,6 +110,18 @@ public String telaRelatorios(HttpSession session) {
 
         return "relatorios";
     }
+    @GetMapping("/pagina/consultas/editar")
+    public String telaEditarConsulta(HttpSession session) {
+
+        String tipoUsuario =
+                (String) session.getAttribute("tipoUsuario");
+
+        if (!"coordenador".equals(tipoUsuario)) {
+            return "redirect:/";
+        }
+
+        return "consultasEdicao";
+    }
     @GetMapping("/pagina/pacientes")
     public String pacientes(HttpSession session) {
         String tipoUsuario=(String) session.getAttribute("tipoUsuario");

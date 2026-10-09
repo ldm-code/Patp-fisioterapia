@@ -1,6 +1,7 @@
 package Patp_fisioterapia.controller;
 
 import Patp_fisioterapia.service.AlunosEspecialidadeService;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ private AlunosEspecialidadeService service =
 @PostMapping("/cadastrar")
 public ResponseEntity<String> cadastrar(
         @RequestParam int idAluno,
-        @RequestParam int idEspecialidade) {
+        @RequestParam int idEspecialidade,HttpSession session) {
+                
 
     boolean cadastrado =
             service.cadastrar(idAluno, idEspecialidade);
