@@ -105,7 +105,65 @@ public class ConsultaService {
 
         return "Não foi possível cancelar a consulta.";
     }
+    public String atualizarEdicao(ConsultaDTO consulta) {
 
+    if (consulta == null || consulta.getId() <= 0) {
+        return "Consulta inválida.";
+    }
+
+    ConsultaDTO consultaAtual =
+            consultaDAO.buscarPorId(consulta.getId());
+
+    if (consultaAtual == null) {
+        return "Consulta não encontrada.";
+    }
+
+    if (!"agendada".equalsIgnoreCase(consultaAtual.getStatus())) {
+        return "Somente consultas agendadas podem ser editadas.";
+    }
+
+    // O paciente é recuperado do banco, não do formulário.
+    consulta.setPaciente(consultaAtual.getPaciente());
+
+    String erro = validar(consulta);
+
+    if (erro != null) {
+        return erro;
+    }
+
+    boolean horarioDisponivel =
+            consultaDAO.horarioDisponivelParaEdicao(
+                    consulta.getAlunoId(),
+                    consulta.getDataConsulta(),
+                    consulta.getId()
+            );
+
+    if (!horarioDisponivel) {
+        return "O horário selecionado não está disponível para esse aluno.";
+    }
+
+    if (consultaDAO.atualizarEdicao(consulta)) {
+        return "Consulta atualizada com sucesso.";
+    }
+
+    return "Não foi possível atualizar a consulta.";
+}
+public List<String> buscarHorariosDisponiveisParaEdicao(
+        int idAluno,
+        LocalDate data,
+        Integer consultaId) {
+
+    if (idAluno <= 0 || data == null || consultaId == null
+            || consultaId <= 0) {
+        return List.of();
+    }
+
+    return consultaDAO.buscarHorariosDisponiveisParaEdicao(
+            idAluno,
+            data,
+            consultaId
+    );
+}
     public String concluir(int id) {
 
         ConsultaDTO consulta = buscarPorId(id);

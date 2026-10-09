@@ -48,7 +48,7 @@ public class ConsultaController {
                 .badRequest()
                 .body(mensagem);
     }
-
+    
 
     @GetMapping
     public ResponseEntity<?> listar(
@@ -205,10 +205,12 @@ public class ConsultaController {
     }
 
 
+
 @GetMapping("/horarios/aluno/{idAluno}")
 public ResponseEntity<?> buscarHorarios(
         @PathVariable int idAluno,
         @RequestParam String data,
+        @RequestParam(required = false) Integer consultaId,
         HttpSession session) {
 
     if (!isCoordenador(session)) {
@@ -218,27 +220,28 @@ public ResponseEntity<?> buscarHorarios(
     }
 
     try {
+        LocalDate dataConsulta = LocalDate.parse(data);
 
-        LocalDate dataConsulta =
-                LocalDate.parse(data);
+        List<String> horarios;
 
-        List<String> horarios =
-                consultaService.buscarHorariosDisponiveis(
-                        idAluno,
-                        dataConsulta
-                );
+        if (consultaId != null) {
+            horarios =
+                    consultaService.buscarHorariosDisponiveisParaEdicao(
+                            idAluno, dataConsulta, consultaId
+                    );
+        } else {
+            horarios =
+                    consultaService.buscarHorariosDisponiveis(
+                            idAluno, dataConsulta
+                    );
+        }
 
         return ResponseEntity.ok(horarios);
 
     } catch (Exception e) {
-
-        return ResponseEntity
-                .badRequest()
-                .body("Data inválida.");
+        return ResponseEntity.badRequest().body("Data inválida.");
     }
 }
-
-
 
     private boolean isCoordenador(HttpSession session) {
 

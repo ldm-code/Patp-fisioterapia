@@ -351,6 +351,139 @@ public class ConsultaDAO {
 
     return horarios;
 }
+public boolean atualizarEdicao(ConsultaDTO consulta) {
+
+    String sql = """
+            UPDATE consultas
+            SET aluno_id = ?,
+                motivo = ?,
+                data_consulta = ?,
+                diagnostico = ?
+            WHERE id = ?
+              AND status = 'agendada'
+            """;
+
+    try (
+            Connection conexao = conexaoBanco.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+        stmt.setInt(1, consulta.getAlunoId());
+        stmt.setString(2, consulta.getMotivo());
+        stmt.setTimestamp(
+                3,
+                Timestamp.valueOf(consulta.getDataConsulta())
+        );
+        stmt.setString(4, consulta.getDiagnostico());
+        stmt.setInt(5, consulta.getId());
+
+        return stmt.executeUpdate() > 0;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+public boolean horarioDisponivelParaEdicao(
+        int idAluno,
+        java.time.LocalDateTime dataConsulta,
+        int consultaId) {
+
+    String sql = """
+            SELECT 1
+            FROM aluno_turnos at
+            INNER JOIN horarios h
+                ON h.turno_id = at.id_turno
+            WHERE at.id_aluno = ?
+              AND h.horario = TIME(?)
+              AND ? > NOW()
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM consultas c
+                  WHERE c.aluno_id = at.id_aluno
+                    AND DATE(c.data_consulta) = DATE(?)
+                    AND TIME(c.data_consulta) = h.horario
+                    AND c.status = 'agendada'
+                    AND c.id <> ?
+              )
+            LIMIT 1
+            """;
+
+    try (
+            Connection conexao = conexaoBanco.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+        Timestamp dataSql = Timestamp.valueOf(dataConsulta);
+
+        stmt.setInt(1, idAluno);
+        stmt.setTimestamp(2, dataSql);
+        stmt.setTimestamp(3, dataSql);
+        stmt.setTimestamp(4, dataSql);
+        stmt.setInt(5, consultaId);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            return rs.next();
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+public List<String> buscarHorariosDisponiveisParaEdicao(
+        int idAluno,
+        LocalDate data,
+        Integer consultaId) {
+
+    String sql = """
+            SELECT DISTINCT
+                TIME_FORMAT(h.horario, '%H:%i') AS horario
+            FROM aluno_turnos at
+            INNER JOIN horarios h
+                ON h.turno_id = at.id_turno
+            WHERE at.id_aluno = ?
+              AND (
+                  ? > CURDATE()
+                  OR (? = CURDATE() AND h.horario > CURTIME())
+              )
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM consultas c
+                  WHERE c.aluno_id = at.id_aluno
+                    AND DATE(c.data_consulta) = ?
+                    AND TIME(c.data_consulta) = h.horario
+                    AND c.status = 'agendada'
+                    AND c.id <> ?
+              )
+            ORDER BY horario
+            """;
+
+    List<String> horarios = new ArrayList<>();
+
+    try (
+            Connection conexao = conexaoBanco.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+        java.sql.Date dataSql = java.sql.Date.valueOf(data);
+
+        stmt.setInt(1, idAluno);
+        stmt.setDate(2, dataSql);
+        stmt.setDate(3, dataSql);
+        stmt.setDate(4, dataSql);
+        stmt.setInt(5, consultaId);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                horarios.add(rs.getString("horario"));
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return horarios;
+}
+
 public List<ConsultaDTO> listarAgendadasPorAluno(int idAluno) {
 
     String sql = """

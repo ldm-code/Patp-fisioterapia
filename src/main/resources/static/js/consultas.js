@@ -364,8 +364,8 @@ function criarAcoes(consulta) {
             <button
                 type="button"
                 class="btn-acao btn-editar"
-                title="Edição indisponível"
-                disabled
+                title="Editar Consulta"
+                onclick="editarConsulta(${consulta.id})"
             >
 
                 <i class="bi bi-pencil"></i>
@@ -406,17 +406,9 @@ function criarAcoes(consulta) {
    EDITAR
    ================================================== */
 
-function editarConsulta(id) {
 
-    /*
-     * Mantido apenas para não quebrar
-     * nenhuma chamada antiga.
-     *
-     * O botão de edição está desabilitado
-     * e não chama esta função.
-     */
-
-    return;
+async function editarConsulta(id) {
+    window.location.href = `/pagina/consultas/editar?id=${id}`;
 }
 
 
