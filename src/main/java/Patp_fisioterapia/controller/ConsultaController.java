@@ -253,12 +253,12 @@ public ResponseEntity<?> buscarHorarios(
                         tipoUsuario.toString()
                 );
     }
-    @GetMapping("/aluno/agendadas")
+@GetMapping("/aluno/agendadas")
 public ResponseEntity<?> listarAgendadasAluno(
+        @RequestParam(required = false) LocalDate data,
         HttpSession session) {
 
-    Object tipoUsuario =
-            session.getAttribute("tipoUsuario");
+    Object tipoUsuario = session.getAttribute("tipoUsuario");
 
     if (tipoUsuario == null ||
             !"aluno".equals(tipoUsuario.toString())) {
@@ -268,8 +268,7 @@ public ResponseEntity<?> listarAgendadasAluno(
                 .body("Acesso negado.");
     }
 
-    Object idAlunoSession =
-            session.getAttribute("idAluno");
+    Object idAlunoSession = session.getAttribute("idAluno");
 
     if (idAlunoSession == null) {
         return ResponseEntity
@@ -277,11 +276,17 @@ public ResponseEntity<?> listarAgendadasAluno(
                 .body("Aluno não identificado.");
     }
 
-    int idAluno =
-            Integer.parseInt(idAlunoSession.toString());
+    int idAluno = Integer.parseInt(idAlunoSession.toString());
+
+    if (data == null) {
+        return ResponseEntity.ok(
+                consultaService.listarAgendadasPorAlunoSemData(idAluno)
+        );
+    }
 
     return ResponseEntity.ok(
-            consultaService.listarAgendadasPorAluno(idAluno)
+            consultaService.listarAgendadasPorAluno(idAluno, data)
     );
 }
+
 }

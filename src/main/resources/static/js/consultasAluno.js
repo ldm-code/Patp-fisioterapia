@@ -10,13 +10,46 @@ const mensagemErro =
 const contadorConsultas =
     document.getElementById("contadorConsultas");
 
+const filtroDataConsultas =
+    document.getElementById("filtroDataConsultas");
+
+
+function obterDataLocalHoje() {
+
+    const hoje = new Date();
+
+    const ano = hoje.getFullYear();
+
+    const mes = String(
+        hoje.getMonth() + 1
+    ).padStart(2, "0");
+
+    const dia = String(
+        hoje.getDate()
+    ).padStart(2, "0");
+
+    return `${ano}-${mes}-${dia}`;
+}
+
 
 async function carregarConsultas() {
 
+    mensagemErro.style.display = "none";
+
+    mensagemVazia.style.display = "none";
+
     try {
 
+        const dataSelecionada =
+            filtroDataConsultas.value;
+
+        const url =
+            `/consultas/aluno/agendadas?data=${
+                encodeURIComponent(dataSelecionada)
+            }`;
+
         const resposta =
-            await fetch("/consultas/aluno/agendadas");
+            await fetch(url);
 
         if (!resposta.ok) {
             throw new Error(
@@ -32,6 +65,11 @@ async function carregarConsultas() {
     } catch (erro) {
 
         console.error(erro);
+
+        listaConsultas.innerHTML = "";
+
+        contadorConsultas.textContent =
+            "0 consultas";
 
         mensagemErro.textContent =
             "Não foi possível carregar suas consultas.";
@@ -94,7 +132,6 @@ function renderizarConsultas(consultas) {
 
                 </div>
 
-
                 <div class="informacoes-consulta">
 
                     <h3>
@@ -136,7 +173,6 @@ function renderizarConsultas(consultas) {
                 </div>
 
             </div>
-
 
             <div class="acoes-consulta-aluno">
 
@@ -206,7 +242,6 @@ function abrirFormularioRelatorio(
 
         </div>
 
-
         <div class="campo-relatorio">
 
             <label for="descricaoRelatorio-${idConsulta}">
@@ -231,12 +266,10 @@ function abrirFormularioRelatorio(
 
         </div>
 
-
         <div
             class="mensagem-formulario-relatorio"
             style="display: none;">
         </div>
-
 
         <div class="acoes-formulario-relatorio">
 
@@ -248,7 +281,6 @@ function abrirFormularioRelatorio(
                 Cancelar
 
             </button>
-
 
             <button
                 type="button"
@@ -529,4 +561,17 @@ function escaparHtml(texto) {
 }
 
 
+// Define hoje como data inicial.
+filtroDataConsultas.value =
+    obterDataLocalHoje();
+
+
+// Recarrega a lista quando a data for alterada.
+filtroDataConsultas.addEventListener(
+    "change",
+    carregarConsultas
+);
+
+
+// Carrega as consultas da data inicial.
 carregarConsultas();

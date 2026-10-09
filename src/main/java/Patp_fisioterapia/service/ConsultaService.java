@@ -229,13 +229,31 @@ public List<String> buscarHorariosDisponiveisParaEdicao(
     );
 }
     
-    public List<ConsultaDTO> listarAgendadasPorAluno(int idAluno) {
+   public List<ConsultaDTO> listarAgendadasPorAluno(
+        int idAluno,
+        LocalDate data) {
 
-    if (idAluno <= 0) {
+    if (idAluno <= 0 || data == null) {
         return List.of();
     }
 
-    return consultaDAO.listarAgendadasPorAluno(idAluno);
+    return consultaDAO.listarAgendadasPorAluno(
+            idAluno,
+            data
+    );
+}
+ public List<ConsultaDTO> listarAgendadasPorAlunoSemData(
+        int idAluno
+) {
+
+    if (idAluno <= 0 ) {
+        return List.of();
+    }
+
+    return consultaDAO.listarAgendadasPorAlunoSemData(
+            idAluno
+
+    );
 }
 
 

@@ -483,8 +483,8 @@ public List<String> buscarHorariosDisponiveisParaEdicao(
 
     return horarios;
 }
-
-public List<ConsultaDTO> listarAgendadasPorAluno(int idAluno) {
+public List<ConsultaDTO> listarAgendadasPorAlunoSemData(
+        int idAluno) {
 
     String sql = """
             SELECT
@@ -509,7 +509,7 @@ public List<ConsultaDTO> listarAgendadasPorAluno(int idAluno) {
             INNER JOIN pacientes p
                 ON p.id = c.paciente
             WHERE c.aluno_id = ?
-            AND c.status = 'agendada'
+              AND c.status = 'agendada'
             ORDER BY c.data_consulta ASC
             """;
 
@@ -517,7 +517,8 @@ public List<ConsultaDTO> listarAgendadasPorAluno(int idAluno) {
 
     try (
             Connection conexao = conexaoBanco.conectar();
-            PreparedStatement stmt = conexao.prepareStatement(sql)
+            PreparedStatement stmt =
+                    conexao.prepareStatement(sql)
     ) {
 
         stmt.setInt(1, idAluno);
@@ -539,7 +540,69 @@ public List<ConsultaDTO> listarAgendadasPorAluno(int idAluno) {
 
     return consultas;
 }
+public List<ConsultaDTO> listarAgendadasPorAluno(
+        int idAluno,
+        LocalDate data) {
 
+    String sql = """
+            SELECT
+                c.id,
+                c.aluno_id,
+                c.paciente,
+                c.motivo,
+                c.data_agendada,
+                c.data_consulta,
+                c.status,
+                c.diagnostico,
+                a.nome AS nome_aluno,
+                p.nome AS nome_paciente,
+                EXISTS (
+                    SELECT 1
+                    FROM relatorios r
+                    WHERE r.consulta_id = c.id
+                ) AS tem_relatorio
+            FROM consultas c
+            INNER JOIN alunos a
+                ON a.id = c.aluno_id
+            INNER JOIN pacientes p
+                ON p.id = c.paciente
+            WHERE c.aluno_id = ?
+              AND c.status = 'agendada'
+              AND DATE(c.data_consulta) = ?
+            ORDER BY c.data_consulta ASC
+            """;
+
+    List<ConsultaDTO> consultas = new ArrayList<>();
+
+    try (
+            Connection conexao = conexaoBanco.conectar();
+            PreparedStatement stmt =
+                    conexao.prepareStatement(sql)
+    ) {
+
+        stmt.setInt(1, idAluno);
+        stmt.setDate(
+                2,
+                java.sql.Date.valueOf(data)
+        );
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                ConsultaDTO consulta =
+                        preencherConsulta(rs);
+
+                consultas.add(consulta);
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return consultas;
+}
    public boolean horarioPertenceAoAluno(
         int idAluno,
         java.time.LocalTime horario) {
