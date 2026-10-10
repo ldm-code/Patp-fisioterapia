@@ -1,190 +1,82 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <link
-        rel="icon"
-        href="/assets/iconeFisio.svg"
-        type="image/x-icon">
-
+    <link rel="icon" href="/assets/iconeFisio.svg" type="image/x-icon">
     <title>Meus relatórios</title>
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet">
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-
-    <link
-        rel="stylesheet"
-        th:href="@{/css/sidebar.css}">
-
-    <link
-        rel="stylesheet"
-        href="/css/relatoriosAluno.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" href="/css/relatoriosAluno.css">
 </head>
-
 <body>
-
 <div class="layout">
-
-    <div
-        th:replace="~{fragments/sidebar :: sidebarAluno}">
-    </div>
-
+    <div th:replace="~{fragments/sidebar :: sidebarAluno}"></div>
 
     <main class="conteudo-relatorios-aluno">
-
         <div class="cabecalho-relatorios-aluno">
-
             <div>
-
                 <h1>Meus relatórios</h1>
-
-                <p>
-                    Consulte e acompanhe os relatórios das suas consultas
-                </p>
-
+                <p>Consulte e acompanhe os relatórios das suas consultas.</p>
             </div>
-
         </div>
-        
 
         <section class="card-relatorios-aluno">
-
             <div class="cabecalho-card">
-
                 <div>
-
-                    <h2>
-                        <i class="bi bi-file-medical"></i>
-                        Meus relatórios
-                    </h2>
-
-                    <span id="contadorRelatorios">
-                        0 relatórios
-                    </span>
-
+                    <h2><i class="bi bi-file-medical"></i> Meus relatórios</h2>
+                    <span id="contadorRelatorios">0 relatórios</span>
                 </div>
-
             </div>
 
             <div class="filtros-relatorios">
+                <div class="campo-filtro-relatorios">
+                    <label for="filtroStatus">
+                        <i class="bi bi-funnel"></i> Status do relatório
+                    </label>
 
-    <div class="campo-filtro-relatorios">
+                    <select id="filtroStatus" class="select-filtro-relatorios">
+                        <option value="">Todos os status</option>
+                        <option value="pendente">Aguardando avaliação</option>
+                        <option value="aprovado">Aprovado</option>
+                        <option value="reprovado">Reprovado</option>
+                    </select>
 
-        <label for="filtroStatus">
+                    <button type="button" class="btn-filtrar-relatorios"
+                            id="btnFiltrarStatus">
+                        <i class="bi bi-funnel"></i> Filtrar
+                    </button>
 
-            <i class="bi bi-funnel"></i>
-
-            Status do relatório
-
-        </label>
-
-        <select
-            id="filtroStatus"
-            class="select-filtro-relatorios">
-
-            <option value="">
-                Todos os status
-            </option>
-
-            <option value="pendente">
-                Aguardando avaliação
-            </option>
-
-            <option value="aprovado">
-                Aprovado
-            </option>
-
-            <option value="reprovado">
-                Reprovado
-            </option>
-
-        </select>
-        <button
-            type="button"
-            class="btn-filtrar-relatorios"
-            id="btnFiltrarStatus">
-    
-            <i class="bi bi-funnel"></i>
-    
-            Filtrar
-    
-        </button>
-    
-        <button
-            type="button"
-            class="btn-limpar-relatorios"
-            id="btnLimparStatus">
-    
-            <i class="bi bi-x-circle"></i>
-    
-            Limpar
-    
-        </button>
-    
-    </div>
-
-    </div>
-
-            <div
-                id="listaRelatorios"
-                class="lista-relatorios-aluno">
+                    <button type="button" class="btn-limpar-relatorios"
+                            id="btnLimparStatus">
+                        <i class="bi bi-x-circle"></i> Limpar
+                    </button>
+                </div>
             </div>
 
+            <div id="listaRelatorios" class="lista-relatorios-aluno"></div>
 
-            <div
-                id="mensagemVazia"
-                class="mensagem-vazia-aluno"
-                style="display: none;">
-
+            <div id="mensagemVazia" class="mensagem-vazia-aluno"
+                 style="display:none;">
                 <i class="bi bi-file-earmark-text"></i>
-
-                <h5>
-                    Nenhum relatório encontrado
-                </h5>
-
-                <p>
-                    Você ainda não possui relatórios cadastrados.
-                </p>
-
+                <h5>Nenhum relatório encontrado</h5>
+                <p>Você ainda não possui relatórios cadastrados.</p>
             </div>
 
-
-            <div
-                id="mensagemErro"
-                class="mensagem-erro-aluno"
-                style="display: none;">
-
+            <div id="mensagemErro" class="mensagem-erro-aluno"
+                 style="display:none;">
                 Não foi possível carregar seus relatórios.
-
             </div>
-
         </section>
-
     </main>
-
 </div>
 
-
 <script src="/js/relatoriosAluno.js"></script>
-
-<script
-    th:src="@{/js/sidebar.js}"
-    defer>
-</script>
-
+<script th:src="@{/js/sidebar.js}" defer></script>
 </body>
-
 </html>

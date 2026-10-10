@@ -1,22 +1,32 @@
- 
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="/assets/iconeFisio.svg" type="image/x-icon">
+
     <title>Editar consulta</title>
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/consultasCadastro.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <link rel="stylesheet"
+          href="/css/consultasCadastro.css">
 </head>
 
 <body>
+
 <div class="layout">
+
     <main class="conteudo-consultas">
 
         <div class="cabecalho">
@@ -33,28 +43,66 @@
 
         <form id="formConsulta" class="form-consulta" autocomplete="off">
 
+            <!-- ALUNO -->
             <div class="linha-form">
+
                 <div class="campo-form campo-autocomplete">
                     <label for="alunoNome">
                         <i class="bi bi-person-badge"></i>
                         Aluno
                     </label>
 
-                    <input id="alunoNome" type="text"
-                           placeholder="Digite o nome do aluno..." required>
+                    <input
+                        id="alunoNome"
+                        type="text"
+                        placeholder="Digite o nome do aluno..."
+                        required
+                    >
+
                     <input id="alunoId" type="hidden">
 
                     <div id="alunoOpcoes" class="opcoes-autocomplete"></div>
                 </div>
+
+                <!-- PACIENTE: preservado, sem permitir alteração -->
+                <div class="campo-form">
+                    <label for="pacienteNome">
+                        <i class="bi bi-person-heart"></i>
+                        Paciente
+                    </label>
+
+                    <input
+                        id="pacienteNome"
+                        type="text"
+                        placeholder="Paciente da consulta"
+                        readonly
+                        aria-describedby="ajudaPaciente"
+                    >
+
+                    <input id="pacienteId" type="hidden">
+
+                    <small id="ajudaPaciente">
+                        O paciente não pode ser alterado durante a edição.
+                    </small>
+                </div>
+
             </div>
 
+            <!-- DATA E HORÁRIO -->
             <div class="linha-form">
+
                 <div class="campo-form">
                     <label for="dataConsulta">
                         <i class="bi bi-calendar-event"></i>
                         Data
                     </label>
-                    <input id="dataConsulta" type="date" required>
+
+                    <input
+                        id="dataConsulta"
+                        type="text"
+                        placeholder="Selecione a data"
+                        required
+                    >
                 </div>
 
                 <div class="campo-form">
@@ -71,46 +119,67 @@
                         Os horários dependem dos turnos do aluno e da disponibilidade.
                     </small>
                 </div>
+
             </div>
 
+            <!-- MOTIVO -->
             <div class="campo-form">
                 <label for="motivo">
                     <i class="bi bi-chat-left-text"></i>
                     Motivo da consulta
                 </label>
 
-                <textarea id="motivo" maxlength="500" rows="4"
-                          placeholder="Informe o motivo da consulta..."
-                          required></textarea>
+                <textarea
+                    id="motivo"
+                    maxlength="500"
+                    rows="4"
+                    placeholder="Informe o motivo da consulta..."
+                    required
+                ></textarea>
             </div>
 
+            <!-- DIAGNÓSTICO -->
             <div class="campo-form">
                 <label for="diagnostico">
                     <i class="bi bi-clipboard2-pulse"></i>
                     Diagnóstico <span>(opcional)</span>
                 </label>
 
-                <input id="diagnostico" maxlength="150" type="text"
-                       placeholder="Informe o diagnóstico, se houver...">
+                <input
+                    id="diagnostico"
+                    maxlength="150"
+                    type="text"
+                    placeholder="Informe o diagnóstico, se houver..."
+                >
             </div>
 
-            <div id="mensagem" class="mensagem" role="status"
-                 aria-live="polite"></div>
+            <div id="mensagem" class="mensagem"
+                 role="status" aria-live="polite"></div>
 
+            <!-- AÇÕES -->
             <div class="acoes-form">
                 <a href="/pagina/consultas" class="btn-cancelar">
                     Cancelar
                 </a>
 
-                <button type="submit" class="btn-salvar" id="btnSalvar" disabled>
+                <button
+                    type="submit"
+                    class="btn-salvar"
+                    id="btnSalvar"
+                    disabled
+                >
                     <i class="bi bi-save"></i>
                     Salvar alterações
                 </button>
             </div>
+
         </form>
     </main>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
 <script src="/js/consultasEdicao.js"></script>
+
 </body>
 </html>

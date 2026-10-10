@@ -49,7 +49,7 @@ CREATE TABLE `aluno_turnos` (
   KEY `id_turno` (`id_turno`),
   CONSTRAINT `aluno_turnos_ibfk_1` FOREIGN KEY (`id_aluno`) REFERENCES `alunos` (`id`),
   CONSTRAINT `aluno_turnos_ibfk_2` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `alunos` (
   `email` varchar(150) DEFAULT NULL,
   `tipo` enum('estagio','curso') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,7 +86,7 @@ CREATE TABLE `alunos_especialidades` (
   KEY `fk_alunos_especialidade_especialidade` (`idEspecialidade`),
   CONSTRAINT `alunos_especialidades_ibfk_1` FOREIGN KEY (`idAluno`) REFERENCES `alunos` (`id`),
   CONSTRAINT `fk_alunos_especialidade_especialidade` FOREIGN KEY (`idEspecialidade`) REFERENCES `especialidades` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +110,7 @@ CREATE TABLE `consultas` (
   KEY `consultas_ibfk_1` (`aluno_id`),
   CONSTRAINT `consultas_ibfk_1` FOREIGN KEY (`aluno_id`) REFERENCES `alunos` (`id`),
   CONSTRAINT `fk_agendamento_paciente` FOREIGN KEY (`paciente`) REFERENCES `pacientes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +142,7 @@ CREATE TABLE `horarios` (
   PRIMARY KEY (`id`),
   KEY `turno_id` (`turno_id`),
   CONSTRAINT `horarios_ibfk_1` FOREIGN KEY (`turno_id`) REFERENCES `turnos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,7 +158,7 @@ CREATE TABLE `pacientes` (
   `cpf` varchar(20) DEFAULT NULL,
   `telefone` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,10 +210,12 @@ CREATE TABLE `relatorios` (
   `descricao` text NOT NULL,
   `status` enum('aprovado','reprovado') DEFAULT NULL,
   `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `anexo_exame` varchar(255) DEFAULT NULL,
+  `observacao` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_relatorio_consulta` (`consulta_id`),
   CONSTRAINT `relatorios_ibfk_1` FOREIGN KEY (`consulta_id`) REFERENCES `consultas` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,4 +241,4 @@ CREATE TABLE `turnos` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-07 19:01:40
+-- Dump completed on 2026-10-10 11:34:04
