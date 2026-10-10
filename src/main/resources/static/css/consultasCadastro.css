@@ -2,31 +2,24 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
 }
 
 body {
     min-height: 100vh;
-
     background-image: url("/assets/fundologinspring.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-
     padding: 30px;
 }
 
-
-/* ==================================================
-   CONTEÚDO
-   ================================================== */
+/* CONTEÚDO */
 
 .layout {
     width: 100%;
     min-height: 100vh;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,65 +28,46 @@ body {
 .conteudo-consultas {
     width: 100%;
     max-width: 900px;
-
     background-color: rgba(255, 255, 255, 0.8);
-
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-
     border: 2px solid #007336;
     border-radius: 15px;
-
     padding: 35px;
 }
 
-
-/* ==================================================
-   CABEÇALHO
-   ================================================== */
+/* CABEÇALHO */
 
 .cabecalho {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     margin-bottom: 30px;
-
     gap: 20px;
 }
 
 .cabecalho h1 {
     color: #007336;
-
     font-size: 28px;
     font-weight: 600;
-
     margin-bottom: 5px;
 }
 
 .cabecalho p {
     color: #555;
-
     font-size: 14px;
 }
 
 .btn-voltar {
     display: inline-flex;
-
     align-items: center;
     gap: 7px;
-
     padding: 10px 16px;
-
     color: #007336;
-
     text-decoration: none;
-
     border: 2px solid #007336;
     border-radius: 7px;
-
     background-color: white;
-
     transition: 0.2s;
 }
 
@@ -102,10 +76,7 @@ body {
     color: white;
 }
 
-
-/* ==================================================
-   FORMULÁRIO
-   ================================================== */
+/* FORMULÁRIO */
 
 .form-consulta {
     width: 100%;
@@ -113,76 +84,58 @@ body {
 
 .linha-form {
     display: flex;
-
     gap: 20px;
-
     margin-bottom: 20px;
 }
 
 .linha-form > .campo-form {
     flex: 1;
+    min-width: 0;
 }
 
 .campo-form {
     position: relative;
-
     width: 100%;
-
     margin-bottom: 20px;
 }
 
 .campo-form label {
     display: block;
-
     margin-bottom: 8px;
-
     color: #007336;
-
     font-size: 14px;
     font-weight: 600;
 }
 
 .campo-form label i {
     margin-right: 5px;
-
     color: #007336;
 }
 
 .campo-form label span {
     color: #777;
-
     font-weight: 400;
 }
 
-
-/* ==================================================
-   INPUTS
-   ================================================== */
+/* INPUTS */
 
 .campo-form input,
 .campo-form select,
 .campo-form textarea {
     width: 100%;
-
     border: 2px solid #007336;
     border-radius: 7px;
-
     background-color: rgba(255, 255, 255, 0.9);
-
     padding: 11px 13px;
-
     font-size: 14px;
-
     outline: none;
-
-    transition: 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .campo-form input:focus,
 .campo-form select:focus,
 .campo-form textarea:focus {
     border-color: #ed1c24;
-
     box-shadow: 0 0 0 2px rgba(237, 28, 36, 0.1);
 }
 
@@ -191,39 +144,36 @@ body {
     color: #888;
 }
 
+/* DATA */
 
-/* ==================================================
-   SELECT
-   ================================================== */
+#dataConsulta {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.ajuda-campo,
+#ajudaHorario {
+    display: block;
+    margin-top: 6px;
+    color: #666;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* HORÁRIOS */
 
 .campo-form select {
     cursor: pointer;
-
     appearance: auto;
 }
 
 .campo-form select:disabled {
     background-color: #eeeeee;
-
     color: #777;
-
     cursor: not-allowed;
 }
 
-#ajudaHorario {
-    display: block;
-
-    margin-top: 6px;
-
-    color: #666;
-
-    font-size: 12px;
-}
-
-
-/* ==================================================
-   AUTOCOMPLETE
-   ================================================== */
+/* AUTOCOMPLETE */
 
 .campo-autocomplete {
     position: relative;
@@ -231,75 +181,48 @@ body {
 
 .opcoes-autocomplete {
     position: absolute;
-
     top: 100%;
     left: 0;
-
     width: 100%;
-
     z-index: 1000;
-
     background-color: white;
-
     border: 2px solid #007336;
     border-top: none;
-
     border-radius: 0 0 7px 7px;
-
     overflow: hidden;
 }
 
 .opcao-autocomplete {
     display: block;
-
     width: 100%;
-
     padding: 11px 13px;
-
     border: none;
-
     background-color: white;
-
     color: #333;
-
     text-align: left;
-
     cursor: pointer;
-
     font-size: 14px;
-
     transition: 0.2s;
 }
 
 .opcao-autocomplete:hover {
     background-color: #007336;
-
     color: white;
 }
 
-
-/* ==================================================
-   TEXTAREA
-   ================================================== */
+/* TEXTAREA */
 
 .campo-form textarea {
     resize: vertical;
-
     min-height: 100px;
 }
 
-
-/* ==================================================
-   MENSAGEM
-   ================================================== */
+/* MENSAGEM */
 
 .mensagem {
     min-height: 20px;
-
     margin: 10px 0;
-
     font-size: 14px;
-
     font-weight: 500;
 }
 
@@ -311,83 +234,63 @@ body {
     color: #ed1c24;
 }
 
-
-/* ==================================================
-   BOTÕES
-   ================================================== */
+/* BOTÕES */
 
 .acoes-form {
     display: flex;
-
     justify-content: flex-end;
     align-items: center;
-
     gap: 12px;
-
     margin-top: 25px;
 }
 
 .btn-cancelar,
 .btn-salvar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
     padding: 11px 18px;
-
     border-radius: 7px;
-
     font-size: 14px;
-
     text-decoration: none;
-
     cursor: pointer;
-
     transition: 0.2s;
 }
-
 
 /* CANCELAR */
 
 .btn-cancelar {
     color: #007336;
-
     background-color: white;
-
     border: 2px solid #007336;
 }
 
 .btn-cancelar:hover {
     background-color: #007336;
-
     color: white;
 }
-
 
 /* SALVAR */
 
 .btn-salvar {
     background-color: #ed1c24;
-
     color: white;
-
     border: 2px solid #007336;
 }
 
 .btn-salvar:hover {
     background-color: white;
-
     color: #ed1c24;
-
     border-color: #007336;
 }
 
 .btn-salvar:disabled {
     opacity: 0.6;
-
     cursor: not-allowed;
 }
 
-
-/* ==================================================
-   ÍCONES
-   ================================================== */
+/* ÍCONES */
 
 .bi {
     color: #007336;
@@ -409,10 +312,76 @@ body {
     color: white;
 }
 
+/* CALENDÁRIO FLATPICKR */
 
-/* ==================================================
-   RESPONSIVIDADE
-   ================================================== */
+.flatpickr-calendar {
+    font-family: 'Montserrat', sans-serif;
+    border: 1px solid #007336;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.flatpickr-calendar.open {
+    z-index: 2000;
+}
+
+.flatpickr-months,
+.flatpickr-weekdays {
+    background-color: #007336;
+}
+
+.flatpickr-months .flatpickr-month,
+.flatpickr-current-month,
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year,
+span.flatpickr-weekday {
+    color: white;
+    fill: white;
+}
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    fill: white;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+    fill: #ed1c24;
+}
+
+.flatpickr-day {
+    border-radius: 6px;
+}
+
+.flatpickr-day:hover {
+    background-color: rgba(0, 115, 54, 0.12);
+    border-color: #007336;
+}
+
+/* Data selecionada */
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:hover {
+    background-color: #007336;
+    border-color: #007336;
+    color: white;
+}
+
+/* Sábados e domingos desabilitados */
+
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover {
+    background-color: #f0f0f0;
+    color: #b6b6b6;
+    border-color: transparent;
+    text-decoration: line-through;
+    cursor: not-allowed;
+}
+
+/* RESPONSIVIDADE */
 
 @media (max-width: 700px) {
 
@@ -422,19 +391,16 @@ body {
 
     .conteudo-consultas {
         width: 100%;
-
         padding: 25px 20px;
     }
 
     .linha-form {
         flex-direction: column;
-
         gap: 0;
     }
 
     .cabecalho {
         flex-direction: column;
-
         align-items: flex-start;
     }
 
@@ -444,7 +410,6 @@ body {
 
     .btn-voltar {
         width: 100%;
-
         justify-content: center;
     }
 
@@ -456,20 +421,16 @@ body {
 
     .acoes-form {
         flex-direction: column-reverse;
-
         width: 100%;
     }
 
     .btn-cancelar,
     .btn-salvar {
         width: 100%;
-
         text-align: center;
-
         justify-content: center;
     }
 }
-
 
 @media (max-width: 400px) {
 
@@ -479,7 +440,6 @@ body {
 
     .conteudo-consultas {
         padding: 20px 15px;
-
         border-radius: 10px;
     }
 
@@ -495,14 +455,12 @@ body {
     .campo-form select,
     .campo-form textarea {
         font-size: 13px;
-
         padding: 10px;
     }
 
     .btn-cancelar,
     .btn-salvar {
         padding: 10px;
-
         font-size: 13px;
     }
 }

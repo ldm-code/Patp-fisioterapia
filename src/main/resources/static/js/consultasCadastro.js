@@ -39,6 +39,34 @@ const parametroId =
 
 
 /* ==================================================
+   CALENDÁRIO
+   Bloqueia sábados e domingos
+   ================================================== */
+
+if (typeof flatpickr !== "undefined") {
+
+   flatpickr(dataConsulta, {
+    locale: "pt",
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "d/m/Y",
+    disableMobile: true,
+
+    disable: [
+        function (data) {
+            return data.getDay() === 0 ||
+                   data.getDay() === 6;
+        }
+    ]
+});
+} else {
+    console.error(
+        "Flatpickr não foi carregado. Verifique os scripts no HTML."
+    );
+}
+
+
+/* ==================================================
    MENSAGEM
    ================================================== */
 
@@ -58,7 +86,6 @@ function mostrarMensagem(texto, erro = false) {
    ================================================== */
 
 function limparOpcoes(elemento) {
-
     elemento.innerHTML = "";
 }
 
@@ -70,43 +97,33 @@ function limparOpcoes(elemento) {
 async function buscarAlunos(nome) {
 
     if (nome.length < 2) {
-
         limparOpcoes(alunoOpcoes);
-
         return;
     }
 
     try {
 
-        const resposta =
-            await fetch(
-                `/consultas/alunos/busca?nome=${encodeURIComponent(nome)}`
-            );
+        const resposta = await fetch(
+            `/consultas/alunos/busca?nome=${encodeURIComponent(nome)}`
+        );
 
         if (!resposta.ok) {
-
             throw new Error(
                 "Não foi possível buscar os alunos."
             );
         }
 
-        const alunos =
-            await resposta.json();
+        const alunos = await resposta.json();
 
         limparOpcoes(alunoOpcoes);
 
         alunos.forEach(aluno => {
 
-            const opcao =
-                document.createElement("button");
+            const opcao = document.createElement("button");
 
             opcao.type = "button";
-
-            opcao.className =
-                "opcao-autocomplete";
-
-            opcao.textContent =
-                aluno.nome;
+            opcao.className = "opcao-autocomplete";
+            opcao.textContent = aluno.nome;
 
             opcao.addEventListener(
                 "click",
@@ -117,7 +134,6 @@ async function buscarAlunos(nome) {
         });
 
     } catch (erro) {
-
         console.error(erro);
     }
 }
@@ -129,26 +145,20 @@ async function buscarAlunos(nome) {
 
 function selecionarAluno(aluno) {
 
-    alunoNome.value =
-        aluno.nome;
+    alunoNome.value = aluno.nome;
+    alunoId.value = aluno.id;
 
-    alunoId.value =
-        aluno.id;
-
-    limparOpcoes(
-        alunoOpcoes
-    );
-
+    limparOpcoes(alunoOpcoes);
 
     /*
-     * Agora o horário depende
-     * também da data selecionada.
+     * O carregamento dos horários depende
+     * da data selecionada.
      */
 
     if (dataConsulta.value) {
 
         carregarHorarios(
-            aluno.id
+            Number(aluno.id)
         );
 
     } else {
@@ -171,47 +181,33 @@ function selecionarAluno(aluno) {
 async function buscarPacientes(nome) {
 
     if (nome.length < 2) {
-
-        limparOpcoes(
-            pacienteOpcoes
-        );
-
+        limparOpcoes(pacienteOpcoes);
         return;
     }
 
     try {
 
-        const resposta =
-            await fetch(
-                `/consultas/pacientes/busca?nome=${encodeURIComponent(nome)}`
-            );
+        const resposta = await fetch(
+            `/consultas/pacientes/busca?nome=${encodeURIComponent(nome)}`
+        );
 
         if (!resposta.ok) {
-
             throw new Error(
                 "Não foi possível buscar os pacientes."
             );
         }
 
-        const pacientes =
-            await resposta.json();
+        const pacientes = await resposta.json();
 
-        limparOpcoes(
-            pacienteOpcoes
-        );
+        limparOpcoes(pacienteOpcoes);
 
         pacientes.forEach(paciente => {
 
-            const opcao =
-                document.createElement("button");
+            const opcao = document.createElement("button");
 
             opcao.type = "button";
-
-            opcao.className =
-                "opcao-autocomplete";
-
-            opcao.textContent =
-                paciente.nome;
+            opcao.className = "opcao-autocomplete";
+            opcao.textContent = paciente.nome;
 
             opcao.addEventListener(
                 "click",
@@ -222,7 +218,6 @@ async function buscarPacientes(nome) {
         });
 
     } catch (erro) {
-
         console.error(erro);
     }
 }
@@ -234,15 +229,10 @@ async function buscarPacientes(nome) {
 
 function selecionarPaciente(paciente) {
 
-    pacienteNome.value =
-        paciente.nome;
+    pacienteNome.value = paciente.nome;
+    pacienteId.value = paciente.id;
 
-    pacienteId.value =
-        paciente.id;
-
-    limparOpcoes(
-        pacienteOpcoes
-    );
+    limparOpcoes(pacienteOpcoes);
 }
 
 
@@ -260,10 +250,9 @@ async function carregarHorarios(idAluno) {
         </option>
     `;
 
-
     /*
-     * Sem data não existe como
-     * verificar disponibilidade.
+     * Sem data não existe como verificar
+     * a disponibilidade dos horários.
      */
 
     if (!dataConsulta.value) {
@@ -277,29 +266,21 @@ async function carregarHorarios(idAluno) {
         return;
     }
 
-
     try {
 
-        const resposta =
-            await fetch(
-                `/consultas/horarios/aluno/${idAluno}?data=${encodeURIComponent(dataConsulta.value)}`
-            );
-
+        const resposta = await fetch(
+            `/consultas/horarios/aluno/${idAluno}?data=${encodeURIComponent(dataConsulta.value)}`
+        );
 
         if (!resposta.ok) {
-
             throw new Error(
                 "Não foi possível carregar os horários."
             );
         }
 
-
-        const horarios =
-            await resposta.json();
-
+        const horarios = await resposta.json();
 
         horario.innerHTML = "";
-
 
         if (horarios.length === 0) {
 
@@ -312,31 +293,23 @@ async function carregarHorarios(idAluno) {
             return;
         }
 
-
         horario.innerHTML = `
             <option value="">
                 Selecione o horário
             </option>
         `;
 
-
         horarios.forEach(hora => {
 
-            const opcao =
-                document.createElement("option");
+            const opcao = document.createElement("option");
 
-            opcao.value =
-                hora;
-
-            opcao.textContent =
-                hora;
+            opcao.value = hora;
+            opcao.textContent = hora;
 
             horario.appendChild(opcao);
         });
 
-
         horario.disabled = false;
-
 
     } catch (erro) {
 
@@ -409,11 +382,22 @@ dataConsulta.addEventListener(
             </option>
         `;
 
-
         /*
-         * Se ainda não escolheu aluno,
-         * não existe horário para carregar.
+         * O Flatpickr impede a seleção dos finais
+         * de semana. Aqui mantemos o fluxo original
+         * para carregar horários da data escolhida.
          */
+
+        if (!dataConsulta.value) {
+
+            horario.innerHTML = `
+                <option value="">
+                    Selecione primeiro a data
+                </option>
+            `;
+
+            return;
+        }
 
         if (!alunoId.value) {
 
@@ -425,7 +409,6 @@ dataConsulta.addEventListener(
 
             return;
         }
-
 
         carregarHorarios(
             Number(alunoId.value)
@@ -448,13 +431,8 @@ document.addEventListener(
             )
         ) {
 
-            limparOpcoes(
-                alunoOpcoes
-            );
-
-            limparOpcoes(
-                pacienteOpcoes
-            );
+            limparOpcoes(alunoOpcoes);
+            limparOpcoes(pacienteOpcoes);
         }
     }
 );
@@ -470,7 +448,6 @@ formConsulta.addEventListener(
 
         evento.preventDefault();
 
-
         if (!alunoId.value) {
 
             mostrarMensagem(
@@ -480,7 +457,6 @@ formConsulta.addEventListener(
 
             return;
         }
-
 
         if (!pacienteId.value) {
 
@@ -492,7 +468,6 @@ formConsulta.addEventListener(
             return;
         }
 
-
         if (!dataConsulta.value) {
 
             mostrarMensagem(
@@ -503,6 +478,26 @@ formConsulta.addEventListener(
             return;
         }
 
+        /*
+         * Verificação adicional para impedir
+         * envio de sábado ou domingo.
+         */
+
+        const dataSelecionada = new Date(
+            `${dataConsulta.value}T12:00:00`
+        );
+
+        const diaSemana = dataSelecionada.getDay();
+
+        if (diaSemana === 0 || diaSemana === 6) {
+
+            mostrarMensagem(
+                "Não é permitido agendar consultas aos sábados e domingos.",
+                true
+            );
+
+            return;
+        }
 
         if (!horario.value) {
 
@@ -514,10 +509,8 @@ formConsulta.addEventListener(
             return;
         }
 
-
         const dataHora =
             `${dataConsulta.value}T${horario.value}:00`;
-
 
         const dados = {
 
@@ -537,74 +530,51 @@ formConsulta.addEventListener(
                 diagnostico.value.trim() || null
         };
 
-
         const botaoSalvar =
             formConsulta.querySelector(
                 ".btn-salvar"
             );
 
-
         botaoSalvar.disabled = true;
-
 
         try {
 
-            const url =
-                parametroId
-                    ? `/consultas/${parametroId}`
-                    : "/consultas";
+            const url = parametroId
+                ? `/consultas/${parametroId}`
+                : "/consultas";
 
+            const metodo = parametroId
+                ? "PUT"
+                : "POST";
 
-            const metodo =
-                parametroId
-                    ? "PUT"
-                    : "POST";
+            const resposta = await fetch(
+                url,
+                {
+                    method: metodo,
 
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
 
-            const resposta =
-                await fetch(
-                    url,
-                    {
-                        method: metodo,
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(dados)
-                    }
-                );
-
-
-            const texto =
-                await resposta.text();
-
-
-            if (!resposta.ok) {
-
-                throw new Error(
-                    texto
-                );
-            }
-
-
-            mostrarMensagem(
-                texto
+                    body: JSON.stringify(dados)
+                }
             );
 
+            const texto = await resposta.text();
+
+            if (!resposta.ok) {
+                throw new Error(texto);
+            }
+
+            mostrarMensagem(texto);
 
             setTimeout(
                 () => {
-
                     window.location.href =
                         "/pagina/consultas";
-
                 },
                 900
             );
-
 
         } catch (erro) {
 
@@ -614,11 +584,9 @@ formConsulta.addEventListener(
                 true
             );
 
-
         } finally {
 
-            botaoSalvar.disabled =
-                false;
+            botaoSalvar.disabled = false;
         }
     }
 );

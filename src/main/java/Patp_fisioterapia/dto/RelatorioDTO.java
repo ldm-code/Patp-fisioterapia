@@ -1,3 +1,4 @@
+
 package Patp_fisioterapia.dto;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,9 @@ public class RelatorioDTO {
 
     private String nomeAluno;
     private String emailAluno;
+
+    private String anexoExame;
+    private String observacao;
 
     public int getId() {
         return id;
@@ -45,6 +49,14 @@ public class RelatorioDTO {
         this.status = status;
     }
 
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
     public String getNomeAluno() {
         return nomeAluno;
     }
@@ -61,11 +73,19 @@ public class RelatorioDTO {
         this.emailAluno = emailAluno;
     }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
+    public String getAnexoExame() {
+        return anexoExame;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
+    public void setAnexoExame(String anexoExame) {
+        this.anexoExame = anexoExame;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }

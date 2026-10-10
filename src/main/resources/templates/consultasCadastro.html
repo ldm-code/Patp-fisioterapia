@@ -15,7 +15,9 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-
+    <!-- Calendário com bloqueio de finais de semana -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <link rel="stylesheet"
           href="/css/consultasCadastro.css">
@@ -47,24 +49,18 @@
 
         </div>
 
-
         <form id="formConsulta"
               class="form-consulta"
               autocomplete="off">
 
-
             <!-- ALUNO -->
-
             <div class="linha-form">
 
                 <div class="campo-form campo-autocomplete">
 
                     <label for="alunoNome">
-
                         <i class="bi bi-person-badge"></i>
-
                         Aluno
-
                     </label>
 
                     <input
@@ -86,17 +82,12 @@
 
                 </div>
 
-
                 <!-- PACIENTE -->
-
                 <div class="campo-form campo-autocomplete">
 
                     <label for="pacienteNome">
-
                         <i class="bi bi-person-heart"></i>
-
                         Paciente
-
                     </label>
 
                     <input
@@ -120,38 +111,36 @@
 
             </div>
 
-
             <!-- DATA E HORÁRIO -->
-
             <div class="linha-form">
 
                 <div class="campo-form">
 
                     <label for="dataConsulta">
-
                         <i class="bi bi-calendar-event"></i>
-
                         Data
-
                     </label>
 
                     <input
                         id="dataConsulta"
-                        type="date"
+                        type="text"
+                        placeholder="Selecione uma data"
+                        aria-describedby="ajudaData"
                         required
+                        readonly
                     >
 
-                </div>
+                    <small id="ajudaData" class="ajuda-campo">
+                        Sábados e domingos não estão disponíveis para agendamento.
+                    </small>
 
+                </div>
 
                 <div class="campo-form">
 
                     <label for="horario">
-
                         <i class="bi bi-clock"></i>
-
                         Horário
-
                     </label>
 
                     <select
@@ -159,33 +148,25 @@
                         required
                         disabled
                     >
-
                         <option value="">
                             Selecione primeiro o aluno
                         </option>
-
                     </select>
 
                     <small id="ajudaHorario">
-                        Os horários serão filtrados pelos horários
-                        disponíveis do aluno.
+                        Os horários serão filtrados pelos horários disponíveis do aluno.
                     </small>
 
                 </div>
 
             </div>
 
-
             <!-- MOTIVO -->
-
             <div class="campo-form">
 
                 <label for="motivo">
-
                     <i class="bi bi-chat-left-text"></i>
-
                     Motivo da consulta
-
                 </label>
 
                 <textarea
@@ -198,19 +179,13 @@
 
             </div>
 
-
             <!-- DIAGNÓSTICO -->
-
             <div class="campo-form">
 
                 <label for="diagnostico">
-
                     <i class="bi bi-clipboard2-pulse"></i>
-
                     Diagnóstico
-
                     <span>(opcional)</span>
-
                 </label>
 
                 <input
@@ -222,23 +197,20 @@
 
             </div>
 
-
             <div
                 id="mensagem"
-                class="mensagem">
+                class="mensagem"
+                role="status"
+                aria-live="polite">
             </div>
 
-
             <!-- BOTÕES -->
-
             <div class="acoes-form">
 
                 <a
                     href="/pagina/consultas"
                     class="btn-cancelar">
-
                     Cancelar
-
                 </a>
 
                 <button
@@ -246,7 +218,6 @@
                     class="btn-salvar">
 
                     <i class="bi bi-calendar-check"></i>
-
                     Agendar consulta
 
                 </button>
@@ -259,9 +230,11 @@
 
 </div>
 
+<!-- Flatpickr e idioma português -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
 
-
-
+<!-- JavaScript original do cadastro -->
 <script
     type="module"
     src="/js/consultasCadastro.js">
