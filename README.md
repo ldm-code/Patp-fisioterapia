@@ -45,9 +45,18 @@ Por questões de segurança, **as credenciais do banco de dados não estão incl
 Para executar o projeto localmente, crie ou configure o arquivo `application.properties` com as informações do seu próprio ambiente, por exemplo:
 
 ```properties
+# credenciais do banco de dados da aplicacao
 spring.datasource.url=jdbc:mysql://localhost:3306/nome_do_banco
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
+
+# Configuração para o Upload de exames e documentos
+spring.servlet.multipart.enabled=true
+spring.servlet.multipart.max-file-size=20MB
+spring.servlet.multipart.max-request-size=21MB
+
+# Pasta externa para os arquivos enviados
+patp.arquivos.diretorio=${user.home}/patp-anexos
 ```
 
 Substitua os valores pelos dados correspondentes ao banco de dados configurado na sua máquina.
