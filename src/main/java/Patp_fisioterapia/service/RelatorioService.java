@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import Patp_fisioterapia.dao.ConsultaDAO;
 import Patp_fisioterapia.dao.RelatorioDAO;
 import Patp_fisioterapia.dto.ConsultaDTO;
+import Patp_fisioterapia.dto.EspecialidadeDTO;
 import Patp_fisioterapia.dto.RelatorioDTO;
 
 @Service
@@ -167,4 +168,48 @@ public class RelatorioService {
             String emailAluno, String status) {
         return relatorioDAO.listarPorCoordenador(emailAluno, status);
     }
+    
+public List<EspecialidadeDTO> listarEspecialidadesProfessor(
+        int idProfessor) {
+
+    if (idProfessor <= 0) {
+        return List.of();
+    }
+
+    return relatorioDAO.listarEspecialidadesProfessor(
+        idProfessor
+    );
+}
+
+
+public List<RelatorioDTO> listarPorProfessor(
+        int idEspecialidade,
+        String emailAluno,
+        String status) {
+
+    if (idEspecialidade <= 0) {
+        return List.of();
+    }
+
+    return relatorioDAO.listarPorProfessor(
+        idEspecialidade,
+        emailAluno,
+        status
+    );
+}
+
+public boolean professorPodeAcessarRelatorio(
+        int idRelatorio,
+        int idProfessor) {
+
+    if (idRelatorio <= 0 || idProfessor <= 0) {
+        return false;
+    }
+
+    return relatorioDAO.professorPodeAcessarRelatorio(
+        idRelatorio,
+        idProfessor
+    );
+}
+
 }

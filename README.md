@@ -93,7 +93,8 @@ Conceitos Aprendidos:
 * Desenvolvimento de interfaces web;
 * Operações CRUD;
 * Autenticação e controle de acesso.
-* Cadastro de Consultas
+
+
 
 Funcionalidades implementadas:
 
@@ -103,6 +104,10 @@ Funcionalidades implementadas:
 * Crud de pacientes.
 * Cadastro de turnos e especialidades para alunos.
 * Seperação de acesso para Professor, Coordenador e Aluno.
+* Cadastro de Consultas
+* Cancelamento/conclusao de consultas
+* Filtros no campo de consultas por data, status, aluno e paciente
+* Cadastro e validacao de relatorios da consulta
 
 ## Autores do Projeto:
 
