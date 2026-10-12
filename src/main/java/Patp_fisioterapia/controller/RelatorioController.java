@@ -1,5 +1,6 @@
 package Patp_fisioterapia.controller;
 
+import Patp_fisioterapia.dto.EspecialidadeDTO;
 import Patp_fisioterapia.dto.RelatorioDTO;
 import Patp_fisioterapia.service.ArquivoExameService;
 import Patp_fisioterapia.service.RelatorioService;
@@ -306,4 +307,75 @@ public class RelatorioController {
         return "coordenador".equals(tipo.toString())
             || "professor".equals(tipo.toString());
     }
+    
+@GetMapping("/professor/especialidades")
+public ResponseEntity<?> listarEspecialidadesProfessor(
+        HttpSession session) {
+
+    if (!"comum".equals(
+            String.valueOf(session.getAttribute("tipoUsuario")))) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body("Acesso permitido somente ao professor.");
+    }
+
+    Integer idProfessor = obterIdProfessor(session);
+
+    if (idProfessor == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body("Professor não identificado.");
+    }
+
+    List<EspecialidadeDTO> especialidades =
+        relatorioService.listarEspecialidadesProfessor(idProfessor);
+
+    return ResponseEntity.ok(especialidades);
+}
+
+
+@GetMapping("/professor")
+public ResponseEntity<?> listarRelatoriosProfessor(
+        @RequestParam int especialidadeId,
+        @RequestParam(required = false) String email,
+        @RequestParam(required = false) String status,
+        HttpSession session) {
+
+    if (!"comum".equals(
+            String.valueOf(session.getAttribute("tipoUsuario")))) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body("Acesso permitido somente ao professor.");
+    }
+
+    Integer idProfessor = obterIdProfessor(session);
+
+    if (idProfessor == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body("Professor não identificado.");
+    }
+
+   
+    List<RelatorioDTO> relatorios =
+        relatorioService.listarPorProfessor(
+            especialidadeId,
+            email,
+            status
+        );
+
+    return ResponseEntity.ok(relatorios);
+}
+
+
+private Integer obterIdProfessor(HttpSession session) {
+    Object valor = session.getAttribute("idProfessor");
+
+    if (valor == null) {
+        return null;
+    }
+
+    try {
+        return Integer.parseInt(valor.toString());
+    } catch (NumberFormatException e) {
+        return null;
+    }
+}
+
 }

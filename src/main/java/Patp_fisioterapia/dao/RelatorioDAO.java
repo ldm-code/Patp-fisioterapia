@@ -1,5 +1,6 @@
 package Patp_fisioterapia.dao;
 
+import Patp_fisioterapia.dto.EspecialidadeDTO;
 import Patp_fisioterapia.dto.RelatorioDTO;
 
 import java.sql.Connection;
@@ -302,4 +303,152 @@ public class RelatorioDAO {
 
         return relatorio;
     }
+    
+public List<EspecialidadeDTO> listarEspecialidadesProfessor(
+        int idProfessor) {
+
+    List<EspecialidadeDTO> especialidades = new ArrayList<>();
+
+    String sql = """
+        SELECT e.id, e.nome
+        FROM professores_especializacao pe
+        INNER JOIN especialidades e
+            ON e.id = pe.especialidade_id
+        WHERE pe.professor_id = ?
+        ORDER BY e.nome
+        """;
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+        stmt.setInt(1, idProfessor);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                EspecialidadeDTO especialidade =
+                    new EspecialidadeDTO();
+
+                especialidade.setId(rs.getInt("id"));
+                especialidade.setNome(rs.getString("nome"));
+
+                especialidades.add(especialidade);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return especialidades;
+}
+
+
+
+public List<RelatorioDTO> listarPorProfessor(
+        int idEspecialidade,
+        String emailAluno,
+        String status) {
+
+    List<RelatorioDTO> relatorios = new ArrayList<>();
+
+    StringBuilder sql = new StringBuilder("""
+        SELECT
+            r.id,
+            r.consulta_id,
+            r.descricao,
+            r.status,
+            r.data_criacao,
+            r.anexo_exame,
+            r.observacao,
+            a.nome AS nome_aluno,
+            a.email AS email_aluno
+        FROM relatorios r
+        INNER JOIN consultas c
+            ON c.id = r.consulta_id
+        INNER JOIN alunos a
+            ON a.id = c.aluno_id
+        INNER JOIN alunos_especialidades ae
+            ON ae.idAluno = a.id
+        WHERE ae.idEspecialidade = ?
+          AND a.email LIKE ?
+        """);
+
+    adicionarFiltroStatus(sql, status);
+    sql.append(" ORDER BY r.data_criacao DESC");
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt =
+            conexao.prepareStatement(sql.toString())
+    ) {
+        stmt.setInt(1, idEspecialidade);
+
+        String filtroEmail =
+            emailAluno == null ? "" : emailAluno.trim();
+
+        stmt.setString(2, "%" + filtroEmail + "%");
+
+        if (statusValido(status)) {
+            stmt.setString(3, status);
+        }
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                RelatorioDTO relatorio = mapearRelatorio(rs);
+
+                relatorio.setNomeAluno(
+                    rs.getString("nome_aluno")
+                );
+
+                relatorio.setEmailAluno(
+                    rs.getString("email_aluno")
+                );
+
+                relatorios.add(relatorio);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return relatorios;
+}
+
+
+
+public boolean professorPodeAcessarRelatorio(
+        int idRelatorio,
+        int idProfessor) {
+
+    String sql = """
+        SELECT 1
+        FROM relatorios r
+        INNER JOIN consultas c
+            ON c.id = r.consulta_id
+        INNER JOIN alunos_especialidades ae
+            ON ae.idAluno = c.aluno_id
+        INNER JOIN professores_especializacao pe
+            ON pe.especialidade_id = ae.idEspecialidade
+        WHERE r.id = ?
+          AND pe.professor_id = ?
+        LIMIT 1
+        """;
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt =
+            conexao.prepareStatement(sql)
+    ) {
+        stmt.setInt(1, idRelatorio);
+        stmt.setInt(2, idProfessor);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            return rs.next();
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
 }
