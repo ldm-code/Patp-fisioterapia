@@ -371,6 +371,7 @@ public List<RelatorioDTO> listarPorProfessor(
             ON ae.idAluno = a.id
         WHERE ae.idEspecialidade = ?
           AND a.email LIKE ?
+          AND a.tipo='curso'
         """);
 
     adicionarFiltroStatus(sql, status);

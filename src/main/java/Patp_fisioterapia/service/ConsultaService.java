@@ -83,28 +83,46 @@ public class ConsultaService {
         return "Não foi possível atualizar a consulta.";
     }
 
-    public String cancelar(int id) {
+   public String cancelar(int id, String motivoCancelamento) {
 
-        ConsultaDTO consulta = buscarPorId(id);
+    if (motivoCancelamento == null ||
+            motivoCancelamento.trim().isEmpty()) {
 
-        if (consulta == null) {
-            return "Consulta não encontrada.";
-        }
-
-        if ("concluida".equals(consulta.getStatus())) {
-            return "Uma consulta concluída não pode ser cancelada.";
-        }
-
-        if ("cancelada".equals(consulta.getStatus())) {
-            return "A consulta já está cancelada.";
-        }
-
-        if (consultaDAO.atualizarStatus(id, "cancelada")) {
-            return "Consulta cancelada com sucesso.";
-        }
-
-        return "Não foi possível cancelar a consulta.";
+        return "Informe o motivo do cancelamento.";
     }
+
+    motivoCancelamento = motivoCancelamento.trim();
+
+    if (motivoCancelamento.length() > 255) {
+        return "O motivo do cancelamento deve ter no máximo 255 caracteres.";
+    }
+
+    ConsultaDTO consulta = buscarPorId(id);
+
+    if (consulta == null) {
+        return "Consulta não encontrada.";
+    }
+
+    if ("concluida".equals(consulta.getStatus())) {
+        return "Uma consulta concluída não pode ser cancelada.";
+    }
+
+    if ("cancelada".equals(consulta.getStatus())) {
+        return "A consulta já está cancelada.";
+    }
+
+    boolean cancelada = consultaDAO.cancelarComMotivo(
+            id,
+            motivoCancelamento
+    );
+
+    if (cancelada) {
+        return "Consulta cancelada com sucesso.";
+    }
+
+    return "Não foi possível cancelar a consulta. Atualize a página e tente novamente.";
+}
+
     public String atualizarEdicao(ConsultaDTO consulta) {
 
     if (consulta == null || consulta.getId() <= 0) {
