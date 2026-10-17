@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class ConsultaDAO {
 
@@ -199,7 +200,124 @@ public class ConsultaDAO {
             return false;
         }
     }
+    
+    public List<ConsultaDTO> listarParaExportacao(
+        String aluno,
+        String paciente,
+        String status,
+        LocalDate data) {
 
+    String sql = """
+        SELECT
+            c.id,
+            c.aluno_id,
+            c.paciente,
+            c.motivo,
+            c.data_agendada,
+            c.data_consulta,
+            c.status,
+            c.diagnostico,
+            c.motivo_cancelamento,
+            a.nome AS nome_aluno,
+            p.nome AS nome_paciente,
+
+            CASE
+                WHEN r.id IS NOT NULL THEN TRUE
+                ELSE FALSE
+            END AS tem_relatorio,
+
+            r.descricao AS descricao_relatorio
+
+        FROM consultas c
+
+        INNER JOIN alunos a
+            ON a.id = c.aluno_id
+
+        INNER JOIN pacientes p
+            ON p.id = c.paciente
+
+        LEFT JOIN relatorios r
+            ON r.consulta_id = c.id
+
+        WHERE
+            (? IS NULL OR LOWER(a.nome) LIKE ?)
+
+            AND (? IS NULL OR LOWER(p.nome) LIKE ?)
+
+            AND (? IS NULL OR c.status = ?)
+
+            AND (? IS NULL OR DATE(c.data_consulta) = ?)
+
+        ORDER BY c.data_consulta DESC
+        """;
+
+    List<ConsultaDTO> consultas = new ArrayList<>();
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql)
+    ) {
+        String alunoNormalizado = normalizarFiltro(aluno);
+        String pacienteNormalizado = normalizarFiltro(paciente);
+        String statusNormalizado = normalizarFiltro(status);
+
+        stmt.setString(1, alunoNormalizado);
+        stmt.setString(
+            2,
+            alunoNormalizado == null
+                ? null
+                : "%" + alunoNormalizado.toLowerCase(Locale.ROOT) + "%"
+        );
+
+        stmt.setString(3, pacienteNormalizado);
+        stmt.setString(
+            4,
+            pacienteNormalizado == null
+                ? null
+                : "%" + pacienteNormalizado.toLowerCase(Locale.ROOT) + "%"
+        );
+
+        stmt.setString(5, statusNormalizado);
+        stmt.setString(6, statusNormalizado);
+
+        stmt.setDate(
+            7,
+            data == null ? null : java.sql.Date.valueOf(data)
+        );
+        stmt.setDate(
+            8,
+            data == null ? null : java.sql.Date.valueOf(data)
+        );
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                ConsultaDTO consulta = preencherConsulta(rs);
+
+                consulta.setDescricaoRelatorio(
+                    rs.getString("descricao_relatorio")
+                );
+
+                consultas.add(consulta);
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        throw new RuntimeException(
+            "Erro ao consultar os dados para exportação.", e
+        );
+    }
+
+    return consultas;
+}
+
+private String normalizarFiltro(String valor) {
+    if (valor == null || valor.isBlank()) {
+        return null;
+    }
+
+    return valor.trim();
+}
     /*
      * Cancela uma consulta e salva o motivo na mesma operação.
      * Não permite cancelar consultas já canceladas ou concluídas.

@@ -572,6 +572,34 @@ body {
 
     font-size: 13px;
 }
+.btn-exportar-excel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 42px;
+    padding: 0 16px;
+
+    border: 2px solid #007336;
+    border-radius: 6px;
+
+    background-color: #007336;
+    color: white;
+
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-exportar-excel:hover {
+    background-color: white;
+    color: #007336;
+}
+
 
 
 /* ==================================================
@@ -604,7 +632,9 @@ body {
    ================================================== */
 
 @media (max-width: 800px) {
-
+    .btn-exportar-excel {
+        width: 100%;
+    }
     .conteudo-consultas {
         padding: 35px 20px;
     }

@@ -315,4 +315,18 @@ public List<String> buscarHorariosDisponiveisParaEdicao(
 
         return null;
     }
+    public List<ConsultaDTO> listarParaExportacao(
+        String aluno,
+        String paciente,
+        String status,
+        LocalDate data) {
+    
+    return consultaDAO.listarParaExportacao(
+        aluno,
+        paciente,
+        status,
+        data
+    );
+}
+
 }

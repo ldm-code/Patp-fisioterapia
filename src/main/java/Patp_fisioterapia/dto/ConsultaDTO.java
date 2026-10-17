@@ -13,11 +13,12 @@ public class ConsultaDTO {
     private String status;
     private String diagnostico;
     private String motivoCancelamento;
-
+    
     private String nomeAluno;
     private String nomePaciente;
-
+    
     private boolean temRelatorio;
+    private String descricaoRelatorio;
 
     public int getId() {
         return id;
@@ -113,5 +114,11 @@ public class ConsultaDTO {
 
     public void setTemRelatorio(boolean temRelatorio) {
         this.temRelatorio = temRelatorio;
+    }
+    public String getDescricaoRelatorio(){
+        return descricaoRelatorio;
+    }
+    public void setDescricaoRelatorio(String descricaoRelatorio){
+        this.descricaoRelatorio=descricaoRelatorio;
     }
 }

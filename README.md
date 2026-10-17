@@ -108,6 +108,7 @@ Funcionalidades implementadas:
 * Cancelamento/conclusao de consultas
 * Filtros no campo de consultas por data, status, aluno e paciente
 * Cadastro e validacao de relatorios da consulta
+* Geração de arquivos Excel para relatorios de consultas
 
 ## Autores do Projeto:
 
