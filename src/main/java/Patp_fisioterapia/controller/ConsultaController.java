@@ -118,30 +118,36 @@ public class ConsultaController {
 
 
     @PutMapping("/{id}/cancelar")
-    public ResponseEntity<String> cancelar(
-            @PathVariable int id,
-            HttpSession session) {
+public ResponseEntity<String> cancelar(
+        @PathVariable int id,
+        @RequestBody ConsultaDTO dados,
+        HttpSession session) {
 
-        if (!isCoordenador(session)) {
-            return ResponseEntity
-                    .status(HttpStatus.FORBIDDEN)
-                    .body("Acesso negado.");
-        }
-
-        String mensagem =
-                consultaService.cancelar(id);
-
-        if (mensagem.equals(
-                "Consulta cancelada com sucesso.")) {
-
-            return ResponseEntity.ok(mensagem);
-        }
-
+    if (!isCoordenador(session)) {
         return ResponseEntity
-                .badRequest()
-                .body(mensagem);
+                .status(HttpStatus.FORBIDDEN)
+                .body("Acesso negado.");
     }
 
+    if (dados == null) {
+        return ResponseEntity
+                .badRequest()
+                .body("Informe o motivo do cancelamento.");
+    }
+
+    String mensagem = consultaService.cancelar(
+            id,
+            dados.getMotivoCancelamento()
+    );
+
+    if ("Consulta cancelada com sucesso.".equals(mensagem)) {
+        return ResponseEntity.ok(mensagem);
+    }
+
+    return ResponseEntity
+            .badRequest()
+            .body(mensagem);
+}
 
     @PutMapping("/{id}/concluir")
     public ResponseEntity<String> concluir(

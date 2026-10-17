@@ -86,7 +86,7 @@ CREATE TABLE `alunos_especialidades` (
   KEY `fk_alunos_especialidade_especialidade` (`idEspecialidade`),
   CONSTRAINT `alunos_especialidades_ibfk_1` FOREIGN KEY (`idAluno`) REFERENCES `alunos` (`id`),
   CONSTRAINT `fk_alunos_especialidade_especialidade` FOREIGN KEY (`idEspecialidade`) REFERENCES `especialidades` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,12 +105,13 @@ CREATE TABLE `consultas` (
   `data_consulta` datetime NOT NULL,
   `status` enum('cancelada','agendada','concluida','a validar','em aberto') DEFAULT 'agendada',
   `diagnostico` varchar(150) DEFAULT NULL,
+  `motivo_cancelamento` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_agendamento_paciente` (`paciente`),
   KEY `consultas_ibfk_1` (`aluno_id`),
   CONSTRAINT `consultas_ibfk_1` FOREIGN KEY (`aluno_id`) REFERENCES `alunos` (`id`),
   CONSTRAINT `fk_agendamento_paciente` FOREIGN KEY (`paciente`) REFERENCES `pacientes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,7 +216,7 @@ CREATE TABLE `relatorios` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_relatorio_consulta` (`consulta_id`),
   CONSTRAINT `relatorios_ibfk_1` FOREIGN KEY (`consulta_id`) REFERENCES `consultas` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,4 +242,4 @@ CREATE TABLE `turnos` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-10 11:34:04
+-- Dump completed on 2026-10-17 10:56:17

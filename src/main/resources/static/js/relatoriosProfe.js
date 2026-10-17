@@ -1,3 +1,4 @@
+let idEspecialidadePadrao = null;
 
 const listaRelatorios = document.getElementById("listaRelatorios");
 const mensagemVazia = document.getElementById("mensagemVazia");
@@ -16,7 +17,27 @@ const filtroStatus = document.getElementById("filtroStatus");
 
 const btnFiltrar = document.getElementById("btnFiltrar");
 const btnLimpar = document.getElementById("btnLimpar");
+async function idProfessor() {
+            const respostaPadrao = await fetch(
+            "/relatorios/professor/especialidades"
+        );
 
+        if (!respostaPadrao.ok) {
+            throw new Error(
+                "Não foi possível identificar a especialidade do professor."
+            );
+        }
+
+        const especialidadesProfessor =
+            await respostaPadrao.json();
+
+        if (!especialidadesProfessor.length) {
+            throw new Error(
+                "O professor não possui especialidade vinculada ao cadastro."
+            );
+        }
+    return String(especialidadesProfessor[0].id);
+    }
 
 async function carregarEspecialidades() {
     filtroEspecialidade.disabled = true;
@@ -56,29 +77,10 @@ async function carregarEspecialidades() {
         });
 
         // Recupera a especialidade vinculada ao cadastro do professor.
-        const respostaPadrao = await fetch(
-            "/relatorios/professor/especialidades"
-        );
-
-        if (!respostaPadrao.ok) {
-            throw new Error(
-                "Não foi possível identificar a especialidade do professor."
-            );
-        }
-
-        const especialidadesProfessor =
-            await respostaPadrao.json();
-
-        if (!especialidadesProfessor.length) {
-            throw new Error(
-                "O professor não possui especialidade vinculada ao cadastro."
-            );
-        }
-
+        
+        idEspecialidadePadrao = await idProfessor();
         // O cadastro atual vincula a especialidade escolhida no registro.
-        const idEspecialidadePadrao =
-            String(especialidadesProfessor[0].id);
-
+        
         const existeNoSelect = Array.from(
             filtroEspecialidade.options
         ).some(opcao => opcao.value === idEspecialidadePadrao);
@@ -441,6 +443,8 @@ btnFiltrar.addEventListener("click", carregarRelatorios);
 btnLimpar.addEventListener("click", () => {
     filtroEmail.value = "";
     filtroStatus.value = "";
+    filtroEspecialidade.value =idEspecialidadePadrao; 
+  
 
     // Limpa somente e-mail e status; mantém a especialidade escolhida.
     carregarRelatorios();

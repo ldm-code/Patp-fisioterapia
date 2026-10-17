@@ -12,6 +12,7 @@ public class ConsultaDTO {
     private LocalDateTime dataConsulta;
     private String status;
     private String diagnostico;
+    private String motivoCancelamento;
 
     private String nomeAluno;
     private String nomePaciente;
@@ -80,6 +81,14 @@ public class ConsultaDTO {
 
     public void setDiagnostico(String diagnostico) {
         this.diagnostico = diagnostico;
+    }
+
+    public String getMotivoCancelamento() {
+        return motivoCancelamento;
+    }
+
+    public void setMotivoCancelamento(String motivoCancelamento) {
+        this.motivoCancelamento = motivoCancelamento;
     }
 
     public String getNomeAluno() {

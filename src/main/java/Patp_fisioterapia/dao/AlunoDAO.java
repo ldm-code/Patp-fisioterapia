@@ -67,10 +67,11 @@ public List<AlunoDTO> listarAlunosPorProfessor(
                 ON a.id = ae.idAluno
             INNER JOIN especialidades e
                 ON ae.idEspecialidade = e.id
+            WHERE a.tipo='curso'
             """;
 
     if (idEspecialidade != null) {
-        sql += " WHERE e.id = ?";
+        sql += " AND e.id = ?";
     }
 
     try (
@@ -158,6 +159,7 @@ public List<AlunoDTO> selecionarPorEmailProfessor(
             INNER JOIN especialidades e
                 ON ae.idEspecialidade = e.id
             WHERE a.email LIKE ?
+            AND a.tipo='curso'
             """;
 
     if (idEspecialidade != null) {
