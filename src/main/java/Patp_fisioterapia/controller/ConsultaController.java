@@ -1,13 +1,23 @@
 
 package Patp_fisioterapia.controller;
 import java.time.LocalDate;
+
+
 import Patp_fisioterapia.dto.AlunoDTO;
 import Patp_fisioterapia.dto.ConsultaDTO;
 import Patp_fisioterapia.dto.pacienteDto;
 import Patp_fisioterapia.service.ConsultaService;
 
 import jakarta.servlet.http.HttpSession;
+import Patp_fisioterapia.service.RelatorioExcelService;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +30,8 @@ public class ConsultaController {
 
     private final ConsultaService consultaService =
             new ConsultaService();
-
+    private final RelatorioExcelService relatorioExcelService =
+        new RelatorioExcelService();
 
     @PostMapping
     public ResponseEntity<String> cadastrar(
@@ -294,5 +305,65 @@ public ResponseEntity<?> listarAgendadasAluno(
             consultaService.listarAgendadasPorAluno(idAluno, data)
     );
 }
+
+
+@GetMapping("/exportar-excel")
+public ResponseEntity<?> exportarExcel(
+        @RequestParam(required = false) String aluno,
+        @RequestParam(required = false) String paciente,
+        @RequestParam(required = false) String status,
+        @RequestParam(required = false) String data,
+        HttpSession session) {
+
+    if (!isCoordenador(session)) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("Acesso negado.");
+    }
+
+    LocalDate dataFiltro = null;
+
+    try {
+        if (data != null && !data.isBlank()) {
+            dataFiltro = LocalDate.parse(data);
+        }
+    } catch (DateTimeParseException e) {
+        return ResponseEntity.badRequest()
+                .body("Data inválida para exportação.");
+    }
+
+    try {
+        List<ConsultaDTO> consultas =
+                consultaService.listarParaExportacao(
+                        aluno,
+                        paciente,
+                        status,
+                        dataFiltro
+                );
+
+        byte[] arquivo =
+                relatorioExcelService.gerarExcel(consultas);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ))
+                .header(
+                    HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"consultas-filtradas.xlsx\""
+                )
+                .body(arquivo);
+
+    } catch (IOException e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Não foi possível gerar o arquivo Excel.");
+    } catch (Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Não foi possível consultar os dados para exportação.");
+    }
+}
+
 
 }

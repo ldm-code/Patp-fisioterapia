@@ -348,6 +348,37 @@ function escaparHtml(texto) {
     div.textContent = texto;
     return div.innerHTML;
 }
+function exportarRelatorioExcel() {
+    const parametros = new URLSearchParams();
+
+    const aluno = filtroAluno.value.trim();
+    const paciente = filtroPaciente.value.trim();
+    const status = filtroStatus.value;
+    const data = filtroData.value;
+
+    if (aluno) {
+        parametros.set("aluno", aluno);
+    }
+
+    if (paciente) {
+        parametros.set("paciente", paciente);
+    }
+
+    if (status) {
+        parametros.set("status", status);
+    }
+
+    if (data) {
+        parametros.set("data", data);
+    }
+
+    const query = parametros.toString();
+
+    window.location.href = query
+        ? `/consultas/exportar-excel?${query}`
+        : "/consultas/exportar-excel";
+}
+
 
 /* EVENTOS DOS FILTROS */
 
