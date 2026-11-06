@@ -328,5 +328,26 @@ public List<String> buscarHorariosDisponiveisParaEdicao(
         data
     );
 }
+public List<ConsultaDTO> listarPorProfessor(
+        int idEspecialidade,
+        int idProfessor,
+        String aluno,
+        String paciente,
+        String status,
+        LocalDate data) {
+
+    if (idEspecialidade <= 0 || idProfessor <= 0) {
+        return List.of();
+    }
+
+    return consultaDAO.listarPorProfessor(
+        idEspecialidade,
+        idProfessor,
+        aluno,
+        paciente,
+        status,
+        data
+    );
+}
 
 }

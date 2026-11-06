@@ -7,6 +7,7 @@ import Patp_fisioterapia.dto.pacienteDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -825,4 +826,132 @@ private String normalizarFiltro(String valor) {
 
         return consulta;
     }
+   
+public List<ConsultaDTO> listarPorProfessor(
+        int idEspecialidade,
+        int idProfessor,
+        String aluno,
+        String paciente,
+        String status,
+        LocalDate data) { {
+
+    List<ConsultaDTO> consultas = new ArrayList<>();
+    List<Object> parametros = new ArrayList<>();
+
+    StringBuilder sql = new StringBuilder();
+
+    sql.append("""
+        SELECT
+            c.id,
+            c.aluno_id,
+            c.paciente AS paciente,
+            c.motivo,
+            c.data_agendada,
+            c.data_consulta,
+            c.status,
+            c.diagnostico,
+            c.motivo_cancelamento,
+
+            a.nome AS nome_aluno,
+            p.nome AS nome_paciente,
+
+            EXISTS (
+                SELECT 1
+                FROM relatorios r
+                WHERE r.consulta_id = c.id
+            ) AS tem_relatorio,
+
+            (
+                SELECT r.descricao
+                FROM relatorios r
+                WHERE r.consulta_id = c.id
+                ORDER BY r.data_criacao DESC, r.id DESC
+                LIMIT 1
+            ) AS descricao_relatorio
+
+        FROM consultas c
+
+        INNER JOIN alunos a
+            ON a.id = c.aluno_id
+
+        INNER JOIN pacientes p
+            ON p.id = c.paciente
+
+        INNER JOIN alunos_especialidades ae
+            ON ae.idAluno = a.id
+
+        WHERE ae.idEspecialidade = ?
+          AND a.tipo = 'curso'
+        """);
+
+    parametros.add(idEspecialidade);
+
+    // Filtro por aluno
+    if (aluno != null && !aluno.isBlank()) {
+        sql.append(" AND a.nome LIKE ?");
+        parametros.add("%" + aluno.trim() + "%");
+    }
+
+    // Filtro por paciente
+    if (paciente != null && !paciente.isBlank()) {
+        sql.append(" AND p.nome LIKE ?");
+        parametros.add("%" + paciente.trim() + "%");
+    }
+
+    // Filtro por status
+    if (status != null && !status.isBlank()) {
+        sql.append(" AND c.status = ?");
+        parametros.add(status.trim());
+    }
+
+    // Filtro por data
+    if (data != null) {
+        sql.append(" AND DATE(c.data_consulta) = ?");
+        parametros.add(java.sql.Date.valueOf(data));
+    }
+
+    sql.append(" ORDER BY c.data_consulta DESC");
+
+    try (
+        Connection conexao = conexaoBanco.conectar();
+        PreparedStatement stmt = conexao.prepareStatement(sql.toString())
+    ) {
+
+        for (int i = 0; i < parametros.size(); i++) {
+            stmt.setObject(i + 1, parametros.get(i));
+        }
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                ConsultaDTO consulta = preencherConsulta(rs);
+
+                consulta.setDescricaoRelatorio(
+                    rs.getString("descricao_relatorio")
+                );
+
+                consultas.add(consulta);
+            }
+        }
+
+    } catch (SQLException e) {
+
+        throw new RuntimeException(
+            "Erro ao consultar as consultas do professor.",
+            e
+        );
+
+    } catch (Exception e) {
+
+        throw new RuntimeException(
+            "Erro ao preencher os dados das consultas.",
+            e
+        );
+    }
+
+    return consultas;
+}
+
+}
 }

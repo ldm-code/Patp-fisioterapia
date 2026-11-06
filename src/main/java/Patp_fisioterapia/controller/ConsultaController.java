@@ -7,7 +7,7 @@ import Patp_fisioterapia.dto.AlunoDTO;
 import Patp_fisioterapia.dto.ConsultaDTO;
 import Patp_fisioterapia.dto.pacienteDto;
 import Patp_fisioterapia.service.ConsultaService;
-
+import Patp_fisioterapia.service.RelatorioService;
 import jakarta.servlet.http.HttpSession;
 import Patp_fisioterapia.service.RelatorioExcelService;
 
@@ -32,6 +32,7 @@ public class ConsultaController {
             new ConsultaService();
     private final RelatorioExcelService relatorioExcelService =
         new RelatorioExcelService();
+    private final RelatorioService relatorioService=new RelatorioService();
 
     @PostMapping
     public ResponseEntity<String> cadastrar(
@@ -365,5 +366,158 @@ public ResponseEntity<?> exportarExcel(
     }
 }
 
+@GetMapping("/professor/especialidades")
+public ResponseEntity<?> listarEspecialidadesDoProfessor(
+        HttpSession session) {
 
+    if (!isProfessorComum(session)) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("Acesso permitido somente ao professor.");
+    }
+
+    Integer idProfessor = obterIdProfessor(session);
+
+    if (idProfessor == null) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body("Professor não identificado.");
+    }
+
+    return ResponseEntity.ok(
+            relatorioService.listarEspecialidadesProfessor(idProfessor)
+    );
+}
+
+@GetMapping("/professor")
+public ResponseEntity<?> listarConsultasDoProfessor(
+        @RequestParam int especialidadeId,
+        @RequestParam(required = false) String aluno,
+        @RequestParam(required = false) String paciente,
+        @RequestParam(required = false) String status,
+        @RequestParam(required = false) String data,
+        HttpSession session) {
+
+    if (!isProfessorComum(session)) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("Acesso permitido somente ao professor.");
+    }
+
+    Integer idProfessor = obterIdProfessor(session);
+
+    if (idProfessor == null) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body("Professor não identificado.");
+    }
+
+    try {
+        LocalDate dataFiltro =
+                data == null || data.isBlank()
+                        ? null
+                        : LocalDate.parse(data);
+
+        return ResponseEntity.ok(
+                consultaService.listarPorProfessor(
+                        especialidadeId,
+                        idProfessor,
+                        aluno,
+                        paciente,
+                        status,
+                        dataFiltro
+                )
+        );
+    } catch (DateTimeParseException e) {
+        return ResponseEntity
+                .badRequest()
+                .body("Data inválida.");
+    }
+}
+
+@GetMapping("/professor/exportar-excel")
+public ResponseEntity<?> exportarExcelProfessor(
+        @RequestParam int especialidadeId,
+        @RequestParam(required = false) String aluno,
+        @RequestParam(required = false) String paciente,
+        @RequestParam(required = false) String status,
+        @RequestParam(required = false) String data,
+        HttpSession session) {
+
+    if (!isProfessorComum(session)) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("Acesso permitido somente ao professor.");
+    }
+
+    Integer idProfessor = obterIdProfessor(session);
+
+    if (idProfessor == null) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body("Professor não identificado.");
+    }
+
+    try {
+        LocalDate dataFiltro =
+                data == null || data.isBlank()
+                        ? null
+                        : LocalDate.parse(data);
+
+        List<ConsultaDTO> consultas =
+                consultaService.listarPorProfessor(
+                        especialidadeId,
+                        idProfessor,
+                        aluno,
+                        paciente,
+                        status,
+                        dataFiltro
+                );
+
+        byte[] arquivo = relatorioExcelService.gerarExcel(consultas);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ))
+                .header(
+                    HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"consultas-professor.xlsx\""
+                )
+                .body(arquivo);
+
+    } catch (DateTimeParseException e) {
+        return ResponseEntity
+                .badRequest()
+                .body("Data inválida para exportação.");
+    } catch (IOException e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Não foi possível gerar o arquivo Excel.");
+    } catch (Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Não foi possível consultar os dados para exportação.");
+    }
+}
+
+private boolean isProfessorComum(HttpSession session) {
+    return "comum".equals(
+            String.valueOf(session.getAttribute("tipoUsuario"))
+    );
+}
+
+private Integer obterIdProfessor(HttpSession session) {
+    Object valor = session.getAttribute("idProfessor");
+
+    if (valor == null) {
+        return null;
+    }
+
+    try {
+        return Integer.parseInt(valor.toString());
+    } catch (NumberFormatException e) {
+        return null;
+    }
+}
 }
