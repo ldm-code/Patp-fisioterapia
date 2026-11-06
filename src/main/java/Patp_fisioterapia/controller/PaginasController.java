@@ -122,6 +122,17 @@ public String telaRelatorios(HttpSession session) {
 
         return "relatoriosProfe";
     }  
+    @GetMapping("/consultasProfe")
+    public String telaConsultasProfessor(HttpSession session) {
+        String tipoUsuario =
+                (String) session.getAttribute("tipoUsuario");
+
+        if (!"comum".equals(tipoUsuario)) {
+            return "redirect:/";
+        }
+
+        return "consultasProfe";
+    }
     @GetMapping("/pagina/consultas/editar")
     public String telaEditarConsulta(HttpSession session) {
 
