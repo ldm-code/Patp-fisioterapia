@@ -42,6 +42,21 @@ async function carregarEspecialidades() {
             );
         });
 
+        
+        filtroEspecialidade.value= idEspecialidadePadrao = await idProfessor();
+        // O cadastro atual vincula a especialidade escolhida no registro.
+        
+        const existeNoSelect = Array.from(
+            filtroEspecialidade.options
+        ).some(opcao => opcao.value === idEspecialidadePadrao);
+        
+        if (!existeNoSelect) {
+            throw new Error(
+                "A especialidade cadastrada não foi encontrada na lista."
+            );
+        }
+        
+        filtroEspecialidade.value = idEspecialidadePadrao;
         filtroEspecialidade.disabled = false;
         await carregarConsultas();
     } catch (erro) {
@@ -106,6 +121,27 @@ async function carregarConsultas() {
         renderizarErro(erro.message);
     }
 }
+async function idProfessor() {
+            const respostaPadrao = await fetch(
+            "/relatorios/professor/especialidades"
+        );
+
+        if (!respostaPadrao.ok) {
+            throw new Error(
+                "Não foi possível identificar a especialidade do professor."
+            );
+        }
+
+        const especialidadesProfessor =
+            await respostaPadrao.json();
+
+        if (!especialidadesProfessor.length) {
+            throw new Error(
+                "O professor não possui especialidade vinculada ao cadastro."
+            );
+        }
+    return String(especialidadesProfessor[0].id);
+    }
 
 function renderizarConsultas(consultas) {
     listaConsultas.innerHTML = "";
