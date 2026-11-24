@@ -305,7 +305,7 @@ public class RelatorioController {
         // O projeto pode ter outros perfis autorizados.
         // O acesso a esses perfis deve ser limitado às permissões reais.
         return "coordenador".equals(tipo.toString())
-            || "professor".equals(tipo.toString());
+            || "comum".equals(tipo.toString());
     }
     
 @GetMapping("/professor/especialidades")
